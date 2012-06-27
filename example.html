@@ -18,9 +18,8 @@ canvas {
 <script src="VisualEntity.js"></script>
 <script src="Entities.Bowtie.js"></script>
 <script src="Entities.Dot.js"></script>
-
 <script>
-
+// simple component for rendering fps
 function Fps() { 
 	this.fps = document.getElementById("fps");
 }
@@ -28,6 +27,10 @@ Fps.prototype = new Entity();
 Fps.prototype.update = function(duration) {
 	this.fps.value = duration;
 }
+</script>
+<script>
+
+
 Game.input = KeyboardInput;
 Game.addEntity(new Fps());
 Game.addEntity(new Bowtie(40, 45));
