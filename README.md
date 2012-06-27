@@ -10,10 +10,15 @@ Input is abstracted out using a very naive approach at the moment, but input is 
 on to the entities.
 
 Game.js - runs the main animation loop, calls update and render on entities passing appropriate context for entities and input.
+
 KeyboardInput.js - a very limited input abstraction, keyboard only.
+
 Entity.js - base class for objects that that belong to a game.
+
 VisualEntity.js - adds render to an entity.
+
 Entities.Dot.js - a dot.
+
 Entities.Bowtie.js - a bowtie with input support.
 
 example.html - the simpliest example one could make.
