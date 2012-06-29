@@ -15,6 +15,7 @@
 <script src="VisualEntity.js"></script>
 <script src="Entities.Bowtie.js"></script>
 <script src="Entities.Dot.js"></script>
+<script src="Polygon.js"></script>
 <script src="MouseDebugger.js"></script>
 <script>
 
@@ -28,10 +29,12 @@ Fps.prototype.update = function(duration) {
 
 Game.input = MouseKeyboardInput;
 Game.addEntity(new Fps());
+Game.addEntity(new MouseDebugger());
 Game.addEntity(new Bowtie(40, 45));
 Game.addEntity(new VisualEntity(0, 0));
+Game.addEntity(new Square(100, 100));
 
-Game.addEntity(new MouseDebugger());
+Game.addEntity(new Polygon(500, 500));
 
 Game.run();
 

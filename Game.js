@@ -14,8 +14,8 @@ window.requestAnimFrame = (function(){
 
 function _Game() {	
 	this.canvas = document.getElementById("canvas");
-	this.context = this.canvas.getContext("2d");
 	this.entities = [];
+	this.context = this.canvas.getContext("2d");
 	this.text = [];
 }
 
