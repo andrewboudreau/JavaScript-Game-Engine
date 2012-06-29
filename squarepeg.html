@@ -1,0 +1,42 @@
+<html>
+<head>
+<style>
+	canvas { border: 1px solid red; }
+</style>
+</head>
+<body>
+
+<canvas id="canvas" width="800" height="600"></canvas>
+<input id="fps" type="text"></input>
+
+<script src="Game.js"></script>
+<script src="MouseKeyboardInput.js"></script>
+<script src="Entity.js"></script>
+<script src="VisualEntity.js"></script>
+<script src="Entities.Bowtie.js"></script>
+<script src="Entities.Dot.js"></script>
+<script src="MouseDebugger.js"></script>
+<script>
+
+function Fps() { 
+	this.fps = document.getElementById("fps");
+}
+Fps.prototype = new Entity();
+Fps.prototype.update = function(duration) {
+	this.fps.value = duration;
+}
+
+Game.input = MouseKeyboardInput;
+Game.addEntity(new Fps());
+Game.addEntity(new Bowtie(40, 45));
+Game.addEntity(new VisualEntity(0, 0));
+
+Game.addEntity(new MouseDebugger());
+
+Game.run();
+
+</script>
+
+</body>
+</html>
+

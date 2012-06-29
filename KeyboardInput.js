@@ -1,9 +1,9 @@
 
 KeyboardInput = {
-	LEFT: 37,
-	UP: 38,
-	RIGHT: 39,
-	DOWN: 40,
+	left: 37,
+	up: 38,
+	right: 39,
+	down: 40,
 	
 	pressed: {},
 

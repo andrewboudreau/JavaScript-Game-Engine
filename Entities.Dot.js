@@ -1,4 +1,6 @@
-function Dot() {}
+Dot = function Dot() {
+	VisualEntity.apply(this, arguments);
+}
 
 Dot.prototype = new VisualEntity();
 Dot.prototype.render = function (Game) {
