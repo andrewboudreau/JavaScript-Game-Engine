@@ -7,9 +7,12 @@ MouseKeyboardInput = {
 	down: 40,
 	leftButton: 1,
 	rightButton: 2,
-	x: 0,
-	y: 0,
-	position: function() { return [this.x, this.y] },
+	
+	x: 0,	y: 0,
+	position: function() { 
+		return [this.x, this.y] 
+	},
+	
 	wheel: 0,
 	wheelDelta: function() {
 		var tmp = this.wheel;
