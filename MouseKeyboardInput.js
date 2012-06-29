@@ -74,8 +74,7 @@ MouseKeyboardInput = {
 	onMousewheel : function(event) { 
 		
 		var e = window.event || event;
-    this.wheel = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));  
-		console.log("wheel " + this.wheel);
+    this.wheel += Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));  
 	},
 	
 	onMousedown: function(event) {
