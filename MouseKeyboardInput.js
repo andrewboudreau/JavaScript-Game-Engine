@@ -67,20 +67,19 @@ MouseKeyboardInput = {
 
 	onMousemove: function(event) {
 		var pos = this.findPos(Game.canvas);
-    this.x = event.pageX - pos[0];
-    this.y = event.pageY - pos[1];
+		this.x = event.pageX - pos[0];
+		this.y = event.pageY - pos[1];
 	},
 
 	onMousewheel : function(event) { 
-		
 		var e = window.event || event;
-    this.wheel += Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));  
+		this.wheel += Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));  
 	},
-	
+
 	onMousedown: function(event) {
 		delete this.pressed[this.leftButton];
 	},
-	
+
 	onMouseup: function(event) {
 		this.pressed[this.leftButton] = true;
 	},
