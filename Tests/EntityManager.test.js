@@ -20,8 +20,7 @@ module("Entity Manager", {
   }
 });
 
-test("clear entities", function() {
-	expect(1)
+test("clear entities", 1, function() {
 	EntityManager.add(new Entity());
 	EntityManager.add(new Entity());
 	EntityManager.clear();
@@ -29,8 +28,7 @@ test("clear entities", function() {
 	deepEqual(EntityManager.entities, [], "an empty array");
 });
 
-test("add entity", function() {
-	expect(1);
+test("add entity", 1, function() {
 	EntityManager.add(new Entity());
 	equal(EntityManager.entities.length, 1, "an entity was added");
 });
@@ -41,7 +39,7 @@ test("add non entity", function() {
 	}, "only entities can be added");
 });
 
-test("add returns expected entitie", function() {
+test("add returns expected entitie", 1, function() {
 	var expected = new Entity(),
 		actual;
 	
@@ -49,13 +47,19 @@ test("add returns expected entitie", function() {
 	strictEqual(actual, expected);
 });
 
-test("single remove ", function() {
+test("remove entity", 1, function() {
 	var entity = EntityManager.add(new Entity());
 	EntityManager.remove(entity);
 	equal(EntityManager.entities.length, 0, "entity removed");
 });
 
-test("multiple items with remove", function() {
+test("remove non entity", 1, function() {
+	var entity = EntityManager.add(new Entity());
+	EntityManager.remove({});
+	equal(EntityManager.entities.length, 1, "entity not removed");
+});
+
+test("remove middle item", 3, function() {
 	var i, entity = EntityManager.add(new Entity()),
 		entity2 = EntityManager.add(new Entity()),
 		entity3 = EntityManager.add(new Entity()),
@@ -65,14 +69,50 @@ test("multiple items with remove", function() {
 	equal(EntityManager.entities.length, 2, "two items left");
 	strictEqual(EntityManager.entities[0], entity, "entity found");
 	strictEqual(EntityManager.entities[1], entity3, "entity3 found");
+});
+
+test("remove add remove", 2, function() {
+	var i, 
+		entity = new Entity(),
+		entity2 = new Entity(),
+		entity3 = new Entity(),
+		entity4 = new Entity();
+		
+	EntityManager.add(entity);
+	EntityManager.add(entity2)
+	EntityManager.add(entity3)
 	
+	EntityManager.remove(entity2);
 	EntityManager.remove(entity);
-	equal(EntityManager.entities.length, 1, "one item left");
-	strictEqual(EntityManager.entities[0], entity3, "entity3 found");
 	
 	EntityManager.add(entity4);
 	EntityManager.remove(entity3);
+	
 	equal(EntityManager.entities.length, 1, "one item left");
 	strictEqual(EntityManager.entities[0], entity4, "entity4 found");
+});
+
+test("remove non entity", 1, function() {
+	var entity = EntityManager.add(new Entity());
+	EntityManager.remove({});
+	equal(EntityManager.entities.length, 1, "entity not removed");
+});
+
+test("empty index of", 1, function() {
+	equal(EntityManager.indexOf(new Entity()), -1, "not found");
+});
+
+test("index of", 3, function() {
+	var entity = EntityManager.add(new Entity),
+		entity2 = EntityManager.add(new Entity);
 	
+	equal(EntityManager.indexOf(entity), 0, "first item");
+	equal(EntityManager.indexOf(entity2), 1, "second item");
+	equal(EntityManager.indexOf(new Entity()), -1, "not found");
+});
+
+test("invalid index of", 1, function() {
+	raises(function() {
+		EntityManager.add({});
+	}, "indexOf only accepts instance of Entity");
 });

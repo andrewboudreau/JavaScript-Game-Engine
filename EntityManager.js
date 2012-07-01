@@ -8,26 +8,35 @@
 	}
 	
 	_EntityManager.prototype = {
-		
-		add: function( entity ) {	
+		guard: function(entity) {
 			if ( !(entity instanceof Entity) ) {
 				throw "entity must be an instance of Entity";
-			}
+			}	
+		},
 		
+		add: function( entity ) {	
+			this.guard(entity);
+			
 			this.entities.push(entity);
 			return entity;
 		},
 		
 		remove: function( entity ) {
-			if ( !(entity instanceof Entity) ) {
-				throw "entity must be an instance of Entity";
+			var index = this.entities.indexOf(entity);
+			if( index !== -1) {
+				this.entities.splice(index, 1);
 			}
-			this.entities.splice(this.entities.indexOf(entity), 1);
 		},
 		
 		clear: function() {
 			this.entities.length = 0;
 		},
+		
+		indexOf: function( entity ) {
+			this.guard(entity);
+			
+			return this.entities.indexOf( entity );
+		}
 	};
 	
 	global.EntityManager = new _EntityManager();
