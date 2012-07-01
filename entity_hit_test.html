@@ -1,14 +1,9 @@
 <html>
 <head>
 <style>
-canvas {
-	border: 1px solid red;
-	cursor: none;
-}
-
+	canvas { border: 1px solid red; cursor:none; -webkit-user-select: none;}
 </style>
 </head>
-
 <body>
 
 <canvas id="canvas" width="800" height="600"></canvas>
@@ -16,13 +11,16 @@ canvas {
 <script src="RequestAnimationShim.js"></script>
 <script src="Class.js"></script>
 <script src="Game.js"></script>
-<script src="KeyboardInput.js"></script>
+
+<script src="MouseKeyboardInput.js"></script>
 <script src="Entity.js"></script>
 <script src="VisualEntity.js"></script>
 <script src="Entities.Bowtie.js"></script>
 <script src="Entities.Dot.js"></script>
+<script src="Polygon.js"></script>
+<script src="MouseDebugger.js"></script>
 <script>
-// simple component for rendering fps
+
 function Fps() { 
 	this.fps = document.getElementById("fps");
 }
@@ -30,13 +28,15 @@ Fps.prototype = new Entity();
 Fps.prototype.update = function(duration) {
 	this.fps.value = duration;
 }
-</script>
-<script>
 
-
-Game.input = KeyboardInput;
+Game.input = MouseKeyboardInput;
 Game.addEntity(new Fps());
-Game.addEntity(new Bowtie(40, 45));
+
+Game.addEntity(new Polygon(0, 0, [113, 283, 70,156, 180,70, 290,156, 250, 283], 
+	function(duration, input, renderables) {
+		
+	}));
+Game.addEntity(new MouseDebugger());
 Game.run();
 
 </script>

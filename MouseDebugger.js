@@ -5,6 +5,10 @@ function MouseDebugger(x, y) {
 	this.position[1] = y || 0;
 	this.output = document.getElementById("mousedebugger");
 	this.size = 10;
+	
+	this.normalFillStyle = "rgba(200, 200, 200, 0.3)";
+	this.hitFillStyle = "yellow";
+	this.fillStyle = this.normalFillStyle;
 }
 
 MouseDebugger.prototype = new VisualEntity();
@@ -20,7 +24,7 @@ MouseDebugger.prototype.render = function (Game) {
 		
 	ctx.save(); 
 	ctx.translate(this.position[0], this.position[1]);
-	ctx.fillStyle = "rgba(200, 200, 200, 0.3)";  
+	ctx.fillStyle = this.fillStyle;
 	
 	ctx.fillRect(-top, -left, width, height);  
 	VisualEntity.prototype.render.apply(this, arguments);
@@ -29,6 +33,7 @@ MouseDebugger.prototype.render = function (Game) {
 
 MouseDebugger.prototype.update = function(duration, input, entities) {
 
+	
 	if( input.x ) {
 		this.position[0] = input.x || 0;
 	}
@@ -40,6 +45,15 @@ MouseDebugger.prototype.update = function(duration, input, entities) {
 	var wheelDelta = input.wheelDelta();
 	if( wheelDelta !== 0) {
 		this.size += wheelDelta;
+	}
+	for( var i = 0; i < entities.length; i++) {
+		if (entities[i].vertices) {
+			if( Game.pointInConvexPolygon(this.position, entities[i].vertices) ){
+				this.fillStyle = this.hitFillStyle;
+				break;
+			}
+		}
+		this.fillStyle = this.normalFillStyle;
 	}
 	
 }

@@ -1,7 +1,7 @@
 <html>
 <head>
 <style>
-	canvas { border: 1px solid red; cursor:none; }
+	canvas { border: 1px solid red; cursor:none; -webkit-user-select: none;}
 </style>
 </head>
 <body>
@@ -29,13 +29,13 @@ Fps.prototype.update = function(duration) {
 
 Game.input = MouseKeyboardInput;
 Game.addEntity(new Fps());
+//Game.addEntity(new Bowtie(40, 45));
+//Game.addEntity(new VisualEntity(0, 0));
+//Game.addEntity(new Square(100, 100));
+
+Game.addEntity(new Polygon(0, 0, [113, 283, 70,156, 180,70, 290,156, 250, 283]));
+
 Game.addEntity(new MouseDebugger());
-Game.addEntity(new Bowtie(40, 45));
-Game.addEntity(new VisualEntity(0, 0));
-Game.addEntity(new Square(100, 100));
-
-Game.addEntity(new Polygon(500, 500));
-
 Game.run();
 
 </script>

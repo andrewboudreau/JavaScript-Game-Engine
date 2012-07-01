@@ -1,17 +1,5 @@
 /*jshint white:false, trailing:false, forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, undef:true, curly:true, browser:true, indent:4, maxerr:50 */
 
-// requestAnim shim layer by Paul Irish
-window.requestAnimFrame = (function(){
-	return  window.requestAnimationFrame       || 
-					window.webkitRequestAnimationFrame || 
-					window.mozRequestAnimationFrame    || 
-					window.oRequestAnimationFrame      || 
-					window.msRequestAnimationFrame     || 
-					function(/* function */ callback, /* DOMElement */ element){
-						window.setTimeout(callback, 1000 / 60);
-					};
-})();
-
 function _Game() {	
 	this.canvas = document.getElementById("canvas");
 	this.entities = [];
@@ -65,7 +53,7 @@ _Game.prototype = {
 	
 	update: function(duration) {
 		for(var i = 0; i < Game.entities.length; i++) {
-			Game.entities[i].update(duration, Game.input, Game.entities);
+			Game.entities[i].update(duration, Game.input, Game.renderable);
 		}
 	},
 	
@@ -117,7 +105,8 @@ _Game.prototype = {
 			segment, affineSegment, affinePoint, k;
 		
 		for( i = 0; i < vertices.length; i++ ) {
-			segment = [vertices[n], vertices[(n+1)%vertices.length]];
+			segment = [vertices[i], vertices[(i+1)%vertices.length]];
+			debugger;
 			affineSegment = subtract(segment[1] - segment[0]);
 			affinePoint = subtract(point, segment[0]);
 			k = crossProduct(affineSegment, affinePoint);

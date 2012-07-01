@@ -1,10 +1,10 @@
-function Entity() {
-	this.position = 0;
-	this.rotation = 0;
-}
-
-Entity.prototype = {
-	position : [0, 0],
-	rotation: 0,
-	update: function() { return; }	
-};
+//the most basic managed object in the game engine.
+var Entity = Class.extend({
+  init: function(position, rotation){
+    this.position = position || [0, 0];
+		this.rotation = rotation || 0;
+	},
+	update: function() { 
+		return; 
+	}	
+});
