@@ -116,3 +116,65 @@ test("invalid index of", 1, function() {
 		EntityManager.add({});
 	}, "indexOf only accepts instance of Entity");
 });
+
+test("index accessor", 1, function() {
+	strictEqual(EntityManager.add(new Entity()), EntityManager.item(0), "I've found myself");
+});
+
+test("index accessor out of range high", 1, function() {
+	EntityManager.add(new Entity());
+	
+	raises(function() {
+		EntityManager.item(2);
+	}, "indexOf out of range");
+});
+
+test("index accessor out of range low", 1, function() {
+	EntityManager.add(new Entity());
+	
+	raises(function() {
+		EntityManager.item(-1);
+	}, "indexOf out of range");
+});
+
+test("each none", 1, function() {
+	
+	var fired = false, 
+		fireme = function() {
+			fired = true;
+		};
+	equal(fired, false, "didn't fire the action");
+});
+
+test("each one", 1, function() {
+	var fired = false, 
+		fireme = function() {
+			fired = true;
+		};
+		
+	EntityManager.add(new Entity());
+	
+	EntityManager.each(fireme);	
+	equal(fired, true, "fired the action");
+});
+
+test("each three", 1, function() {
+	var fired = 0, 
+		fireme = function() {
+			fired += 1;
+		};
+		
+	EntityManager.add(new Entity());
+	EntityManager.add(new Entity());
+	EntityManager.add(new Entity());
+	
+	EntityManager.each(fireme);	
+	equal(fired, 3, "fired 3 times");
+});
+
+
+
+
+
+
+

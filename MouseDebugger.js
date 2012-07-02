@@ -46,6 +46,7 @@ MouseDebugger.prototype.update = function(duration, input, entities) {
 	if( wheelDelta !== 0) {
 		this.size += wheelDelta;
 	}
+	/*
 	for( var i = 0; i < entities.length; i++) {
 		if (entities[i].vertices) {
 			if( Game.pointInConvexPolygon(this.position, entities[i].vertices) ){
@@ -54,6 +55,6 @@ MouseDebugger.prototype.update = function(duration, input, entities) {
 			}
 		}
 		this.fillStyle = this.normalFillStyle;
-	}
+	}*/
 	
 }

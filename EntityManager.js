@@ -1,4 +1,4 @@
-(function(global) {
+(function(scope) {
 	if (!Entity) {
 		throw "Class.Entity is not defined and is required.";
 	}
@@ -15,30 +15,44 @@
 		},
 		
 		add: function( entity ) {	
-			this.guard(entity);
+			EntityManager.guard(entity);
 			
-			this.entities.push(entity);
+			EntityManager.entities.push(entity);
 			return entity;
 		},
 		
 		remove: function( entity ) {
-			var index = this.entities.indexOf(entity);
+			var index = EntityManager.entities.indexOf(entity);
 			if( index !== -1) {
-				this.entities.splice(index, 1);
+				EntityManager.entities.splice(index, 1);
 			}
 		},
 		
 		clear: function() {
-			this.entities.length = 0;
+			EntityManager.entities.length = 0;
 		},
 		
 		indexOf: function( entity ) {
-			this.guard(entity);
+			EntityManager.guard(entity);
 			
-			return this.entities.indexOf( entity );
+			return EntityManager.entities.indexOf( entity );
+		},
+		
+		item: function(index) {
+			if(index < 0 || index >= this.entities.length) {
+				throw "argument out of range";
+			}
+			
+			return EntityManager.entities[index];
+		},
+	
+		each: function(action) {
+			for(var i = 0; i < EntityManager.entities.length; i++) {
+				action.apply(Game, EntityManager.entities[i]);
+			}
 		}
 	};
 	
-	global.EntityManager = new _EntityManager();
+	scope.EntityManager = new _EntityManager();
 }(Game));
 
