@@ -3,7 +3,7 @@ var noop = function() {};
 
 var EntityMock = Entity.extend({
 	inited: 0,
-  updated: 0,
+	updated: 0,
 	rendered: 0,
 	init: function(position, rotation){
 		this.inited += 1;
@@ -15,7 +15,6 @@ var EntityMock = Entity.extend({
 	},	
 	render: function() {
 		this.rendered += 1;
-		this._super();
 	},
 	reset: function() {
 		this.inited = 0;
@@ -73,6 +72,74 @@ test("renderText", 1, function() {
 		
 	Game.gameLoop(0, game, {}, { each: noop});
 	ok(count, 1, "clear called once");
+});
+
+test("calls entity update", function() {
+	var mock = new EntityMock(),
+		entityManager = {
+			each: function( func ) {
+				func(mock);
+			}
+		};
+	Game.gameLoop(1, {clear: noop, renderText: noop}, {}, entityManager);
+	
+	equal(mock.updated, 1, "entity updated by game");
+});
+
+test("no update when paused", function() {
+	var mock = new EntityMock(),
+		entityManager = {
+			each: function( func ) {
+				func(mock);
+			}
+		};
+	Game.gameLoop(1, {clear: noop, renderText: noop, paused: true}, {}, entityManager);
+	
+	equal(mock.updated, 0, "entity updated by game");
+});
+
+test("calls entity render", function() {
+	var mock = new EntityMock(),
+		entityManager = {
+			each: function( func ) {
+				func(mock);
+			}
+		};
+	Game.gameLoop(1, {clear: noop, renderText: noop}, {}, entityManager);
+	
+	equal(mock.rendered, 1, "entity updated by game");
+});
+
+test("does not call entity render", function() {
+	var mock = new EntityMock(),
+		entityManager = {
+			each: function( func ) {
+				func(mock);
+			}
+		};
+	mock.render = false;
+	Game.gameLoop(1, {clear: noop, renderText: noop}, {}, entityManager);
+	
+	equal(mock.rendered, 0, "entity updated by game");
+});
+
+test("passes parameters to update", 4, function() {
+	var mock = new Entity(),
+		game = {clear: noop, renderText: noop},
+		input = {},
+		entityManager = {
+			each: function( func ) {
+				func(mock);
+			}
+		};
+	mock.update = function () {
+		equal(arguments.length, 3, "arguments passed to update");
+		equal(arguments[0], 1, "1 duration");
+		strictEqual(arguments[1], input, "input");
+		strictEqual(arguments[2], entityManager, "entitymanager");
+	}
+	
+	Game.gameLoop(1, game, input, entityManager);
 });
 
 
@@ -160,3 +227,18 @@ test("Input manager inits on run", 1, function() {
 	Game.run();
 	equal(count, 1, "input initialized");
 });
+
+test("run calls gameLoop", 1, function() {
+	var count = 0;
+	Game.EntityManager = { each: noop };
+	Game.InputManager = { init: noop };
+	Game.gameLoop = function() {
+		count += 1;
+	};
+	Game.exit = true;
+	Game.run();
+	equal(count, 1, "game looped once");
+});
+
+
+
