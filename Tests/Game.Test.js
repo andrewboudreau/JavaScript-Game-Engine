@@ -74,7 +74,7 @@ test("renderText", 1, function() {
 	ok(count, 1, "clear called once");
 });
 
-test("calls entity update", function() {
+test("calls entity update", 1, function() {
 	var mock = new EntityMock(),
 		entityManager = {
 			each: function( func ) {
@@ -86,7 +86,7 @@ test("calls entity update", function() {
 	equal(mock.updated, 1, "entity updated by game");
 });
 
-test("no update when paused", function() {
+test("no update when paused", 1, function() {
 	var mock = new EntityMock(),
 		entityManager = {
 			each: function( func ) {
@@ -95,10 +95,10 @@ test("no update when paused", function() {
 		};
 	Game.gameLoop(1, {clear: noop, renderText: noop, paused: true}, {}, entityManager);
 	
-	equal(mock.updated, 0, "entity updated by game");
+	equal(mock.updated, 0, "entity not updated during pause");
 });
 
-test("calls entity render", function() {
+test("calls entity render", 1, function() {
 	var mock = new EntityMock(),
 		entityManager = {
 			each: function( func ) {
@@ -107,10 +107,10 @@ test("calls entity render", function() {
 		};
 	Game.gameLoop(1, {clear: noop, renderText: noop}, {}, entityManager);
 	
-	equal(mock.rendered, 1, "entity updated by game");
+	equal(mock.rendered, 1, "entity rendered by game");
 });
 
-test("does not call entity render", function() {
+test("does not call entity render", 1, function() {
 	var mock = new EntityMock(),
 		entityManager = {
 			each: function( func ) {
@@ -120,7 +120,7 @@ test("does not call entity render", function() {
 	mock.render = false;
 	Game.gameLoop(1, {clear: noop, renderText: noop}, {}, entityManager);
 	
-	equal(mock.rendered, 0, "entity updated by game");
+	equal(mock.rendered, 0, "entity not rendered during ");
 });
 
 test("passes parameters to update", 4, function() {
@@ -239,6 +239,4 @@ test("run calls gameLoop", 1, function() {
 	Game.run();
 	equal(count, 1, "game looped once");
 });
-
-
 

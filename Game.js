@@ -13,11 +13,11 @@
 		
 		EntityManager: null,
 		InputManager: null,
+		textBuffer: [],
 		
 		initialized: false,
 		paused: false,
 		exit: false,
-		textBuffer: [],
 		
 		init: function() {
 			Game.InputManager.init();
