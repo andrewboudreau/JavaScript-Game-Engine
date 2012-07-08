@@ -1,4 +1,3 @@
-
 MouseKeyboardInput = {
 	
 	left: 37,
