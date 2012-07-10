@@ -1,50 +1,51 @@
-/*jshint white:false, trailing:false, forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, undef:true, curly:true, browser:true, indent:4, maxerr:50 */
-(function(scope) {
+/*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, newcap:true, white:false */
+
+/*global requestAnimFrame */
+(function (scope) {
+	"use strict";
 	
-	function _Game() {	
+	function Game() {
+		if ( Game.prototype.singletonInstance ) {
+			return Game.prototype.singletonInstance;
+		}
+		
+		Game.prototype.singletonInstance = this;
 		this.canvas = document.getElementById("canvas");
 		this.context = this.canvas.getContext("2d");
-		this.text = [];
-	}
-
-	_Game.prototype = {
-		canvas: null,
-		context: null,
 		
-		EntityManager: null,
-		InputManager: null,
-		textBuffer: [],
+		this.EntityManager = null;
+		this.InputManager = null;
+		this.textBuffer = [];
 		
-		initialized: false,
-		paused: false,
-		exit: false,
+		this.initialized = false;
+		this.paused = false;
+		this.exit = false;
 		
-		init: function() {
-			Game.InputManager.init();
-		},
+		this.init = function() {
+			this.InputManager.init();
+		};
 		
-		run: function(duration) {
+		this.run = function(duration) {
 		/// <summary>
 		/// application loop, request animation frame.  
 		/// </summary>
 		
-			if(!Game.initialized) {
-				Game.init();
-				Game.initialized = true;
+			if(!this.initialized) {
+				this.init();
+				this.initialized = true;
 			}
 			
-			Game.gameLoop(duration, Game, Game.InputManager, Game.EntityManager);
+			this.gameLoop(duration, this, this.InputManager, this.EntityManager);
 			
-			if(!Game.exit) {
-				requestAnimFrame(Game.run);
+			if(!this.exit) {
+				requestAnimFrame(this.run);
 			}
-		},
+		};
 		
-		gameLoop : function(duration, game, inputManager, entityManager) {
+		this.gameLoop = function(duration, game, inputManager, entityManager) {
 		/// <summary>
 		/// Internal game loop, all context passed in externally making this method testable.
 		/// </summary>
-		
 			game.clear();
 			
 			entityManager.each(function(entity) {
@@ -55,27 +56,27 @@
 					entity.render(game);			
 				}
 			});
-			game.renderText();
-		},
+			game.renderText(duration, game);
+		};
 		
-		clear: function() {
-			Game.context.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
-		},
+		this.clear = function() {
+			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		};
 		
-		renderText: function(duration, game) {
+		this.renderText = function(duration, game) {
 			var i = 0,
-				ctx = Game.context,
+				ctx = game.context,
 				options;
 				
-			for(i = 0; i < Game.textBuffer.length; i++) {
-				options = Game.textBuffer[i];
+			for(i = 0; i < game.textBuffer.length; i++) {
+				options = game.textBuffer[i];
 				ctx.font = options.font;
 				ctx.fillText(options.text, options.x, options.y);
 			}
-			Game.textBuffer.length = 0;
-		},
+			game.textBuffer.length = 0;
+		};
 		
-		writeText: function(options) {
+		this.writeText = function(options) {
 		///<summary>
 		/// Utility function to write text to the canvas.
 		/// options { text, x, y, font }
@@ -87,15 +88,15 @@
 				return;
 			}
 			
-			Game.textBuffer.push({
+			this.textBuffer.push({
 				text : options.text,
 				x : options.x || 0,
 				y : options.y || 0,
 				font : options.font || "bold 12px sans-serif"
 			});
-		},
+		};
 		
-		pointInConvexPolygon: function(point, vertices) {
+		this.pointInConvexPolygon = function(point, vertices) {
 			function crossProduct(a, b) {
 				return a[0]*b[1]-a[1]*b[0];
 			}
@@ -123,16 +124,16 @@
 				}
 				
 			}
-		},
+		};
 		
-		reset: function() {
-			delete Game;
-			scope.Game = new _Game();
-		}
-		
-	};
+		this.reset = function() {
+			this.textBuffer.length = 0;
+			this.EntityManager.clear();
+			this.initialized = false;
+		};
+	}
 	
 	// Game singleton
-	scope.Game = new _Game();
+	scope.Game = new Game();
 	
 }(window));

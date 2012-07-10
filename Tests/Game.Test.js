@@ -46,7 +46,7 @@ test("clear", 1, function() {
 		};
 		
 	Game.gameLoop(0, game, {}, { each: noop});
-	ok(count, 1, "clear called once");
+	equal(count, 1, "clear called once");
 });
 
 test("entityManager.each", 1, function() {
@@ -67,6 +67,7 @@ test("renderText", 1, function() {
 			renderText: function() { 
 				count += 1;
 			},
+			context: {},
 			clear: noop
 		};
 		
@@ -93,6 +94,7 @@ test("no update when paused", 1, function() {
 				func(mock);
 			}
 		};
+	
 	Game.gameLoop(1, {clear: noop, renderText: noop, paused: true}, {}, entityManager);
 	
 	equal(mock.updated, 0, "entity not updated during pause");
@@ -189,7 +191,7 @@ test("add multiple text buffer", 2, function() {
 
 test("text buffer cleared by renderText", 1, function() {
 	Game.writeText("foo");
-	Game.renderText();
+	Game.renderText(0, Game);
 	equal(Game.textBuffer.length, 0, "buffer cleared by renderText");
 });
 
@@ -209,7 +211,7 @@ module("Game.init", {
 });
 
 test("Game inits on run", 1, function() {
-	Game.EntityManager = { each: noop };
+	Game.EntityManager = { each: noop, clear:noop };
 	Game.InputManager = { init: noop };
 	Game.exit = true;
 	Game.run();
@@ -218,7 +220,7 @@ test("Game inits on run", 1, function() {
 
 test("Input manager inits on run", 1, function() {
 	var count = 0;
-	Game.EntityManager = { each: noop };
+	Game.EntityManager = { each: noop, clear: noop };
 	Game.InputManager = { init: function() { 
 		count += 1;} 
 	};
@@ -230,7 +232,7 @@ test("Input manager inits on run", 1, function() {
 
 test("run calls gameLoop", 1, function() {
 	var count = 0;
-	Game.EntityManager = { each: noop };
+	Game.EntityManager = { each: noop, clear:noop };
 	Game.InputManager = { init: noop };
 	Game.gameLoop = function() {
 		count += 1;

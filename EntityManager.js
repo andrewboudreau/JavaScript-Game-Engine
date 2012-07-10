@@ -9,11 +9,11 @@
 	}
 	
 	function EntityManager() {
-		if ( EntityManager.prototype._singletonInstance ) {
-			return EntityManager.prototype._singletonInstance;
+		if ( EntityManager.prototype.singletonInstance ) {
+			return EntityManager.prototype.singletonInstance;
 		}
 		
-		EntityManager.prototype._singletonInstance = this;
+		EntityManager.prototype.singletonInstance = this;
 		this.entities = [];
 		
 		this.guard = function(entity) {

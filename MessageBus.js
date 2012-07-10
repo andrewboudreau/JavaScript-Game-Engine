@@ -1,29 +1,39 @@
-(function(scope){
-var _MessageBus = function() {
-	this.listeners = [];
-};
+/*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, newcap:true, white:false */
 
-_MessageBus.prototype = {
-	subscribe: function(listener) {
-		if( MessageBus.listeners.indexOf(listener) !== -1 ) {
-			return;
+/*global Game */
+(function (scope) {
+	"use strict";
+	
+	function MessageBus() {
+		if ( MessageBus.prototype.singletonInstance ) {
+			return MessageBus.prototype.singletonInstance;
 		}
 		
-		MessageBus.listeners.push(listener);
-		return MessageBus;
-	},
-	unsubscribe: function(listener) {
-		var index = MessageBus.listeners.indexOf(listener);
-		if( index !== -1) {
-			MessageBus.listeners.splice(index, 1);
-		}
-	},
-	publish: function(message, context) {
-		for (var i = 0; i < MessageBus.listeners.length; i++) {
-			MessageBus.listeners[i](message, context);
-		}
-	}
-};
+		MessageBus.prototype.singletonInstance = this;
+		this.listeners = [];
 
-scope.MessageBus = new _MessageBus();
+		this.subscribe = function(listener) {
+			if( this.listeners.indexOf(listener) !== -1 ) {
+				return;
+			}
+			
+			this.listeners.push(listener);
+			return this;
+		}
+		
+		this.unsubscribe = function(listener) {
+			var index = this.listeners.indexOf(listener);
+			if( index !== -1) {
+				this.listeners.splice(index, 1);
+			}
+		}
+	
+		this.publish = function(message, context) {
+			for (var i = 0; i < this.listeners.length; i++) {
+				this.listeners[i](message, context);
+			}
+		}
+	};
+
+	scope.MessageBus = new MessageBus();
 }(Game));
