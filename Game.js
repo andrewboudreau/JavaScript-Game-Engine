@@ -127,8 +127,8 @@
 		};
 		
 		this.reset = function() {
-			this.textBuffer.length = 0;
 			this.EntityManager.clear();
+			this.textBuffer.length = 0;
 			this.initialized = false;
 		};
 	}
