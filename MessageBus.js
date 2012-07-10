@@ -19,21 +19,21 @@
 			
 			this.listeners.push(listener);
 			return this;
-		}
+		};
 		
 		this.unsubscribe = function(listener) {
 			var index = this.listeners.indexOf(listener);
 			if( index !== -1) {
 				this.listeners.splice(index, 1);
 			}
-		}
+		};
 	
 		this.publish = function(message, context) {
 			for (var i = 0; i < this.listeners.length; i++) {
 				this.listeners[i](message, context);
 			}
-		}
-	};
+		};
+	}
 
 	scope.MessageBus = new MessageBus();
 }(Game));
