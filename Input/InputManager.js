@@ -23,6 +23,7 @@
 	this.onScreen = false;
 	this.wheel = 0;
 	this.wheelDelta = function () {
+		// wheel has to be reset after it's read.
 		var tmp = this.wheel;
 		this.wheel = 0; 
 		return tmp;

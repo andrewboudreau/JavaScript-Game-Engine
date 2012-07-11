@@ -4,7 +4,7 @@
 (function (scope) {
 	"use strict";
 	
-	function Controller(keymap) {
+	function MouseKeyboardController(keymap) {
 		keymap = keymap || {
 			left: 37,
 			up: 38,
