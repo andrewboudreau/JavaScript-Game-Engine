@@ -56,7 +56,7 @@
 	
 		this.each = function(action) {
 			for(var i = 0; i < this.entities.length; i++) {
-				action.apply(Game, this.entities[i]);
+				action.apply(Game, [this.entities[i]]);
 			}
 		};
 	}

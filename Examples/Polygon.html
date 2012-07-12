@@ -6,32 +6,18 @@
 </head>
 <body>
 
-<canvas id="canvas" width="800" height="600"></canvas>
-<input id="fps" type="text"></input>
+<canvas id="canvas" width="640" height="480"></canvas>
 
 <script src="../RequestAnimationShim.js"></script>
 <script src="../Class.js"></script>
 <script src="../Game.js"></script>
 <script src="../EntityManager.js"></script>
-<script src="../input/MouseKeyboardInput.js"></script>
 <script src="../Entity.js"></script>
 <script src="../Polygon.js"></script>
+
 <script>
-
-function Fps() { 
-	this.fps = document.getElementById("fps");
-}
-Fps.prototype = new Entity();
-Fps.prototype.update = function(duration) {
-	this.fps.value = duration;
-}
-
-Game.input = MouseKeyboardInput;
-Game.EntityManager.add(new Fps());
-
-Game.EntityManager.add(new Polygon(0, 0, [113, 283, 70,156, 180,70, 290,156, 250, 283]));
-Game.run();
-
+	Game.EntityManager.add(new Polygon(0, 0, [113, 283, 70,156, 180,70, 290,156, 250, 283]));
+	Game.run();
 </script>
 
 </body>
