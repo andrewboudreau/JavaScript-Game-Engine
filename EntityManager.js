@@ -1,5 +1,4 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, newcap:true, white:false */
-
 /*global Game Entity */
 (function (scope) {
 	"use strict";
@@ -54,9 +53,9 @@
 			return this.entities[index];
 		};
 	
-		this.each = function(action) {
+		this.each = function(lambda) {
 			for(var i = 0; i < this.entities.length; i++) {
-				action.apply(Game, this.entities[i]);
+				lambda.call(Game, this.entities[i]);
 			}
 		};
 	}
