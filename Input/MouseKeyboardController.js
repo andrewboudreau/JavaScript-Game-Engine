@@ -134,4 +134,6 @@
 			delete this.pressed[event.keyCode];
 		};
 	}
+	
+	scope.MouseKeyboardController = MouseKeyboardController;
 }(window));

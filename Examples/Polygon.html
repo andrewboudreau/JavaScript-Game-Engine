@@ -12,8 +12,9 @@
 <script src="../RequestAnimationShim.js"></script>
 <script src="../Class.js"></script>
 <script src="../Game.js"></script>
+<script src="../Entity.js"></script>
 <script src="../EntityManager.js"></script>
-<script src="../input/MouseKeyboardInput.js"></script>
+<script src="../input/MouseKeyboardController.js"></script>
 <script src="../Entity.js"></script>
 <script src="../Polygon.js"></script>
 <script>
@@ -26,7 +27,7 @@ Fps.prototype.update = function(duration) {
 	this.fps.value = duration;
 }
 
-Game.input = MouseKeyboardInput;
+Game.InputManager = new MouseKeyboardController();
 Game.EntityManager.add(new Fps());
 
 Game.EntityManager.add(new Polygon(0, 0, [113, 283, 70,156, 180,70, 290,156, 250, 283]));
