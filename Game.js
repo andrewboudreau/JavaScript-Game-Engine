@@ -21,13 +21,11 @@
 		this.paused = false;
 		this.exit = false;
 		
-		this.init = function () {
-			if (this.InputManager && this.InputManager.init) {
-				this.InputManager.init();
-			}
+		this.init = function() {
+			this.InputManager.init();
 		};
 		
-		this.run = function (duration) {
+		this.run = function(duration) {
 		/// <summary>
 		/// application loop, request animation frame.  
 		/// </summary>
@@ -44,33 +42,33 @@
 			}
 		};
 		
-		this.gameLoop = function (duration, game, inputManager, entityManager) {
+		this.gameLoop = function(duration, game, inputManager, entityManager) {
 		/// <summary>
 		/// Internal game loop, all context passed in externally making this method testable.
 		/// </summary>
 			game.clear();
 			
-			entityManager.each(function (entity) {
-				if (!game.paused) {
+			entityManager.each(function(entity) {
+				if( !game.paused ) {
 					entity.update(duration, inputManager, entityManager);
 				}
-				if (entity.render) {
+				if( entity.render ) {
 					entity.render(game);			
 				}
 			});
 			game.renderText(duration, game);
 		};
 		
-		this.clear = function () {
+		this.clear = function() {
 			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		};
 		
-		this.renderText = function (duration, game) {
+		this.renderText = function(duration, game) {
 			var i = 0,
 				ctx = game.context,
 				options;
 				
-			for (i = 0; i < game.textBuffer.length; i++) {
+			for(i = 0; i < game.textBuffer.length; i++) {
 				options = game.textBuffer[i];
 				ctx.font = options.font;
 				ctx.fillText(options.text, options.x, options.y);
@@ -78,7 +76,7 @@
 			game.textBuffer.length = 0;
 		};
 		
-		this.writeText = function (options) {
+		this.writeText = function(options) {
 		///<summary>
 		/// Utility function to write text to the canvas.
 		/// options { text, x, y, font }
@@ -98,7 +96,7 @@
 			});
 		};
 		
-		this.pointInConvexPolygon = function (point, vertices) {
+		this.pointInConvexPolygon = function(point, vertices) {
 			function crossProduct(a, b) {
 				return a[0]*b[1]-a[1]*b[0];
 			}
@@ -128,7 +126,7 @@
 			}
 		};
 		
-		this.reset = function () {
+		this.reset = function() {
 			this.EntityManager.clear();
 			this.textBuffer.length = 0;
 			this.initialized = false;
