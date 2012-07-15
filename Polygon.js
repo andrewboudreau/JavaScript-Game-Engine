@@ -4,8 +4,16 @@ var Polygon = Entity.extend({
 	init: function (position, rotation, vertices, update, render) {
 		"use strict";
 		this._super(position, rotation);
+		//110 wide
+		//106.5 tall
+		this.vertices = vertices || [
+			113-180, 283-176.5, 
+			70-180, 156-176.5, 
+			180-180, 70-176.5, 
+			290-180, 156-176.5, 
+			250-180, 283-176.5
+		];
 		
-		this.vertices = vertices || [ 5,5, 100,50, 50,100, 10,90 ]; 
 		if (update) {
 			this.update = update;
 		}
@@ -24,8 +32,9 @@ var Polygon = Entity.extend({
 			ctx = game.context,
 			item;
 		
-		ctx.save();	
+		ctx.save();
 		ctx.translate(this.position[0], this.position[1]);
+		ctx.rotate(this.rotation);
 		ctx.fillStyle = '#f00';
 		ctx.beginPath();
 		ctx.moveTo(poly[0], poly[1]);

@@ -83,6 +83,7 @@
 		};
 
 		this.onMousemove = function (event) {
+			
 			var pos = this.findPos(Game.canvas);
 			this.y = event.pageX - pos[0];
 			this.x = event.pageY - pos[1];

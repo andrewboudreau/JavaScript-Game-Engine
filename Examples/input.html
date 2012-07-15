@@ -1,0 +1,43 @@
+<html>
+<head>
+<style>
+	canvas { 
+		border: 1px solid red; 
+		/* cursor:none; */
+		-webkit-user-select: none;
+	}
+</style>
+</head>
+<body>
+
+<canvas id="canvas" width="540" height="480"></canvas>
+<input id="fps" type="text"></input>
+
+<script src="../RequestAnimationShim.js"></script>
+<script src="../Class.js"></script>
+<script src="../Game.js"></script>
+<script src="../EntityManager.js"></script>
+<script src="../input/MouseKeyboardController.js"></script>
+<script src="../Entity.js"></script>
+<script src="../Polygon.js"></script>
+<script src="../Grid.js"></script>
+
+<!-- 
+<script src="MouseDebugger.js"></script>
+ -->
+ <script>
+
+function polyspin() {
+	//this.rotation += 0.02;
+}
+
+Game.input = new MouseKeyboardController();
+Game.EntityManager.add(new Polygon([110, 106.5], 0, false, polyspin));
+Game.EntityManager.add(new Grid());
+Game.run();
+
+</script>
+
+</body>
+</html>
+

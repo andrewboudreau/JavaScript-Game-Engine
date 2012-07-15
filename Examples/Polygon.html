@@ -5,7 +5,7 @@
 </style>
 </head>
 <body>
-
+<div id="debug"></div>
 <canvas id="canvas" width="640" height="480"></canvas>
 
 <script src="../RequestAnimationShim.js"></script>
@@ -15,6 +15,21 @@
 <script src="../EntityManager.js"></script>
 <script src="../Polygon.js"></script>
 <script>
+/*
+function DebugWatch(name, value) {
+	var watches = {};
+	
+	if (!watches[name]) {
+		
+	}
+	
+	return function() {
+		for (prop in ids) {
+			if (ids.hasOwnProperty(name))
+	}
+	
+}
+*/
 
 Game.EntityManager.add(new Polygon(0, 0, [113, 283, 70,156, 180,70, 290,156, 250, 283]));
 Game.run();
