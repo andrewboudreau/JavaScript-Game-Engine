@@ -14,6 +14,7 @@ var Grid = Entity.extend({
 			hspacing = 20, 
 			vspacing = 20;
 		
+		ctx.save();
 		for (w = 0; w <= game.canvas.width; w += hspacing) {
 			ctx.beginPath();
 			ctx.moveTo(w, 0);
@@ -27,5 +28,6 @@ var Grid = Entity.extend({
 			ctx.lineTo(game.canvas.width, v);
 			ctx.stroke();
 		}
+		ctx.restore();
 	}
 });
