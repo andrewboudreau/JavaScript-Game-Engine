@@ -22,18 +22,46 @@
 <script src="../Polygon.js"></script>
 <script src="../Grid.js"></script>
 
-<!-- 
-<script src="MouseDebugger.js"></script>
- -->
  <script>
 
-function polyspin() {
+function polyspin(duration, inputManager) {
 	this.rotation += 0.02;
+	
+	if (inputManager.isPressed(inputManager.left)) {
+		this.position[0] -= 1;
+	}
+	
+	if (inputManager.isPressed(inputManager.right)) {
+		this.position[0] += 1;
+	}
+	
+	if (inputManager.isPressed(inputManager.up)) {
+		this.position[1] -= 1;
+	}
+	
+	if (inputManager.isPressed(inputManager.down)) {
+		this.position[1] += 1;
+	}
+	
+	if (inputManager.isPressed(inputManager.buttonOne)) {
+		this.color = "#f00";
+		this.position = inputManager.position();
+	}
+	
+	if (inputManager.isPressed(inputManager.buttonTwo)) {
+		this.color = "#0f0";
+	}
+	
+	if (inputManager.isPressed(inputManager.buttonThree)) {
+		this.color = "#00f";
+	}
+	
+	this.scale += inputManager.wheelDelta() * 0.2;
 }
 
-Game.input = new MouseKeyboardController();
-Game.EntityManager.add(new Grid());
-Game.EntityManager.add(new Polygon([20,20], 0, [-10,10, 10,10, 10,-10, -10,-10], polyspin));
+Game.InputManager = new MouseKeyboardController();
+Game.EntityManager.add(new Grid(20));
+Game.EntityManager.add(new Polygon([30,30], 0, [-10,10, 10,10, 10,-10, -10,-10], polyspin));
 Game.run();
 
 </script>

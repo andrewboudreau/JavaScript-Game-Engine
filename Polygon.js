@@ -4,8 +4,8 @@ var Polygon = Entity.extend({
 	init: function (position, rotation, vertices, update, render) {
 		"use strict";
 		this._super(position, rotation);
-		//110 wide
-		//106.5 tall
+		this.scale = 1;
+		this.color = "#000";
 		
 		this.vertices = vertices || [
 			113, 283, 
@@ -14,6 +14,7 @@ var Polygon = Entity.extend({
 			290, 156, 
 			250, 283
 		];
+		
 		/* var offset = this.centroid();
 		for (var item = 0; item < this.vertices.length - 1; item += 2) {
 			this.vertices[item] -= offset[0];
@@ -41,13 +42,14 @@ var Polygon = Entity.extend({
 		ctx.save();
 		ctx.translate(this.position[0], this.position[1]);
 		ctx.rotate(this.rotation);
-		ctx.fillStyle = '#f00';
-		
+		ctx.fillStyle = this.color;
+
+		ctx.scale(this.scale, this.scale);		
 		ctx.beginPath();
-		ctx.moveTo(poly[0], poly[1]);
-		for (item = 2; item < poly.length - 1; item += 2) {
-			ctx.lineTo(poly[item], poly[item + 1]);
-		}
+			ctx.moveTo(poly[0], poly[1]);
+			for (item = 2; item < poly.length - 1; item += 2) {
+				ctx.lineTo(poly[item], poly[item + 1]);
+			}
 		ctx.closePath();
 		ctx.fill();
 		ctx.restore();

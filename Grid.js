@@ -1,8 +1,9 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, white:true */
 /*global Entity */
 var Grid = Entity.extend({
-	init: function () {
+	init: function (spacing) {
 		"use strict";
+		this.spacing = spacing || 20;
 	},
 	update: function (duration, inputManager, entityManager) {
 		"use strict";
@@ -11,8 +12,8 @@ var Grid = Entity.extend({
 		"use strict";
 		var w, v, 
 			ctx = game.context,
-			hspacing = 20, 
-			vspacing = 20;
+			hspacing = this.spacing, 
+			vspacing = this.spacing;
 		
 		ctx.save();
 		for (w = 0; w <= game.canvas.width; w += hspacing) {

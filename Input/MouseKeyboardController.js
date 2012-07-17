@@ -3,24 +3,28 @@
 (function (scope) {
 	"use strict";
 	
-	function MouseKeyboardController(keymap) {
-		keymap = keymap || {
+	function MouseKeyboardController(mapping) {
+		this.keymap = mapping || {
 			left: 37,
 			up: 38,
 			right: 39,
 			down: 40,
+			wheelUp: "wheelup",
+			wheelDown: "wheeldown",
 			buttonOne: "button1",
 			buttonTwo: "button2",
 			buttonThree: "button3"
 		};
 		
-		this.left = keymap.left;
-		this.up = keymap.up;
-		this.right = keymap.right;
-		this.down = keymap.down;
-		this.buttonOne = keymap.buttonOne;
-		this.buttonOne = keymap.buttonTwo;
-		this.buttonOne = keymap.buttonThree;
+		this.left = this.keymap.left;
+		this.up = this.keymap.up;
+		this.right = this.keymap.right;
+		this.down = this.keymap.down;
+		this.wheelUp = this.keymap.wheelUp;
+		this.wheelDown = this.keymap.wheelDown;
+		this.buttonOne = this.keymap.buttonOne;
+		this.buttonOne = this.keymap.buttonTwo;
+		this.buttonOne = this.keymap.buttonThree;
 	
 		this.pressed = {};
 		this.x = 0;
@@ -94,9 +98,8 @@
 			this.wheel += Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));  
 		};
 
-		this.onMousedown = function (event) {
+		this.onMouseup = function (event) {
 			var e = window.event || event;
-			
 			switch (e.button) {
 			case 0:
 				delete this.pressed[this.buttonOne];
@@ -110,7 +113,7 @@
 			}
 		};
 
-		this.onMouseup = function (event) {
+		this.onMousedown = function (event) {
 			var e = window.event || event;
 			
 			switch (e.button) {
