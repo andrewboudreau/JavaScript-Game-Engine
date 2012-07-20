@@ -1,7 +1,7 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, newcap:true, white:true */
-/*global requestAnimFrame */
-define(["engine/EntityManager", "engine/input/MouseKeyboardController", "engine/TextManager"], 
-	function (EntityManager, InputManager, TextManager) {
+/*global */
+define(["engine/RequestAnimationShim", "engine/Entity", "engine/EntityManager", "engine/input/MouseKeyboardController", "engine/TextManager"], 
+	function (requestAnimFrame, Entity, EntityManager, InputManager, TextManager) {
 		"use strict";
 		
 		function Game() {
@@ -14,7 +14,7 @@ define(["engine/EntityManager", "engine/input/MouseKeyboardController", "engine/
 			this.context = this.canvas.getContext("2d");
 			
 			this.EntityManager = EntityManager;
-			this.TextManager = TextManager;
+			this.TextManager = new TextManager();
 			this.InputManager = InputManager;
 			
 			this.initialized = false;

@@ -3,7 +3,9 @@
  * MIT Licensed.
  */
 // Inspired by base2 and Prototype
+define( function () {
 (function(){
+	debugger;
   var initializing = false, fnTest = /xyz/.test(function(){xyz;}) ? /\b_super\b/ : /.*/;
   // The base Class implementation (does nothing)
   this.Class = function(){};
@@ -61,3 +63,4 @@
     return Class;
   };
 })();
+});
