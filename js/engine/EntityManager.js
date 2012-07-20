@@ -1,11 +1,7 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, newcap:true, white:true */
 /*global Game Entity */
-(function (scope) {
+define(function () {
 	"use strict";
-	
-	if (!Entity) {
-		throw "Class.Entity is not defined and is required.";
-	}
 	
 	function EntityManager() {
 		if (EntityManager.prototype.singletonInstance) {
@@ -55,11 +51,11 @@
 	
 		this.each = function (lambda) {
 			for (var i = 0; i < this.entities.length; i++) {
-				lambda.call(Game, this.entities[i]);
+				lambda.call(this.entities[i], this.entities[i]);
 			}
 		};
 	}
 	
-	scope.EntityManager = new EntityManager();
-}(Game));
+	return new EntityManager();
+});
 

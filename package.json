@@ -1,0 +1,15 @@
+{
+   "name" : "javascript-game-engine",
+   "version" : "0.1.0",
+   "main" : "./lib/main",
+   "maintainers": [
+       {
+           "name": "Andrew Boudreau",
+           "email": "andrewboudreau@gmail.com",
+           "web": "http://blogfor.net" 
+       } 
+   ],
+   "bugs" : {
+	"mail" : "andrewboudreau@gmail.com"
+   }
+}
