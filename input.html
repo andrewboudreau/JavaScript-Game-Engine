@@ -22,8 +22,7 @@
 
 
 <script data-main="js/main" src="js/require-jquery.js"></script>
-<!--
- <script>
+<script>
  
 function Debugger() {
 	if (Debugger.prototype.singletonInstance) {
@@ -104,13 +103,11 @@ function polyspin(duration, inputManager) {
 	this.scale += inputManager.wheelDelta() * 0.2;
 }
 
-Game.InputManager = new MouseKeyboardController();
 Game.EntityManager.add(new Grid(20));
 Game.EntityManager.add(new Polygon([30,30], 0, [-10,10, 10,10, 10,-10, -10,-10], polyspin));
 Game.run();
 
 </script>
--->
 </body>
 </html>
 

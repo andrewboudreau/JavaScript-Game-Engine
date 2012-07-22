@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>All Tests</title>
+	<link rel="stylesheet" href="../lib/qunit/qunit.css">
+	<link rel="stylesheet" href="../lib/qunit/addons/composite/qunit-composite.css">
+	
+	<script type="text/javascript" src="../lib/qunit/qunit.js"></script>
+	<script type="text/javascript" src="../lib/qunit/addons/composite/qunit-composite.js"></script>
+
+	<script data-main="_RunAllTests" src="../lib/require-jquery.js"></script>
+
+	<script>
+	QUnit.testSuites([
+		"Function.html",
+		"Function-Init.html",
+		"Component.html",
+		"Component-Init.html",
+		"Actor.html",
+		"CollectionManager.html",
+		"TextManager.html",
+		"Game.Test.html"
+   	]);
+	</script>
+</head>
+<body>
+	<div id="qunit"></div>
+	<div id="qunit-fixture">
+</div>
+</body>
+</html>
