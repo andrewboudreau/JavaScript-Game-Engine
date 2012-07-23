@@ -14,11 +14,10 @@ require(["jquery", "engine/Game", "components/Grid", "actors/Polygon", "actors/D
 	function ($, Game, Grid, Polygon, Dot) {
 		"use strict";
 		
-		var player = new Dot({x: 0, y: 0, rotation: 0, size: 10}),
-			cursor = new Dot({x: 0, y: 0, rotation: 0, size: 10});
+		var player = new Dot({x: 0, y: 0, rotation: 0, size: 10, color: "red" }),
+			cursor = new Dot({x: 0, y: 0, rotation: 0, size: 10, color: "blue" });
 		
 		player.update = function (duration, inputManager, entityManager) {
-			Game.singletonInstance.writeLine("test this", inputManager.x, inputManager.y);
 			this.rotation -= 0.02;
 			
 			if (inputManager.isPressed(inputManager.left)) {
@@ -36,38 +35,21 @@ require(["jquery", "engine/Game", "components/Grid", "actors/Polygon", "actors/D
 			if (inputManager.isPressed(inputManager.down)) {
 				this.y += 1;
 			}
+			
+			Game.singletonInstance.writeText({text: "player - x:" + this.x + " y:" + this.y, x: this.x, y: this.y});
 		};
 		
 		cursor.update = function (duration, inputManager, entityManager) {
-			Game.singletonInstance.writeLine("test this", inputManager.x, inputManager.y);
 			this.rotation += 0.02;
 			
-			if (inputManager.isPressed(inputManager.left)) {
-				this.x -= 1;
-			}
-			
-			if (inputManager.isPressed(inputManager.right)) {
-				this.x += 1;
-			}
-			
-			if (inputManager.isPressed(inputManager.up)) {
-				this.y -= 1;
-			}
-			
-			if (inputManager.isPressed(inputManager.down)) {
-				this.y += 1;
-			}
-			
 			if (inputManager.isPressed(inputManager.buttonOne)) {
-				this.color = "#f00";
-			}
-			
-			if (inputManager.isPressed(inputManager.buttonTwo)) {
-				this.color = "#0f0";
-			}
-			
-			if (inputManager.isPressed(inputManager.buttonThree)) {
-				this.color = "#00f";
+				this.color = "pink";
+			} else if (inputManager.isPressed(inputManager.buttonTwo)) {
+				this.color = "green";
+			} else if (inputManager.isPressed(inputManager.buttonThree)) {
+				this.color = "brown";
+			} else {
+				this.color = "blue";
 			}
 			
 			this.scale += inputManager.wheelDelta() * 0.2;
@@ -79,11 +61,13 @@ require(["jquery", "engine/Game", "components/Grid", "actors/Polygon", "actors/D
 			if (wheelDelta != 0) {
 				this.size += wheelDelta;
 			}
+			Game.singletonInstance.writeText({text: "cursor - x:" + this.x + " y:" + this.y, x: this.x, y: this.y});
 		};
 		
 		new Game()
 			.add(new Grid())
 			.add(cursor)
+			.add(player)
 			.run();
 				
 	}

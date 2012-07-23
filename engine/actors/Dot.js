@@ -7,6 +7,7 @@ define(["engine/Actor"], function (Actor) {
 		init: function (options) {
 			this.$super(options.x, options.y, options.rotation);
 			this.size = options.size;
+			this.color = options.color;
 			this.halfSize = this.size / 2;
 		},
 		render: function (game) {			
@@ -15,7 +16,7 @@ define(["engine/Actor"], function (Actor) {
 			ctx.save();
 			ctx.translate(this.x, this.y);
 			ctx.rotate(this.rotation);
-			ctx.fillStyle = "orange";  
+			ctx.fillStyle = this.color;  
 			ctx.fillRect(-this.halfSize, -this.halfSize, this.size, this.size);  
 			ctx.restore();		
 		}
