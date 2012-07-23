@@ -36,7 +36,7 @@ require(["jquery", "engine/Game", "components/Grid", "actors/Polygon", "actors/D
 				this.y += 1;
 			}
 			
-			Game.singletonInstance.writeText({text: "player - x:" + this.x + " y:" + this.y, x: this.x, y: this.y});
+			Game.singletonInstance.writeText({text: "player - x:" + this.x + " y:" + this.y, x: this.x + this.halfSize, y: this.y});
 		};
 		
 		cursor.update = function (duration, inputManager, entityManager) {
@@ -61,7 +61,7 @@ require(["jquery", "engine/Game", "components/Grid", "actors/Polygon", "actors/D
 			if (wheelDelta != 0) {
 				this.size += wheelDelta;
 			}
-			Game.singletonInstance.writeText({text: "cursor - x:" + this.x + " y:" + this.y, x: this.x, y: this.y});
+			Game.singletonInstance.writeText({text: "cursor - x:" + this.x + " y:" + this.y, x: this.x + this.halfSize, y: this.y});
 		};
 		
 		new Game()
