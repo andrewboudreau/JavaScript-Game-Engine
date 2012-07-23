@@ -141,58 +141,48 @@ require(["engine/Component", "engine/Actor", "engine/Game"], function (Component
 		game.gameLoop(1, gameSpy, input, entityManager);
 	});
 
-	test("reset clears exit", 4, function() {
+	test("reset clears", 5, function() {
 		var game = new Game(),
-			actorSpy = new ActorSpy(),
-			gameSpy = {clear: noop, renderText: noop},
-			input = {},
+			textManager = {
+				clearCount: 0,
+				clear: function () {
+					this.clearCount += 1;
+				},
+			},
 			entityManager = {
-				each: function( func ) {
-					func(actorSpy);
-				}
+				clearCount: 0,
+				clear: function () {
+					this.clearCount += 1;
+				},
 			};
+			
 		game.exit = true;
-		game.gameLoop(1, gameSpy, input, entityManager);
-	});
-
-
-	module("Game.init", {
-		teardown: function() {
-			Game.exit = true;
-			Game.InputManager.inited = false;
-			Game.reset();
-	  }
-	});
-
-	test("Game inits on run", 1, function() {
-		Game.EntityManager = { each: noop, clear:noop };
-		Game.InputManager = { init: noop };
-		Game.exit = true;
-		Game.run();
-		ok(Game.initialized, "game initialized");
-	});
-
-	test("Input manager inits on run", 1, function() {
-		var count = 0;
-		Game.EntityManager = { each: noop, clear: noop };
-		Game.InputManager = { init: function() { 
-			count += 1;} 
-		};
+		game.initialized = true;
+		game.paused = true;
+		game.textManager = textManager;
+		game.entityManager = entityManager;
 		
-		Game.exit = true;
-		Game.run();
-		equal(count, 1, "input initialized");
+		game.reset();
+		
+		equal(game.exit, false, "exit was reset");
+		equal(game.paused, false, "paused was reset");
+		equal(game.initialized, false, "initialized was reset");
+		equal(textManager.clearCount, 1, "textManager cleared once");
+		equal(entityManager.clearCount, 1, "textManager cleared once");
 	});
+
+	module("gameLoop");
 
 	test("run calls gameLoop", 1, function() {
-		var count = 0;
-		Game.EntityManager = { each: noop, clear:noop };
-		Game.InputManager = { init: noop };
-		Game.gameLoop = function() {
+		var count = 0,
+			game = new Game();
+		
+		game.entityManager = { each: noop, clear:noop };
+		game.gameLoop = function() {
 			count += 1;
 		};
-		Game.exit = true;
-		Game.run();
+		game.exit = true;
+		game.run();
 		equal(count, 1, "game looped once");
 	});
 

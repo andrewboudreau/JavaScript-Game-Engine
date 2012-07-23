@@ -111,6 +111,8 @@ define(["engine/Function", "engine/Component", "components/CollectionManager", "
 				this.textManager.clear();
 				
 				this.initialized = false;
+				this.paused = false;
+				this.exit = false;
 			}
 		});
 		
