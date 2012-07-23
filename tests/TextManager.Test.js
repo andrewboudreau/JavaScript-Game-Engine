@@ -12,7 +12,7 @@ require(["components/TextManager"], function (TextManager) {
 	
 	module("textBuffer");
 
-	test("defaults", 7, function() {
+	test("defaults", 7, function () {
 		var textManager = new TextManager();
 		
 		equal(textManager.lineHeight, 10, "default lineHeight");
@@ -27,7 +27,7 @@ require(["components/TextManager"], function (TextManager) {
 		equal(textManager.item(0).font, "normal 12px sans-serif", "default font");
 	});
 
-	test("write with full options", 5, function() {
+	test("write with full options", 5, function () {
 		var textManager = new TextManager();
 		
 		textManager.writeText({text: "foo, bar", x: 1, y:1, font: "bold 14px"});
@@ -39,13 +39,13 @@ require(["components/TextManager"], function (TextManager) {
 		equal(textManager.item(0).font, "bold 14px");
 	});
 
-	test("add text buffer", 1, function() {
+	test("add text buffer", 1, function () {
 		var textManager = new TextManager();
 		textManager.writeText({text: "foo"});
 		equal(textManager.item(0).text, "foo", "text added to buffer");
 	});
 
-	test("add multiple text buffer", 2, function() {
+	test("add multiple text buffer", 2, function () {
 		var textManager = new TextManager();
 		textManager.writeText("foo");
 		textManager.writeText("bar");
@@ -54,20 +54,40 @@ require(["components/TextManager"], function (TextManager) {
 		equal(textManager.item(1).text, "bar", "text added to buffer");
 	});
 
-	test("text buffer cleared by renderText", 1, function() {
-		var noop = function() {},
+	test("text buffer cleared by render", 1, function () {
+		var noop = function () {},
 			textManager = new TextManager();
 			
 		textManager.writeText("foo");
 		textManager.render({ context: { fillText: noop }}, 0);
-		equal(textManager.items.length, 0, "buffer cleared by renderText");
+		equal(textManager.items.length, 0, "buffer cleared by render");
 	});
 
-	test("write text buffer", 1, function() {
+	test("write text buffer", 1, function () {
 		var textManager = new TextManager();
 		textManager.writeText("foo");
 		equal(textManager.item(0).text, "foo", "text added to buffer");
 	});
 
+	test("render calls clear", 1, function () {
+		var count = 0,
+			textManager = new TextManager();
+		
+		textManager.clear = function () { count += 1; };
+		textManager.render({ context: { fillText: function () {} }}, 0);
+		
+		equal(count, 1, "called clear");
+	});
+	
+	test("clear resets offset values", 2, function () {
+		var noop = function () {},
+			textManager = new TextManager();
+			
+		textManager.writeLine("foo");
+		textManager.clear();
+		
+		equal(textManager.xOffset, 0, "x offset 0");
+		equal(textManager.yOffset, 0, "y offset 0");
+	});
 });
 

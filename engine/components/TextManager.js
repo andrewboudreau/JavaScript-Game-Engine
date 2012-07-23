@@ -53,7 +53,14 @@ define(["./CollectionManager"], function (CollectionManager) {
 				y : this.yOffset,
 				font : "normal 12px sans-serif"
 			});
+		},
+		
+		clear: function () {
+			this.$super();
+			this.xOffset = 0;
+			this.yOffset = 0;
 		}
+		
 	});
 	
 	return TextManager;

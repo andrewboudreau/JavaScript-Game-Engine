@@ -1,25 +1,17 @@
 JavaScript-Game-Engine
 ======================
+a 2d game engine written in JavaScript.  
 
-a simple component based canvas engine written in JavaScript.  
-
-The main engine consists of two methods, update and render. The request animation loop is initiailized using Game.run().
-Entities can be added to the game and two very simple entities are included. No input is attached to the Game by default.
-
-_Game is the constructor and Game singleton is created at the bottom of Game.js.  Game is assumed to be a singleton.
-
+Game is the central component in the engine, it ties all of the other engine systems together. In each loop the game engine executes and update followed by a render method for each entity in the system. A simple TextManager live directly off of Game to support ea
 
 =======================================================
-Game.js - runs the main animation loop, calls update and render on entities passing appropriate context for entities and input.
+Game.js - runs the main animation loop, calls update and render on entities passing appropriate context for entities and input.  Game is the central component in the engine, it ties all of the subsystems together.
 
-KeyboardInput.js - a very limited input abstraction, keyboard only.
+Game.entityManager - a container for managing entites to be updated and rendered on demand of the game engine.  The core game engine implements a CollectionManager and exposes an add method directly upon the Game instance.
 
-Entity.js - base class for objects that that belong to a game.
+CollectionManager.js - a base collection class implementing most basic needs of a collection, iteration, type-saftey using guard to some extent.
 
-VisualEntity.js - adds render to an entity.
+TextManager.js - a reusable text management system. For simplicity Game initiliazes with a textManager. I like to think of this as an on-screen text buffer i can write to for debugging or HUD.
 
-Entities.Dot.js - a dot.
 
-Entities.Bowtie.js - a bowtie with input support.
 
-example.html - the simpliest example one could make.
