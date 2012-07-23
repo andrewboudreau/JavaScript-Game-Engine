@@ -1,7 +1,7 @@
 {
    "name" : "javascript-game-engine",
    "version" : "0.1.0",
-   "main" : "./js/main",
+   "main" : "./engine/Game",
    "maintainers": [
        {
            "name": "Andrew Boudreau",
