@@ -15,7 +15,7 @@ define(["engine/Function", "engine/Component", "components/CollectionManager", "
 				
 				this.entityManager = new CollectionManager(Component);
 				this.textManager = new TextManager(this.context);
-				this.inputManager = new MouseKeyboardController();
+				this.inputManager = new MouseKeyboardController().init();
 				
 				this.initialized = false;
 				this.paused = false;
@@ -26,6 +26,7 @@ define(["engine/Function", "engine/Component", "components/CollectionManager", "
 			
 			add: function (component) {
 				this.entityManager.add(component);
+				return this;
 			},
 			
 			run: function (duration) {

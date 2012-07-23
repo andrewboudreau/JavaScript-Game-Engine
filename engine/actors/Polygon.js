@@ -7,7 +7,7 @@ define(["engine/Actor"], function (Actor) {
 		init: function (x, y, rotation, vertices, update, render) {
 			this.$super(x, y, rotation);
 			
-			this.scale = 1.0;
+			this.scale = 1;
 			this.color = "blue";
 			
 			this.vertices = vertices || [
@@ -19,11 +19,11 @@ define(["engine/Actor"], function (Actor) {
 			];
 			
 			 var offset = this.centroid();
-			 //console.dir(offset);
+			 console.dir(offset);
 			 
 			for (var item = 0; item < this.vertices.length - 1; item += 2) {
-				this.vertices[item] -= offset[0];
-				this.vertices[item + 1] -= offset[1];
+				//this.vertices[item] -= offset[0];
+				//this.vertices[item + 1] -= offset[1];
 			}
 			if (update) {
 				this.update = update;
@@ -42,8 +42,8 @@ define(["engine/Actor"], function (Actor) {
 				item;
 			
 			ctx.save();
-			ctx.translate(this.x, this.y);
-			ctx.rotate(this.rotation);
+			//ctx.translate(this.x, this.y);
+			//ctx.rotate(this.rotation);
 			ctx.fillStyle = this.color;
 			ctx.scale(this.scale, this.scale);	
 			

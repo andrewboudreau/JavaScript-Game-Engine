@@ -2,6 +2,7 @@
 /*global define */
 define(["engine/Actor"], function (Actor) {
 	"use strict";
+	
 	var Dot = Actor.inherit({
 		init: function (options) {
 			this.$super(options.x, options.y, options.rotation);

@@ -58,6 +58,8 @@ define(function () {
 			window.addEventListener('mouseup', function (event) { 
 				self.onMouseup(event); 
 			}, false);
+			
+			return this;
 		};
 		
 		this.position = function () { 
@@ -93,8 +95,8 @@ define(function () {
 				console.log("found Game in controller context");
 			}
 			var pos = this.findPos(scene);
-			this.y = event.pageX - pos[0];
-			this.x = event.pageY - pos[1];
+			this.x = event.pageX - pos[0];
+			this.y = event.pageY - pos[1];
 		};
 
 		this.onMousewheel = function (event) { 
