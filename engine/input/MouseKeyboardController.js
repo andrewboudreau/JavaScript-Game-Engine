@@ -89,11 +89,7 @@ define(function () {
 		};
 
 		this.onMousemove = function (event) {
-			var scene = document.getElementById("canvas");
-			if (typeof Game !== 'undefined' && typeof Game.canvas !== 'undefined') {
-				scene = Game.canvas;
-				console.log("found Game in controller context");
-			}
+			Game.singletonInstance.canvas;
 			var pos = this.findPos(scene);
 			this.x = event.pageX - pos[0];
 			this.y = event.pageY - pos[1];
