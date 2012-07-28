@@ -6,12 +6,11 @@ define(["engine/Function", "engine/Component", "components/CollectionManager", "
 		
 		var Game = Function.inherit({
 			singletonInstance: null,
-			init: function (canvas, context, autostart) {
+			init: function (canvas, context) {
 				Game.singletonInstance = this;
 				
 				this.canvas = canvas || document.getElementById("canvas");
 				this.context = canvas || this.canvas.getContext("2d");
-				this.autoStart = autostart ? true : false;
 				
 				this.entityManager = new CollectionManager(Component);
 				this.textManager = new TextManager(this.context);
@@ -75,36 +74,6 @@ define(["engine/Function", "engine/Component", "components/CollectionManager", "
 				/// Utility function to write text to the canvas.
 				///<summary>
 				this.textManager.writeLine(text);
-			},
-			
-			pointInConvexPolygon: function (point, vertices) {
-				function crossProduct(a, b) {
-					return a[0] * b[1] - a[1] * b[0];
-				}
-				
-				function subtract(a, b) {
-					return [a[0] - b[0], a[1] - b[1]];
-				}
-				
-				var i = 0,
-					sign = 0,
-					segment, affineSegment, affinePoint, k;
-				
-				for (i = 0; i < vertices.length; i++) {
-					segment = [vertices[i], vertices[(i + 1) % vertices.length]];
-					affineSegment = subtract(segment[1] - segment[0]);
-					affinePoint = subtract(point, segment[0]);
-					k = crossProduct(affineSegment, affinePoint);
-					
-					if (k === 0) {
-						return true;
-					}
-					
-					if (k * sign < 0 !== 0) {
-						return k * sign < 0;
-					}
-					
-				}
 			},
 			
 			reset: function () {

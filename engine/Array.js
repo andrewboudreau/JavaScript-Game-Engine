@@ -15,7 +15,7 @@ define(function () {
 		}
 	},
 	
-	buildGuardedMethod = function (props) {
+	defineArrayProperty = function (props) {
 		Object.defineProperty(Array.prototype, props.name, {
 			value: function (param) {
 				props.guardThis(this);
@@ -28,8 +28,8 @@ define(function () {
 		});
 	},
 	
-	buildScalarMethod = function (name, fn) {
-		buildGuardedMethod({
+	defineScalarFunction = function (name, fn) {
+		defineArrayProperty({
 			name: name,
 			guardThis: guard,
 			guardParameter: guardScalar,
@@ -37,8 +37,8 @@ define(function () {
 		});
 	},
 	
-	buildVectorMethod = function (name, fn) {
-		buildGuardedMethod({
+	defineVectorFunction = function (name, fn) {
+		defineArrayProperty({
 			name: name,
 			guardThis: guard,
 			guardParameter: guard,
@@ -46,8 +46,8 @@ define(function () {
 		});
 	},
 	
-	buildParameterlessMethod = function (name, fn) {
-		buildGuardedMethod({
+	defineParameterlessFunction = function (name, fn) {
+		defineArrayProperty({
 			name: name,
 			guardThis: guard,
 			guardParameter: function () { return true; },
@@ -55,42 +55,42 @@ define(function () {
 		});
 	};
 	
-	buildVectorMethod("add", function (vector) {
+	defineVectorFunction("add", function (vector) {
 		return [this[0] + vector[0], this[1] + vector[1]];
 	});	
 	
-	buildVectorMethod("subtract", function (vector) {
+	defineVectorFunction("subtract", function (vector) {
 		return [this[0] - vector[0], this[1] - vector[1]];
 	});
 	
-	buildScalarMethod("multiply", function (scalar) {
+	defineScalarFunction("multiply", function (scalar) {
 		return [this[0] * scalar, this[1] * scalar];
 	});
-		buildScalarMethod("divide", function (scalar) {
+		defineScalarFunction("divide", function (scalar) {
 		return [this[0] / scalar, this[1] / scalar];
 	});
 	
-	buildVectorMethod("dot", function (vector) {
+	defineVectorFunction("dot", function (vector) {
 		return this[0] * vector[0] + this[1] * vector[1];
 	});
 	
-	buildParameterlessMethod("vectorLengthSquared", function () {
+	defineParameterlessFunction("vectorLengthSquared", function () {
 		return [this[0] * this[0] + this[1] * this[1]];
 	});
 	
-	buildParameterlessMethod("vectorLength", function () {
+	defineParameterlessFunction("vectorLength", function () {
 		return Math.sqrt(this.vectorLengthSquared());
 	});
 	
-	buildVectorMethod("normalize", function () {
+	defineVectorFunction("normalize", function () {
 		return this.divide(this.vectorLength());
 	});
 	
-	buildVectorMethod("distanceSquared", function (vector) {
+	defineVectorFunction("distanceSquared", function (vector) {
 		return (vector[0] - this[0]) * (vector[0] - this[0]) + (vector[1] - this[1]) *  (vector[1] - this[1]);
 	});
 	
-	buildVectorMethod("distance", function () {
+	defineVectorFunction("distance", function () {
 		return this.divide(this.vectorLength());
 	});
 	

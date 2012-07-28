@@ -19,3 +19,16 @@ Actor.js - from component, adds position and rotation to a component. I imagine 
 
 CollectionManager.js - a base collection class implementing most basic needs of a collection, iteration, type-saftey using guard to some extent.
 
+== Resources ==
+https://bitbucket.org/piemaster/artemoids/src
+https://github.com/gemserk/artemis/tree/master/src/com/artemis
+http://www.inverted-keystrokes.com/category/programming/2d-game-engine-tutorial/
+http://higherorderfun.com/blog/2012/05/20/the-guide-to-implementing-2d-platformers/
+
+
+== Tools ==
+http://qunitjs.com/
+http://requirejs.org/
+
+
+
