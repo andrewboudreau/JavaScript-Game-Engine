@@ -4,23 +4,26 @@ define(["engine/Function", "engine/Component", "components/CollectionManager", "
 	function (Function, Component, CollectionManager, TextManager, MouseKeyboardController, requestAnimationFrame) {
 		"use strict";
 		
-		var Game = Function.inherit({
-			singletonInstance: null,
+		var Game = function (canvas, context) {
+			this.init(canvas, context);	
+		};
+		
+		Game.prototype = {
 			init: function (canvas, context) {
-				Game.singletonInstance = this;
-				
+			
 				this.canvas = canvas || document.getElementById("canvas");
 				this.context = canvas || this.canvas.getContext("2d");
 				
 				this.entityManager = new CollectionManager(Component);
 				this.textManager = new TextManager(this.context);
-				this.inputManager = new MouseKeyboardController().init();
+				this.inputManager = new MouseKeyboardController().init(this.canvas);
 				
 				this.initialized = false;
 				this.paused = false;
 				this.exit = false;
 				
 				this.entityManager.add(this.textManager);
+				return this;
 			},
 			
 			add: function (component) {
@@ -33,7 +36,6 @@ define(["engine/Function", "engine/Component", "components/CollectionManager", "
 			/// application loop, request animation frame.  
 			/// </summary>
 				var self = Game.singletonInstance;
-				
 				self.gameLoop(duration, self, self.inputManager, self.entityManager);
 				
 				if (!self.exit) {
@@ -84,8 +86,9 @@ define(["engine/Function", "engine/Component", "components/CollectionManager", "
 				this.paused = false;
 				this.exit = false;
 			}
-		});
+		};
 		
-		return Game;	
+		Game.singletonInstance = new Game();
+		return Game;
     }
 );

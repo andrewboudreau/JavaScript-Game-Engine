@@ -67,7 +67,7 @@ require(["engine/Component", "engine/Actor", "engine/Game"], function (Component
 		ok(count, 1, "clear called once");
 	});
 
-	test("calls entity update", 1, function() {
+	test("calls entity update", 1, function () {
 		var game = new Game(),
 			mock = new ActorSpy(),
 			entityManager = {
@@ -80,7 +80,7 @@ require(["engine/Component", "engine/Actor", "engine/Game"], function (Component
 		equal(mock.updated, 1, "entity updated by game");
 	});
 
-	test("no update when paused", 1, function() {
+	test("no update when paused", 1, function () {
 		var game = new Game(),
 			mock = new ActorSpy(),
 			entityManager = {
@@ -94,7 +94,7 @@ require(["engine/Component", "engine/Actor", "engine/Game"], function (Component
 		equal(mock.updated, 0, "entity not updated during pause");
 	});
 
-	test("calls entity render", 1, function() {
+	test("calls entity render", 1, function () {
 		var game = new Game(),
 			mock = new ActorSpy(),
 			entityManager = {
@@ -107,7 +107,7 @@ require(["engine/Component", "engine/Actor", "engine/Game"], function (Component
 		equal(mock.rendered, 1, "entity rendered by game");
 	});
 
-	test("does not call entity render", 1, function() {
+	test("does not call entity render", 1, function () {
 		var game = new Game(),
 			mock = new ActorSpy(),
 			entityManager = {
@@ -121,7 +121,7 @@ require(["engine/Component", "engine/Actor", "engine/Game"], function (Component
 		equal(mock.rendered, 0, "entity not rendered during ");
 	});
 
-	test("passes parameters to update", 4, function() {
+	test("passes parameters to update", 4, function () {
 		var game = new Game(),
 			mock = new ActorSpy(),
 			gameSpy = {clear: noop, renderText: noop},
@@ -141,7 +141,7 @@ require(["engine/Component", "engine/Actor", "engine/Game"], function (Component
 		game.gameLoop(1, gameSpy, input, entityManager);
 	});
 
-	test("reset clears", 5, function() {
+	test("reset clears", 5, function () {
 		var game = new Game(),
 			textManager = {
 				clearCount: 0,
@@ -173,12 +173,15 @@ require(["engine/Component", "engine/Actor", "engine/Game"], function (Component
 
 	module("gameLoop");
 
-	test("run calls gameLoop", 1, function() {
+	test("run calls gameLoop", 1, function () {
 		var count = 0,
-			game = new Game();
+			game = Game.singletonInstance;
 		
-		game.entityManager = { each: noop, clear:noop };
-		game.gameLoop = function() {
+		game.canvas = {width:0, height:0};
+		game.entityManager = {each: noop, clear:noop};
+		game.inputManager = { };
+		
+		game.gameLoop = function () {
 			count += 1;
 		};
 		game.exit = true;
@@ -186,4 +189,23 @@ require(["engine/Component", "engine/Actor", "engine/Game"], function (Component
 		equal(count, 1, "game looped once");
 	});
 
+	module("singleton");
+	
+	test("you don't need to call new", function () {
+		var game1 = Game.singletonInstance;
+		var game2 = Game.singletonInstance;
+		ok(game1 === game2);
+	});
+	
+	test("multiple calls to new Game() don't return the same instance", function () {
+		var game1 = new Game();
+		var game2 = new Game();
+		ok(game1 !== game2);
+	});
+	
+	test("singleton instance doesn't change upon calling new", function () {
+		var game1 = new Game().singletonInstance;
+		var game2 = new Game().singletonInstance;
+		ok(game1 === game2);
+	});
 });

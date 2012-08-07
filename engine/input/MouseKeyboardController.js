@@ -1,6 +1,6 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, white:true */
 /*global define*/
-define(["engine/Game"], function (Game) {
+define(function () {
 	"use strict";
 	
 	function MouseKeyboardController(mapping) {
@@ -32,8 +32,9 @@ define(["engine/Game"], function (Game) {
 		
 		this.wheel = 0;
 		
-		this.init = function () {
+		this.init = function (canvas) {
 			var self = this;
+			self.canvas = canvas;
 					
 			window.addEventListener('keyup', function (event) { 
 				self.onKeyup(event); 
@@ -89,7 +90,7 @@ define(["engine/Game"], function (Game) {
 		};
 
 		this.onMousemove = function (event) {
-			Game.singletonInstance.canvas;
+			var scene = this.canvas || event.target;
 			var pos = this.findPos(scene);
 			this.x = event.pageX - pos[0];
 			this.y = event.pageY - pos[1];
