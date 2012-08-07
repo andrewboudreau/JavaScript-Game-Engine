@@ -9,7 +9,7 @@ require.config({
 });
 
 // Start the main app logic.
-require(["actors/Polygon", "components/Grid"], 
+require(["actors/Polygon", "actors/Grid"], 
 	function (Polygon, Grid) {
 		"use strict";
 		

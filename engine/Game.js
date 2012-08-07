@@ -5,7 +5,7 @@ define(["engine/Function", "engine/Component", "components/CollectionManager", "
 		"use strict";
 		
 		var Game = function (canvas, context) {
-			this.init(canvas, context);	
+			Game.singletonInstance = this.init(canvas, context);	
 		};
 		
 		Game.prototype = {

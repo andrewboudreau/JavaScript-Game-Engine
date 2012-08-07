@@ -10,7 +10,7 @@ require.config({
 });
 
 // Start the main app logic.
-require(["jquery", "engine/Game", "components/Grid", "actors/Polygon"],
+require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon"],
 	function ($, Game, Grid, Polygon) {
 		"use strict";
 		

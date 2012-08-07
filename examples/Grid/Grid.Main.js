@@ -4,12 +4,12 @@ require.config({
 	baseUrl: "",
 	paths: {
 		"engine": "../../engine",
-		"components": "../../engine/components"
+		"actors": "../../engine/actors"
     }
 });
 
 // Start the main app logic.
-require(["components/Grid"], function (Grid) {
+require(["actors/Grid"], function (Grid) {
 	"use strict";
 	var canvas = document.getElementById("canvas"),
 		context	= canvas.getContext("2d"),
