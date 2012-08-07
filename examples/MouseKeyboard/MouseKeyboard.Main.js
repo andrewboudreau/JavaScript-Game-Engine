@@ -69,7 +69,7 @@ require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot"]
 			.add(cursor)
 			.add(player)
 			.run();
-				
+			
 	}
 );
 
