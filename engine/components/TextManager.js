@@ -4,10 +4,9 @@ define(["./CollectionManager"], function (CollectionManager) {
 	"use strict";
 	
 	var TextManager = CollectionManager.inherit({
-		init: function (ctx) {
+		init: function () {
 			this.$super();
 			
-			this.context = ctx;
 			this.xOffset = 0;
 			this.yOffset = 0;
 			this.padding = 3;
@@ -15,7 +14,7 @@ define(["./CollectionManager"], function (CollectionManager) {
 		},
 		
 		render: function (game, duration) {
-			var ctx = this.context || game.context;
+			var ctx = game.screen.context;
 			
 			this.each(function (item) {
 				ctx.font = item.font;

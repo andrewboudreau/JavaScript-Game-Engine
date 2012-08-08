@@ -38,7 +38,7 @@ define(["engine/Actor"], function (Actor) {
 			this.$super(game);
 			
 			var poly = this.vertices,
-				ctx = game.context,
+				ctx = game.screen.context,
 				item;
 			
 			ctx.save();

@@ -1,7 +1,7 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, newcap:true, white:true */
 /*global define*/
-define(["engine/Function", "engine/Component", "components/CollectionManager", "components/TextManager", "input/MouseKeyboardController", "engine/requestAnimationFrame"], 
-	function (Function, Component, CollectionManager, TextManager, MouseKeyboardController, requestAnimationFrame) {
+define(["engine/Function", "engine/Screen", "engine/Component", "components/CollectionManager", "components/TextManager", "input/MouseKeyboardController", "engine/requestAnimationFrame"], 
+	function (Function, Screen, Component, CollectionManager, TextManager, MouseKeyboardController, requestAnimationFrame) {
 		"use strict";
 		
 		var Game = function (canvas, context) {
@@ -11,12 +11,10 @@ define(["engine/Function", "engine/Component", "components/CollectionManager", "
 		Game.prototype = {
 			init: function (canvas, context) {
 			
-				this.canvas = canvas || document.getElementById("canvas");
-				this.context = canvas || this.canvas.getContext("2d");
-				
+				this.screen = new Screen();
 				this.entityManager = new CollectionManager(Component);
-				this.textManager = new TextManager(this.context);
-				this.inputManager = new MouseKeyboardController().init(this.canvas);
+				this.textManager = new TextManager(this.screen);
+				this.inputManager = new MouseKeyboardController(this.screen).init();
 				
 				this.initialized = false;
 				this.paused = false;
@@ -47,7 +45,7 @@ define(["engine/Function", "engine/Component", "components/CollectionManager", "
 			/// <summary>
 			/// Internal game loop, all context passed in externally making this method testable.
 			/// </summary>
-				game.clear();
+				game.screen.clear();
 				
 				entityManager.each(function (entity) {
 					if (!game.paused) {
@@ -57,10 +55,6 @@ define(["engine/Function", "engine/Component", "components/CollectionManager", "
 						entity.render(game, duration);			
 					}
 				});
-			},
-			
-			clear: function () {
-				this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 			},
 			
 			writeText: function (options) {

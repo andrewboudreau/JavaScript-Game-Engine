@@ -9,17 +9,16 @@ require.config({
 });
 
 // Start the main app logic.
-require(["actors/Polygon", "actors/Grid"], 
-	function (Polygon, Grid) {
+require(["engine/Screen", "actors/Polygon", "actors/Grid"], 
+	function (Screen, Polygon, Grid) {
 		"use strict";
 		
-		var canvas = document.getElementById("canvas"),
-			context = canvas.getContext("2d"),
+		var screen = new Screen(),
 			poly = new Polygon(300, 200),
 			grid = new Grid();
 			
-		grid.render({canvas: canvas, context: context});
-		poly.render({canvas: canvas, context: context});
+		grid.render({screen: screen});
+		poly.render({screen: screen});
 	}
 	
 	

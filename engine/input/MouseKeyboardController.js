@@ -3,7 +3,7 @@
 define(function () {
 	"use strict";
 	
-	function MouseKeyboardController(mapping) {
+	function MouseKeyboardController(screen, mapping) {
 		this.keymap = mapping || {
 			left: 37,
 			up: 38,
@@ -31,10 +31,10 @@ define(function () {
 		this.y = 0;
 		
 		this.wheel = 0;
+		this.screen = screen;
 		
-		this.init = function (canvas) {
+		this.init = function () {
 			var self = this;
-			self.canvas = canvas;
 					
 			window.addEventListener('keyup', function (event) { 
 				self.onKeyup(event); 
@@ -90,8 +90,8 @@ define(function () {
 		};
 
 		this.onMousemove = function (event) {
-			var scene = this.canvas || event.target;
-			var pos = this.findPos(scene);
+			var element =  this.screen.canvas || document.body;
+			var pos = this.findPos(element);
 			this.x = event.pageX - pos[0];
 			this.y = event.pageY - pos[1];
 		};

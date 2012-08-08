@@ -64,7 +64,7 @@ require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot"]
 			Game.singletonInstance.writeText({text: "cursor - x:" + this.x + " y:" + this.y, x: this.x + this.halfSize, y: this.y});
 		};
 		
-		new Game()
+		Game.singletonInstance
 			.add(new Grid())
 			.add(cursor)
 			.add(player)

@@ -4,7 +4,14 @@ define(["./Function"], function (Function) {
 	"use strict";
 	
 	var Entity = Function.inherit({
-		init: function () { },
+		init: function () { 
+			this.components = new CollectionManager(Component, "components");
+			
+		},
+		add: function (component) {
+			this.components.add(component);
+		},
+		
 		render: function (game, duration) {	},
 		update: function (duration, inputManager, componentManager) { }
 	});

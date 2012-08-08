@@ -11,7 +11,7 @@ define(["engine/Actor"], function (Actor) {
 			this.halfSize = this.size / 2;
 		},
 		render: function (game) {			
-			var ctx = game.context;
+			var ctx = game.screen.context;
 			
 			ctx.save();
 			ctx.translate(this.x, this.y);

@@ -9,15 +9,11 @@ require.config({
 });
 
 // Start the main app logic.
-require(["actors/Grid"], function (Grid) {
+require(["engine/Screen", "actors/Grid"], function (Screen, Grid) {
 	"use strict";
-	var canvas = document.getElementById("canvas"),
-		context	= canvas.getContext("2d"),
+	var screen = new Screen(),
 		grid = new Grid("orange", 20);
 	
-	grid.render({ 
-		canvas: canvas, 
-		context: context
-	});
+	grid.render({ screen: screen });
 	
 });
