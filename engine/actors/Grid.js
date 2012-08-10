@@ -1,6 +1,10 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, newcap:true, white:true */
 /*global define */
+<<<<<<< HEAD
 define(["engine/Actor"], function (Actor) {
+=======
+define(["engine/actor"], function (Actor) {
+>>>>>>> 4611287be5ddb4fcc9b382818b65ae83ba7a6ab7
 	"use strict";
 	
 	var Grid = Actor.inherit({
