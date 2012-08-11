@@ -59,7 +59,7 @@ require(["components/TextManager"], function (TextManager) {
 			textManager = new TextManager();
 			
 		textManager.writeText("foo");
-		textManager.render({ context: { fillText: noop }}, 0);
+		textManager.render({ screen: {context: {fillText: noop }}}, 0);
 		equal(textManager.items.length, 0, "buffer cleared by render");
 	});
 
@@ -74,7 +74,7 @@ require(["components/TextManager"], function (TextManager) {
 			textManager = new TextManager();
 		
 		textManager.clear = function () { count += 1; };
-		textManager.render({ context: { fillText: function () {} }}, 0);
+		textManager.render({screen: {context: {fillText: function () {} }}}, 0);
 		
 		equal(count, 1, "called clear");
 	});

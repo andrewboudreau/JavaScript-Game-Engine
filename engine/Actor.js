@@ -8,7 +8,6 @@ define(["./Entity"], function (Entity) {
 	
 	var Actor = Entity.inherit({
 		init: function (x, y, rotation) {
-			this.$super();
 			
 			if (typeof x === 'undefined') {
 				x = 0;
