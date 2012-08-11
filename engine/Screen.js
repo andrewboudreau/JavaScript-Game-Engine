@@ -6,6 +6,7 @@ define(["jquery", "engine/Function"],
 		
 		var Screen = Function.inherit({
 			init: function (canvas, context) {
+				var self = this;
 				
 				this.canvas = canvas || this.createCanvas();
 				this.context = context || this.canvas.getContext("2d");
@@ -13,13 +14,13 @@ define(["jquery", "engine/Function"],
 			},
 			
 			fullscreen: function () {
-				var body = $("body");
+				var body = $(document);
 				this.width = body.width();
 				this.height = body.height();
 				
 				$(this.canvas).attr({
-					height: this.height - 2,
-					width: this.width - 2
+					height: this.height - 7,
+					width: this.width - 2				
 				});
 			},
 			

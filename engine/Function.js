@@ -6,14 +6,14 @@ define(function () {
 	
 	Object.defineProperty(Function.prototype, 'initializing', {
 		value: false,
-		writable: true,
+		writable: true
 	});
 	
 	Object.defineProperty(Function.prototype, '$super', {
 		value: function () {
 			throw new Error('The $super method is not available.');
 		},
-		writable: true,
+		writable: true
 	});
 
 	Function.prototype.inherit = function (props) {
@@ -80,7 +80,7 @@ define(function () {
 		
 		if (Object.getOwnPropertyDescriptor(this, '__children__') === undefined) {
 			Object.defineProperty(this, '__children__', {
-				value: [],
+				value: []
 			});
 		}
 		

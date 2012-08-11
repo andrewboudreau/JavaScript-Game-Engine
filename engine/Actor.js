@@ -25,7 +25,7 @@ define(["./Entity"], function (Entity) {
 		},
 		position: function () {
 			return [this.x, this.y];
-		},
+		}
 	});
 	
 	return Actor;
