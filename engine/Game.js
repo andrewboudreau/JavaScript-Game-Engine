@@ -1,6 +1,6 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, newcap:true, white:true */
 /*global define*/
-define(["engine/Function", "engine/Screen", "engine/Component", "components/CollectionManager", "components/TextManager", "input/MouseKeyboardController", "engine/requestAnimationFrame"], 
+define(["engine/Function", "engine/Screen", "engine/Component", "engine/CollectionManager", "components/TextManager", "input/MouseKeyboardController", "engine/requestAnimationFrame"], 
 	function (Function, Screen, Component, CollectionManager, TextManager, MouseKeyboardController, requestAnimationFrame) {
 		"use strict";
 		
@@ -12,7 +12,7 @@ define(["engine/Function", "engine/Screen", "engine/Component", "components/Coll
 			init: function (canvas, context) {
 			
 				this.screen = new Screen();
-				this.entityManager = new CollectionManager(Component);
+				this.entityManager = new CollectionManager();
 				this.textManager = new TextManager(this.screen);
 				this.inputManager = new MouseKeyboardController(this.screen).init();
 				

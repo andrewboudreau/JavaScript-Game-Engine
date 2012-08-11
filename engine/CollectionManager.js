@@ -1,9 +1,9 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, newcap:true, white:true */
 /*global define */
-define(["engine/Component"], function (Component) {
+define(["./Function"], function (Function) {
 	"use strict";
 	
-	var CollectionManager = Component.inherit({
+	var CollectionManager = Function.inherit({
 		init: function (type) {
 			this.type = type;
 			this.items = [];

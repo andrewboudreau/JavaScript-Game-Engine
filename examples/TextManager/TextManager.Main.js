@@ -26,6 +26,6 @@ require(["jquery", "components/TextManager"],
 		});
 		text.writeLine("more inline text is included even after we do a writeText it doesn't break the next time");
 		// render text to the context.
-		text.render();
+		text.render({ screen: { context: context}});
 	}
 );
