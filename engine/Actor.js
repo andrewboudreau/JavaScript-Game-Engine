@@ -1,6 +1,6 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50 */
 /*global define*/
-define(["./Function"], function (Function) {
+define(["./Entity"], function (Entity) {
 	/// <summary>
 	/// Actors are components that exists in a scene. They have a position and a rotation.
 	/// </summary>

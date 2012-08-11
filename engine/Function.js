@@ -50,13 +50,13 @@ define(function () {
 			};
 		};		
 		
-		try {
+		//try {
 			this.initializing = true;
 			prototype = new this();
 			this.initializing = false;
-		} catch (exc) {
-			throw new Error('Not possible to inherit from this function');
-		}
+		//} catch (exc) {
+		//	throw new Error('Not possible to inherit from this function');
+		//}
 
 		Object.getOwnPropertyNames(properties).forEach(function (key) {
 			if (typeof properties[key] === 'function') {
