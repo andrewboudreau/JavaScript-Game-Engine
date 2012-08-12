@@ -10,8 +10,8 @@ require.config({
     }
 });
 
-
-require(["engine/Component", "engine/Actor", "engine/Game"], function (Component, Actor, Game) {
+require(["engine/Function", "engine/Component", "engine/Actor", "engine/Game"], 
+function (Function, Component, Actor, Game) {
 	"use strict";
 	
 	var noop = function() {},
@@ -36,21 +36,27 @@ require(["engine/Component", "engine/Actor", "engine/Game"], function (Component
 				this.updated = 0;
 				this.rendered = 0;
 			}
+		}),
+		GameSpy = Function.inherit({
+			init: function() {
+			},
+			screen: {
+				clear: function () {
+				}
+			}
 		});
 
 	module("Game.gameLoop");
 
 	test("clear", 1, function () {
 		var game = new Game(),
-			count = 0, 
-			gameSpy = { 
-				renderText: noop,
-				clear: function() { 
-					count += 1;
-				}
-			};
+			count = 0;
 			
-		game.gameLoop(0, gameSpy, {}, { each: noop});
+		game.screen.clear = function () {
+			count += 1;
+		};
+			
+		game.gameLoop(0, game, {}, {each: noop});
 		equal(count, 1, "clear called once");
 	});
 
@@ -63,7 +69,7 @@ require(["engine/Component", "engine/Actor", "engine/Game"], function (Component
 				}
 			};
 			
-		game.gameLoop(0, {clear: noop, renderText: noop}, {}, entityManager);
+		game.gameLoop(0, {screen: {clear: noop}}, {}, entityManager);
 		ok(count, 1, "clear called once");
 	});
 
@@ -76,7 +82,7 @@ require(["engine/Component", "engine/Actor", "engine/Game"], function (Component
 				}
 			};
 			
-		game.gameLoop(1, {clear: noop}, {}, entityManager);
+		game.gameLoop(1, {screen: {clear: noop}}, {}, entityManager);
 		equal(mock.updated, 1, "entity updated by game");
 	});
 
@@ -88,8 +94,9 @@ require(["engine/Component", "engine/Actor", "engine/Game"], function (Component
 					func(mock);
 				}
 			};
-		
-		game.gameLoop(1, {clear: noop, renderText: noop, paused: true}, {}, entityManager);
+			
+		game.paused = true;
+		game.gameLoop(1, game, {}, entityManager);
 		
 		equal(mock.updated, 0, "entity not updated during pause");
 	});
@@ -102,7 +109,8 @@ require(["engine/Component", "engine/Actor", "engine/Game"], function (Component
 					func(mock);
 				}
 			};
-		game.gameLoop(1, {clear: noop, renderText: noop}, {}, entityManager);
+			
+		game.gameLoop(1, game, {}, entityManager);
 		
 		equal(mock.rendered, 1, "entity rendered by game");
 	});
@@ -116,7 +124,7 @@ require(["engine/Component", "engine/Actor", "engine/Game"], function (Component
 				}
 			};
 		mock.render = false;
-		game.gameLoop(1, {clear: noop, renderText: noop}, {}, entityManager);
+		game.gameLoop(1, game, {}, entityManager);
 		
 		equal(mock.rendered, 0, "entity not rendered during ");
 	});
@@ -124,7 +132,6 @@ require(["engine/Component", "engine/Actor", "engine/Game"], function (Component
 	test("passes parameters to update", 4, function () {
 		var game = new Game(),
 			mock = new ActorSpy(),
-			gameSpy = {clear: noop, renderText: noop},
 			input = {},
 			entityManager = {
 				each: function( func ) {
@@ -138,7 +145,7 @@ require(["engine/Component", "engine/Actor", "engine/Game"], function (Component
 			strictEqual(arguments[2], entityManager, "entitymanager");
 		}
 		
-		game.gameLoop(1, gameSpy, input, entityManager);
+		game.gameLoop(1, game, input, entityManager);
 	});
 
 	test("reset clears", 5, function () {

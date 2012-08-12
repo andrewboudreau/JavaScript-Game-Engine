@@ -7,7 +7,7 @@ require.config({
     }
 });
 
-require(["engine/Component", "components/CollectionManager"], function (Component, CollectionManager) {
+require(["engine/Component", "engine/CollectionManager"], function (Component, CollectionManager) {
 	"use strict";
 	
 	module("Inheritance");
@@ -20,8 +20,8 @@ require(["engine/Component", "components/CollectionManager"], function (Componen
 		ok(CollectionManager.inherit, "was found");
 	});
 	
-	test("CollectionManager is an instance of Component", 1, function () {
-		ok((new CollectionManager()) instanceof Component);
+	test("CollectionManager is an instance of Function", 1, function () {
+		ok((new CollectionManager()) instanceof Function);
 	});
 	
 	module("Properties");
