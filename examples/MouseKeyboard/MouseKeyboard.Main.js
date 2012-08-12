@@ -61,6 +61,7 @@ require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot"]
 			if (wheelDelta != 0) {
 				this.size += wheelDelta;
 			}
+			
 			Game.singletonInstance.writeText({text: "cursor - x:" + this.x + " y:" + this.y, x: this.x + this.halfSize, y: this.y});
 		};
 		
