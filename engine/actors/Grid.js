@@ -6,10 +6,11 @@ define(["engine/Actor"], function (Actor) {
 	
 	var Grid = Actor.inherit({
 		init: function (color, spacing) {
+			this.$super();
 			this.spacing = spacing || 20;
 			this.color = color || "#CCC";
 		},
-		render: function (game) {
+		render: function (game, duration) {
 			var w, v, 
 				ctx = game.screen.context,
 				canvas = game.screen.canvas,
@@ -34,6 +35,7 @@ define(["engine/Actor"], function (Actor) {
 				ctx.stroke();
 			}
 			ctx.restore();
+			this.$super(game, duration);
 		}
 	});
 	
