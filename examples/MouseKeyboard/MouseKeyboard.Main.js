@@ -5,7 +5,8 @@ require.config({
 		"engine": "../../engine",
 		"components": "../../engine/components",
 		"actors": "../../engine/actors",
-		"input": "../../engine/input"
+		"input": "../../engine/input",
+		"lib": "../../lib"
     }
 });
 
@@ -13,7 +14,7 @@ require.config({
 require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot"],
 	function ($, Game, Grid, Polygon, Dot) {
 		"use strict";
-		
+
 		var player = new Dot({x: 0, y: 0, rotation: 0, size: 10, color: "red" }),
 			cursor = new Dot({x: 0, y: 0, rotation: 0, size: 10, color: "blue" });
 		

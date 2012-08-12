@@ -1,8 +1,17 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, newcap:true, white:true */
 /*global define*/
-define(["engine/Function", "engine/Screen", "engine/Component", "engine/CollectionManager", "components/TextManager", "input/MouseKeyboardController", "engine/requestAnimationFrame"], 
+define(["engine/Function", "engine/Screen", "engine/Component", "engine/CollectionManager", "components/TextManager", "input/MouseKeyboardController", "engine/requestAnimationFrame", "lib/stats"], 
 	function (Function, Screen, Component, CollectionManager, TextManager, MouseKeyboardController, requestAnimationFrame) {
 		"use strict";
+		
+		var stats = new Stats();
+		
+		// Align top-left
+		stats.domElement.style.position = 'absolute';
+		stats.domElement.style.left = '50%';
+		stats.domElement.style.top = '0px';
+		stats.setMode(0); // 0: fps, 1: ms
+		document.body.appendChild( stats.domElement );
 		
 		var Game = function (canvas, context) {
 			Game.singletonInstance = this.init(canvas, context);	
@@ -33,12 +42,14 @@ define(["engine/Function", "engine/Screen", "engine/Component", "engine/Collecti
 			/// <summary>
 			/// application loop, request animation frame.  
 			/// </summary>
+				stats.begin();
 				var self = Game.singletonInstance;
 				self.gameLoop(duration, self, self.inputManager, self.entityManager);
 				
 				if (!self.exit) {
 					requestAnimationFrame(self.run);
 				}
+				stats.end();
 			},
 			
 			gameLoop: function (duration, game, inputManager, entityManager) {
