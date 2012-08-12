@@ -17,8 +17,6 @@ require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot"]
 		var player = new Dot({x: 0, y: 0, rotation: 0, size: 10, color: "red" }),
 			cursor = new Dot({x: 0, y: 0, rotation: 0, size: 10, color: "blue" });
 		
-<<<<<<< HEAD
-=======
 		cursor.add({
 			update: function () {},
 			render: function (game) {
@@ -35,8 +33,6 @@ require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot"]
 					ctx.restore();
 			},
 		});
-		
->>>>>>> 7fe195fafff4ec02364d37e2a4c58069fbbaea46
 		player.update = function (duration, inputManager, entityManager) {
 			this.rotation -= 0.02;
 			
