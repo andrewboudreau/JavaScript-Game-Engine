@@ -6,7 +6,8 @@ require.config({
 		"engine": "../engine",
 		"components": "../engine/components",
 		"actors": "../engine/actors",
-		"input": "../engine/input"
+		"input": "../engine/input",
+		"lib": "../lib"
     }
 });
 
