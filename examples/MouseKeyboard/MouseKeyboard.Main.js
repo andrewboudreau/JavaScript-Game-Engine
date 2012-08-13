@@ -15,10 +15,10 @@ require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot"]
 	function ($, Game, Grid, Polygon, Dot) {
 		"use strict";
 
-		var player = new Dot({x: 0, y: 0, rotation: 0, size: 10, color: "red" }),
+		var keyboard = new Dot({x: 0, y: 0, rotation: 0, size: 10, color: "red" }),
 			cursor = new Dot({x: 0, y: 0, rotation: 0, size: 10, color: "blue" });
 		
-		player.update = function (duration, inputManager, entityManager) {
+		keyboard.update = function (duration, inputManager, entityManager) {
 			this.rotation -= 0.02;
 			
 			if (inputManager.isPressed(inputManager.left)) {
@@ -37,7 +37,7 @@ require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot"]
 				this.y += 1;
 			}
 			
-			Game.singletonInstance.writeText({text: "player - x:" + this.x + " y:" + this.y, x: this.x + this.halfSize, y: this.y});
+			Game.singletonInstance.writeText({text: "keyboard - x:" + this.x + " y:" + this.y, x: this.x + this.halfSize, y: this.y});
 		};
 		
 		cursor.update = function (duration, inputManager, entityManager) {
@@ -69,7 +69,7 @@ require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot"]
 		Game.singletonInstance
 			.add(new Grid())
 			.add(cursor)
-			.add(player)
+			.add(keyboard)
 			.run();
 			
 	}
