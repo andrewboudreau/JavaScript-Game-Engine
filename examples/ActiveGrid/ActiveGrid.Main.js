@@ -5,14 +5,16 @@ require.config({
 		"engine": "../../engine",
 		"components": "../../engine/components",
 		"actors": "../../engine/actors",
-		"input": "../../engine/input"
+		"input": "../../engine/input",
+		"lib": "../../lib"
     }
 });
 
 // Start the main app logic.
-require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot"],
-	function ($, Game, Grid, Polygon, Dot) {
+require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot", "input/GamepadController"],
+	function ($, Game, Grid, Polygon, Dot, GamepadController) {
 		"use strict";
+		var controller = new GamepadController().init();
 		
 		var player = new Dot({x: 0, y: 0, rotation: 0, size: 10, color: "red" }),
 			cursor = new Dot({x: 0, y: 0, rotation: 0, size: 10, color: "blue" });
@@ -22,35 +24,75 @@ require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot"]
 			render: function (game) {
 				var w, h,
 					ctx = game.screen.context,
-					canvas = game.screen.canvas;
+					canvas = game.screen.canvas,
+					x1 = Math.floor(cursor.x / 20) * 20, 
+					x2 = Math.ceil(cursor.x / 20) * 20, 
+					y1 = Math.floor(cursor.y / 20) * 20,
+					y2 = Math.ceil(cursor.y / 20) * 20;
 					
 					ctx.save();
-					ctx.strokeStyle  = "red";
+					ctx.strokeStyle  = cursor.color;
+					
 					ctx.beginPath();
-					ctx.moveTo(this.x, 0);
-					ctx.lineTo(this.x, canvas.height);
+					ctx.moveTo(x1, 0);
+					ctx.lineTo(x1, canvas.height);
+					ctx.moveTo(x2, 0);
+					ctx.lineTo(x2, canvas.height);
 					ctx.stroke();
+					
+					ctx.beginPath();
+					ctx.moveTo(0, y1);
+					ctx.lineTo(canvas.width, y1);
+					ctx.moveTo(0, y2);
+					ctx.lineTo(canvas.width, y2);
+					ctx.stroke();
+					
 					ctx.restore();
 			},
 		});
+		
+		player.add({
+			update: function () {},
+			render: function (game) {
+				var w, h,
+					ctx = game.screen.context,
+					canvas = game.screen.canvas,
+					x1 = Math.floor(player.x / 20) * 20, 
+					x2 = Math.ceil(player.x / 20) * 20, 
+					y1 = Math.floor(player.y / 20) * 20,
+					y2 = Math.ceil(player.y / 20) * 20;
+					
+					ctx.save();
+					ctx.strokeStyle  = player.color;
+					
+					ctx.beginPath();
+					ctx.moveTo(x1, 0);
+					ctx.lineTo(x1, canvas.height);
+					ctx.moveTo(x2, 0);
+					ctx.lineTo(x2, canvas.height);
+					ctx.stroke();
+					
+					ctx.beginPath();
+					ctx.moveTo(0, y1);
+					ctx.lineTo(canvas.width, y1);
+					ctx.moveTo(0, y2);
+					ctx.lineTo(canvas.width, y2);
+					ctx.stroke();
+					
+					ctx.restore();
+			},
+		});
+		
 		player.update = function (duration, inputManager, entityManager) {
-			this.rotation -= 0.02;
 			
-			if (inputManager.isPressed(inputManager.left)) {
-				this.x -= 1;
-			}
+			var move = 2;
+			var run = 10;
 			
-			if (inputManager.isPressed(inputManager.right)) {
-				this.x += 1;
-			}
+			this.rotation += 0.1 * controller.axes(GamepadController.axes.LEFT_ANALOGUE_HOR);
 			
-			if (inputManager.isPressed(inputManager.up)) {
-				this.y -= 1;
-			}
-			
-			if (inputManager.isPressed(inputManager.down)) {
-				this.y += 1;
-			}
+			var multiplier = controller.buttons(GamepadController.buttons.RIGHT_SHOULDER_BOTTOM) ? move : run;
+			this.x += Math.floor(multiplier * controller.axes(GamepadController.axes.LEFT_ANALOGUE_HOR));
+			this.y += Math.floor(multiplier * controller.axes(GamepadController.axes.LEFT_ANALOGUE_VERT));
 			
 			Game.singletonInstance.writeText({text: "player - x:" + this.x + " y:" + this.y, x: this.x + this.halfSize, y: this.y});
 		};
@@ -77,10 +119,6 @@ require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot"]
 			if (wheelDelta != 0) {
 				this.size += wheelDelta;
 			}
-<<<<<<< HEAD
-=======
-			
->>>>>>> 7fe195fafff4ec02364d37e2a4c58069fbbaea46
 			Game.singletonInstance.writeText({text: "cursor - x:" + this.x + " y:" + this.y, x: this.x + this.halfSize, y: this.y});
 		};
 		

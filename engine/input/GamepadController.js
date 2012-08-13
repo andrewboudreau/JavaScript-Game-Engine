@@ -1,145 +1,102 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, white:true */
 /*global define*/
-define(function () {
+define(["engine/requestAnimationFrame"], function (requestAnimationFrame) {
 	"use strict";
+	var gamepad = {};
 	
-	function GamepadController(screen, mapping) {
-		this.keymap = mapping || {
-			left: 37,
-			up: 38,
-			right: 39,
-			down: 40,
-			wheelUp: "wheelup",
-			wheelDown: "wheeldown",
-			buttonOne: "button1",
-			buttonTwo: "button2",
-			buttonThree: "button3"
+	function GamepadController(mapping) {
+		
+		this.thresholds = {
+			axes: [0.25, 0.25, 0.25, 0.25],
+			buttons: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 		};
 		
-		this.left = this.keymap.left;
-		this.up = this.keymap.up;
-		this.right = this.keymap.right;
-		this.down = this.keymap.down;
-		this.wheelUp = this.keymap.wheelUp;
-		this.wheelDown = this.keymap.wheelDown;
-		this.buttonOne = this.keymap.buttonOne;
-		this.buttonOne = this.keymap.buttonTwo;
-		this.buttonOne = this.keymap.buttonThree;
-	
-		this.pressed = {};
-		this.x = 0;
-		this.y = 0;
-		
-		this.wheel = 0;
-		this.screen = screen;
-		
-		this.init = function () {
-			var self = this;
-					
-			window.addEventListener('keyup', function (event) { 
-				self.onKeyup(event); 
-			}, false);
-			
-			window.addEventListener('keydown', function (event) { 
-				self.onKeydown(event); 
-			}, false);
-			
-			window.addEventListener('mousemove', function (event) { 
-				self.onMousemove(event); 
-			}, false);
-			
-			window.addEventListener('mousewheel', function (event) { 
-				self.onMousewheel(event); 
-			}, false);
-			
-			window.addEventListener('mousedown', function (event) { 
-				self.onMousedown(event); 
-			}, false);
-			
-			window.addEventListener('mouseup', function (event) { 
-				self.onMouseup(event); 
-			}, false);
-			
+		this.init = function () { 
+			var self = this,
+				gamepadSupportAvailable = !!navigator.webkitGetGamepads 
+					|| !!navigator.webkitGamepads 
+					|| (navigator.userAgent.indexOf('Firefox/') != -1);
+
+			if (gamepadSupportAvailable) {
+				// Firefox supports the connect/disconnect event, so we attach event handlers to those.
+				window.addEventListener('MozGamepadConnected', self.onGamepadConnect, false);
+				window.addEventListener('MozGamepadDisconnected', self.onGamepadDisconnect, false);
+			} else {
+				console.log("no gamepad support");
+			}
+			this.controller = navigator.webkitGamepads[0] 
+					|| {
+						axes: [0, 0, 0, 0],
+						buttons: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+					};
 			return this;
 		};
 		
-		this.position = function () { 
-			return [this.x, this.y];
+		this.onGamepadConnect = function () {
+			var arg = arguments;
+			console.log("gamepad connected");
+			this.controller =  navigator.webkitGamepads[0];	
 		};
 		
-		this.wheelDelta = function () {
-			var tmp = this.wheel;
-			this.wheel = 0; 
-			return tmp;
+		this.onGamepadDisconnect = function () {
+			var arg = arguments;
+			console.log("gamepad disconnected");
+			this.controller = {
+				axes: [0, 0, 0, 0],
+				buttons: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+			};
 		};
 		
-		this.findPos = function (obj) {
-			var curleft = 0, curtop = 0;
-			if (obj.offsetParent) {
-				do {
-					curleft += obj.offsetLeft;
-					curtop += obj.offsetTop;
-				} while ((obj = obj.offsetParent) !== null);
-				return [ curleft, curtop ];
+		this.axes = function (keycode) {
+			this.controller = navigator.webkitGamepads[0] 
+					|| {
+						axes: [0, 0, 0, 0],
+						buttons: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+					};	
+			if (Math.abs(this.controller.axes[keycode]) >= this.thresholds.axes[keycode]) {
+				return this.controller.axes[keycode];
 			}
-			return undefined;
+			return 0;
 		};
-
-		this.isPressed = function (keyCode) {
-			return this.pressed[keyCode];
-		};
-
-		this.onMousemove = function (event) {
-			var element =  this.screen.canvas || document.body;
-			var pos = this.findPos(element);
-			this.x = event.pageX - pos[0];
-			this.y = event.pageY - pos[1];
-		};
-
-		this.onMousewheel = function (event) { 
-			var e = window.event || event;
-			this.wheel += Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));  
-		};
-
-		this.onMouseup = function (event) {
-			var e = window.event || event;
-			switch (e.button) {
-			case 0:
-				delete this.pressed[this.buttonOne];
-				break;
-			case 1:
-				delete this.pressed[this.buttonTwo];
-				break;
-			case 2:
-				delete this.pressed[this.buttonThree];
-				break;
+		
+		this.buttons = function (keycode) {
+			this.controller = navigator.webkitGamepads[0] 
+					|| {
+						axes: [0, 0, 0, 0],
+						buttons: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+					};
+			if (Math.abs(this.controller.buttons[keycode]) >= this.thresholds.buttons[keycode]) {
+				return this.controller.buttons[keycode];
 			}
-		};
-
-		this.onMousedown = function (event) {
-			var e = window.event || event;
-			
-			switch (e.button) {
-			case 0:
-				this.pressed[this.buttonOne] = true;
-				break;
-			case 1:
-				this.pressed[this.buttonTwo] = true;
-				break;
-			case 2:
-				this.pressed[this.buttonThree] = true;
-				break;
-			}
-		};
-
-		this.onKeydown = function (event) {
-			this.pressed[event.keyCode] = true;
-		};
-
-		this.onKeyup = function (event) {
-			delete this.pressed[event.keyCode];
+			return 0;
 		};
 	}
+	
+	GamepadController.buttons = {
+		FACE_1: 0, // Face (main) buttons
+		FACE_2: 1,
+		FACE_3: 2,
+		FACE_4: 3,
+		LEFT_SHOULDER: 4, // Top shoulder buttons
+		RIGHT_SHOULDER: 5,
+		LEFT_SHOULDER_BOTTOM: 6, // Bottom shoulder buttons
+		RIGHT_SHOULDER_BOTTOM: 7,
+		SELECT: 8,
+		START: 9,
+		LEFT_ANALOGUE_STICK: 10, // Analogue sticks (if depressible)
+		RIGHT_ANALOGUE_STICK: 11,
+		PAD_TOP: 12, // Directional (discrete) pad
+		PAD_BOTTOM: 13,
+		PAD_LEFT: 14,
+		PAD_RIGHT: 15
+	};
+
+	GamepadController.axes = {
+		LEFT_ANALOGUE_HOR: 0,
+		LEFT_ANALOGUE_VERT: 1,
+		RIGHT_ANALOGUE_HOR: 2,
+		RIGHT_ANALOGUE_VERT: 3
+	};
 	
 	return GamepadController;
 });
