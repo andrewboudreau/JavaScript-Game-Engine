@@ -20,7 +20,7 @@ define(["engine/Function", "engine/Screen", "engine/Component", "engine/Collecti
 		Game.prototype = {
 			init: function (canvas, context) {
 			
-				this.screen = new Screen();
+				this.screen = new Screen(canvas, context);
 				this.entityManager = new CollectionManager();
 				this.textManager = new TextManager(this.screen);
 				this.inputManager = new MouseKeyboardController(this.screen).init();

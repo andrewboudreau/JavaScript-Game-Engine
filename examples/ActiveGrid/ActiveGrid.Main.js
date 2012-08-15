@@ -16,85 +16,75 @@ require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot",
 		"use strict";
 		var controller = new GamepadController().init();
 		
-		var player = new Dot({x: 0, y: 0, rotation: 0, size: 10, color: "red" }),
-			cursor = new Dot({x: 0, y: 0, rotation: 0, size: 10, color: "blue" });
+		var leftAnalogue = new Dot({x: 0, y: 0, rotation: 0, size: 10, color: "red" }),
+			rightAnalogue = new Dot({x: 0, y: 0, rotation: 0, size: 10, color: "green" }),
+			cursor = new Dot({x: 0, y: 0, rotation: 0, size: 10, color: "blue" }),
+			outliner = function (vector) {
+				return function (game) {
+					if (vector === cursor) {
+						console.log("found cursor");
+					} else if (vector === leftAnalogue) {
+						console.log("found leftAnalogue");
+					} else {
+						console.log("no");
+					}
+					
+					var w, h,
+						ctx = game.screen.context,
+						canvas = game.screen.canvas,
+						x1 = Math.floor(vector.x / 20) * 20, 
+						x2 = Math.ceil(vector.x / 20) * 20, 
+						y1 = Math.floor(vector.y / 20) * 20,
+						y2 = Math.ceil(vector.y / 20) * 20;
+						
+						ctx.save();
+						ctx.strokeStyle  = vector.color;
+						
+						ctx.beginPath();
+						ctx.moveTo(x1, 0);
+						ctx.lineTo(x1, canvas.height);
+						ctx.moveTo(x2, 0);
+						ctx.lineTo(x2, canvas.height);
+						ctx.stroke();
+						
+						ctx.beginPath();
+						ctx.moveTo(0, y1);
+						ctx.lineTo(canvas.width, y1);
+						ctx.moveTo(0, y2);
+						ctx.lineTo(canvas.width, y2);
+						ctx.stroke();
+						
+						ctx.restore();
+				};
+			};
 		
 		cursor.add({
 			update: function () {},
-			render: function (game) {
-				var w, h,
-					ctx = game.screen.context,
-					canvas = game.screen.canvas,
-					x1 = Math.floor(cursor.x / 20) * 20, 
-					x2 = Math.ceil(cursor.x / 20) * 20, 
-					y1 = Math.floor(cursor.y / 20) * 20,
-					y2 = Math.ceil(cursor.y / 20) * 20;
-					
-					ctx.save();
-					ctx.strokeStyle  = cursor.color;
-					
-					ctx.beginPath();
-					ctx.moveTo(x1, 0);
-					ctx.lineTo(x1, canvas.height);
-					ctx.moveTo(x2, 0);
-					ctx.lineTo(x2, canvas.height);
-					ctx.stroke();
-					
-					ctx.beginPath();
-					ctx.moveTo(0, y1);
-					ctx.lineTo(canvas.width, y1);
-					ctx.moveTo(0, y2);
-					ctx.lineTo(canvas.width, y2);
-					ctx.stroke();
-					
-					ctx.restore();
-			},
-		});
+			render: outliner(cursor)
+		}); 
 		
-		player.add({
+		leftAnalogue.add({
 			update: function () {},
-			render: function (game) {
-				var w, h,
-					ctx = game.screen.context,
-					canvas = game.screen.canvas,
-					x1 = Math.floor(player.x / 20) * 20, 
-					x2 = Math.ceil(player.x / 20) * 20, 
-					y1 = Math.floor(player.y / 20) * 20,
-					y2 = Math.ceil(player.y / 20) * 20;
-					
-					ctx.save();
-					ctx.strokeStyle  = player.color;
-					
-					ctx.beginPath();
-					ctx.moveTo(x1, 0);
-					ctx.lineTo(x1, canvas.height);
-					ctx.moveTo(x2, 0);
-					ctx.lineTo(x2, canvas.height);
-					ctx.stroke();
-					
-					ctx.beginPath();
-					ctx.moveTo(0, y1);
-					ctx.lineTo(canvas.width, y1);
-					ctx.moveTo(0, y2);
-					ctx.lineTo(canvas.width, y2);
-					ctx.stroke();
-					
-					ctx.restore();
-			},
+			render: outliner(leftAnalogue)
 		});
 		
-		player.update = function (duration, inputManager, entityManager) {
-			
+		rightAnalogue.add({
+			update: function () {},
+			render: outliner(rightAnalogue)
+		});
+		
+		leftAnalogue.update = function (duration, inputManager, entityManager) {
+
 			var move = 2;
 			var run = 10;
 			
-			this.rotation += 0.1 * controller.axes(GamepadController.axes.LEFT_ANALOGUE_HOR);
+			this.rotation += 0.1 * controller.axes(GamepadController.axes.RIGHT_ANALOGUE_HOR);
 			
 			var multiplier = controller.buttons(GamepadController.buttons.RIGHT_SHOULDER_BOTTOM) ? move : run;
 			this.x += Math.floor(multiplier * controller.axes(GamepadController.axes.LEFT_ANALOGUE_HOR));
 			this.y += Math.floor(multiplier * controller.axes(GamepadController.axes.LEFT_ANALOGUE_VERT));
 			
-			Game.singletonInstance.writeText({text: "player - x:" + this.x + " y:" + this.y, x: this.x + this.halfSize, y: this.y});
+			Game.singletonInstance.writeText({text: "leftAnalogue - x:" + this.x + " y:" + this.y, x: this.x + this.halfSize, y: this.y});
 		};
 		
 		cursor.update = function (duration, inputManager, entityManager) {
@@ -122,10 +112,24 @@ require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot",
 			Game.singletonInstance.writeText({text: "cursor - x:" + this.x + " y:" + this.y, x: this.x + this.halfSize, y: this.y});
 		};
 		
+		rightAnalogue.update = function (duration, inputManager, entityManager) {
+			var move = 2;
+			var run = 10;
+			
+			this.rotation += 0.1 * controller.axes(GamepadController.axes.RIGHT_ANALOGUE_HOR);
+			
+			var multiplier = controller.buttons(GamepadController.buttons.RIGHT_SHOULDER_BOTTOM) ? move : run;
+			this.x += Math.floor(multiplier * controller.axes(GamepadController.axes.RIGHT_ANALOGUE_HOR));
+			this.y += Math.floor(multiplier * controller.axes(GamepadController.axes.RIGHT_ANALOGUE_VERT));
+			
+			Game.singletonInstance.writeText({text: "leftAnalogue - x:" + this.x + " y:" + this.y, x: this.x + this.halfSize, y: this.y});
+		};
+		
 		Game.singletonInstance
 			.add(new Grid())
 			.add(cursor)
-			.add(player)
+			.add(leftAnalogue)
+			.add(rightAnalogue)
 			.run();
 			
 	}

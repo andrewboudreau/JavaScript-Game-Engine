@@ -3,7 +3,7 @@
 define(["engine/Actor"], function (Actor) {
 	"use strict";
 	
-	var Dot = Actor.inherit({
+	var Ship = Actor.inherit({
 		
 		init: function (options) {
 			this.$super(options.x, options.y, options.rotation);
@@ -11,8 +11,8 @@ define(["engine/Actor"], function (Actor) {
 			this.color = options.color;
 			this.halfSize = this.size / 2;
 		},
-		
-		render: function (game) {			
+		render: function (game) {
+			this.$super(game);
 			var ctx = game.screen.context;
 			
 			ctx.save();

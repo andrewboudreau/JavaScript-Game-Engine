@@ -14,16 +14,14 @@ function (Function, CollectionManager, Component) {
 		},
 		
 		update: function (duration, inputManager, componentManager) { 
-			var self = this;
-			this.components.each(function () {
-				this.update.call(self, duration, inputManager, componentManager);
+			this.components.each(function (components) {
+				this.update.call(components, duration, inputManager, componentManager);
 			});
 		},
 		
 		render: function (game, duration) {	
-			var self = this;
-			this.components.each(function () {
-				this.render.call(self, game, duration);
+			this.components.each(function (component) {
+				this.render.call(component, game, duration);
 			});
 		}
 	});
