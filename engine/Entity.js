@@ -14,8 +14,8 @@ function (Function, CollectionManager, Component) {
 		},
 		
 		update: function (duration, inputManager, componentManager) { 
-			this.components.each(function (components) {
-				this.update.call(components, duration, inputManager, componentManager);
+			this.components.each(function (component) {
+				this.update.call(component, duration, inputManager, componentManager);
 			});
 		},
 		

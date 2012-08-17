@@ -4,12 +4,20 @@ require.config({
 	paths: {
 		"engine": "../engine",
 		"components": "../engine/components",
-		"actors": "../engine/actors"
+		"actors": "../engine/actors",
+		"qunit": "../lib/qunit"
     }
 });
 
-require(["engine/Physics"], function (Physics) {
+require(["engine/Physics", "qunit/addons/close-enough/qunit-close-enough"], function (Physics) {
 	"use strict";
+	module("defaults");
+	
+	test("position is a function", 2, function () {	
+		var p = new Physics();
+		ok(p.drag.x === 0);
+		ok(p.drag.y === 0);
+	});
 	
 	module("position");
 	
@@ -180,7 +188,67 @@ require(["engine/Physics"], function (Physics) {
 		
 	});
 	
+	test("position updates from velocity with drag", 2, function () {	
+		var p = new Physics();
+		p.drag(0.05, 0.05);
+		p.velocity(1, -1);
+		
+		p.update();
+		equal(p.position.x, 0.95);
+		equal(p.position.y, -0.95);
+		
+	});
+	
+	test("force is cleared after update runs", 2, function () {	
+		var p = new Physics();
+		p.applyForce(1, -1);
+		
+		p.update();
+		
+		equal(p.force.x, 0);
+		equal(p.force.y, 0);
+	});
+		
+	test("applyForce is additive", 6, function () {	
+		var p = new Physics();
+		p.applyForce(1, -1);
+		p.applyForce(1.5, -1.5);
+		
+		equal(p.force.x, 2.5);
+		equal(p.force.y, -2.5);
+		
+		p.update();
+		
+		equal(p.velocity.x, 2.5);
+		equal(p.velocity.y, -2.5);
+		
+		equal(p.position.x, 2.5);
+		equal(p.position.y, -2.5);
+		
+	});
+	
+	test("velocity increases when force is applied", 8, function () {	
+		var p = new Physics();
+		p.applyForce(1, -1);
+		p.drag(0.05, 0.05);
+		p.update();
+		
+		equal(p.velocity.x, 0.95);
+		equal(p.velocity.y, -0.95);
+		
+		equal(p.position.x, 0.95);
+		equal(p.position.y, -0.95);
+				
+		p.update();
+		QUnit.close(p.velocity.x, 0.90, 0.005);
+		QUnit.close(p.velocity.y, -0.90, 0.005);
+		
+		QUnit.close(p.position.x, 1.85, 0.005);
+		QUnit.close(p.position.y, -1.85, 0.005);
+		
+	});
 	
 });
+
 
 
