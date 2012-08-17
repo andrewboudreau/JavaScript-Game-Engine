@@ -24,11 +24,17 @@ define(["engine/requestAnimationFrame"], function (requestAnimationFrame) {
 			} else {
 				console.log("no gamepad support");
 			}
-			this.controller = navigator.webkitGamepads[0] 
-					|| {
+			if (navigator.webkitGamepads) {
+				this.controller = navigator.webkitGamepads[0] || {
 						axes: [0, 0, 0, 0],
 						buttons: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 					};
+			} else {
+				this.controller = {
+					axes: [0, 0, 0, 0],
+					buttons: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+				};
+			}
 			return this;
 		};
 		
@@ -48,11 +54,6 @@ define(["engine/requestAnimationFrame"], function (requestAnimationFrame) {
 		};
 		
 		this.axes = function (keycode) {
-			this.controller = navigator.webkitGamepads[0] 
-					|| {
-						axes: [0, 0, 0, 0],
-						buttons: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-					};	
 			if (Math.abs(this.controller.axes[keycode]) >= this.thresholds.axes[keycode]) {
 				return this.controller.axes[keycode];
 			}
@@ -60,11 +61,6 @@ define(["engine/requestAnimationFrame"], function (requestAnimationFrame) {
 		};
 		
 		this.buttons = function (keycode) {
-			this.controller = navigator.webkitGamepads[0] 
-					|| {
-						axes: [0, 0, 0, 0],
-						buttons: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-					};
 			if (Math.abs(this.controller.buttons[keycode]) >= this.thresholds.buttons[keycode]) {
 				return this.controller.buttons[keycode];
 			}

@@ -82,8 +82,7 @@ define(function () {
 			this.velocity.x += this.force.x;
 			this.velocity.y += this.force.y;
 			this.force(0, 0);
-			
-			
+						
 			if (Math.abs(this.velocity.x) > this.thresholds.velocity) {
 				this.velocity.x = sign(this.velocity.x) * this.thresholds.velocity;
 			}
