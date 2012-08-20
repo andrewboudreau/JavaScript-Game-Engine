@@ -62,7 +62,8 @@ require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot",
 				}
 				
 				if (ship.physics.position.y > Game.singletonInstance.screen.canvas.height) {
-					ship.physics.position.y = 0;
+					ship.physics.position.y = Game.singletonInstance.screen.canvas.height - ship.halfSize;
+					ship.physics.velocity.y = 0;
 				} else if (ship.physics.position.y < 0) {
 					ship.physics.position.y = Game.singletonInstance.screen.canvas.height;
 				}

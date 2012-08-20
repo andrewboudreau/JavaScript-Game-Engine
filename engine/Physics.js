@@ -77,27 +77,17 @@ define(function () {
 			this.acceleration.y += f[1];
 		},
 		
-		acceleration
 		update: function (dt) {
-			this.dt;
-			this.t = dt;
+			this.timeDelta = dt;
 			
-			this.mag = (this.velocity.x + this.force.x) * (this.velocity.x + this.force.x) + (this.velocity.y + this.force.y) * (this.velocity.y + this.force.y);
-			if ((this.velocity.x + this.force.x) * (this.velocity.x + this.force.x) + (this.velocity.y + this.force.y) * (this.velocity.y + this.force.y) < this.thresholds.velocitySquared()) {
-				this.velocity.x += this.acceleration.x;
-				this.velocity.y += this.acceleration.y;
-				this.acceleration(0, 0);
-			}
+			this.mag = Math.pow(this.velocity.x + this.acceleration.x, 2) + Math.pow(this.velocity.y + this.force.y, 2);
 			
-			/* if (Math.abs(this.velocity.x) > this.thresholds.velocity) {
-				this.velocity.x = sign(this.velocity.x) * this.thresholds.velocity;
-			}
+			// forces
+			this.velocity.x += this.acceleration.x;
+			this.velocity.y += this.acceleration.y;
+			this.acceleration(0, 0);
 			
-			if (Math.abs(this.velocity.y) > this.thresholds.velocity) {
-				this.velocity.y = sign(this.velocity.y) * this.thresholds.velocity;
-			}
-			 */
-			 
+			// drag
 			this.velocity.x -= sign(this.velocity.x) * this.drag.x;
 			this.velocity.y -= sign(this.velocity.y) * this.drag.y;
 			
@@ -109,6 +99,7 @@ define(function () {
 				this.velocity.y = 0;
 			}
 			
+			// movement
 			this.position.x += this.velocity.x;
 			this.position.y += this.velocity.y;
 		},

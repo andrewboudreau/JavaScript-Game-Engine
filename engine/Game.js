@@ -39,14 +39,20 @@ define(["engine/Function", "engine/Screen", "engine/Component", "engine/Collecti
 				return this;
 			},
 			
-			run: function (duration) {
+			run: function (time) {
 			/// <summary>
 			/// application loop, request animation frame.  
 			/// </summary>
 				stats.begin();
-				var self = Game.singletonInstance;
-				this.animationStartTime = window.animationStartTime();
-				self.gameLoop(duration, self, self.inputManager, self.entityManager);
+				if (this.animationStartTime === 0) {
+					this.animationStartTime = window.animationStartTime();
+				}
+				
+				var self = Game.singletonInstance,
+					dt = time - this.animationStartTime;
+				
+				this.animationStartTime = time;
+				self.gameLoop(dt, self, self.inputManager, self.entityManager);
 				
 				if (!self.exit) {
 					requestAnimationFrame(self.run);
@@ -54,7 +60,7 @@ define(["engine/Function", "engine/Screen", "engine/Component", "engine/Collecti
 				stats.end();
 			},
 			
-			gameLoop: function (duration, game, inputManager, entityManager) {
+			gameLoop: function (dt, game, inputManager, entityManager) {
 			/// <summary>
 			/// Internal game loop, all context passed in externally making this method testable.
 			/// </summary>
@@ -62,10 +68,10 @@ define(["engine/Function", "engine/Screen", "engine/Component", "engine/Collecti
 				
 				entityManager.each(function (entity) {
 					if (!game.paused) {
-						entity.update(duration, inputManager, entityManager);
+						entity.update(dt, inputManager, entityManager);
 					}
 					if (entity.render) {
-						entity.render(game, duration);			
+						entity.render(game);			
 					}
 				});
 			},

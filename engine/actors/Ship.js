@@ -13,9 +13,9 @@ define(["engine/Actor", "engine/Physics"], function (Actor, Physics) {
 			this.physics = new Physics();
 		},
 		
-		update: function (duration) {
-			this.$super(duration);
-			this.physics.update(duration);
+		update: function (dt) {
+			this.$super(dt);
+			this.physics.update(dt);
 		},
 		
 		render: function (game) {

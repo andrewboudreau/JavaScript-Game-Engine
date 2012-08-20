@@ -3,6 +3,10 @@
 define("engine/requestAnimationFrame", [], function () {
 	"use strict";
 	
+	window.animationStartTime = function () {
+		return window.mozAnimationStartTime || window.webkitAnimationStartTime || +new Date;
+	};
+	
 	// requestAnim shim layer by Paul Irish
 	return window.requestAnimationFrame || 
 		window.webkitRequestAnimationFrame || 
