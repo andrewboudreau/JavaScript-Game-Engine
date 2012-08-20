@@ -22,6 +22,9 @@ require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot",
 		ship.physics.drag(0.05, 0.05);
 		
 		var gui = new dat.GUI();
+		gui.add(ship.physics, "mag").listen();
+		gui.add(ship.physics, "timeDelta").listen();
+		
 		var guiDrag = gui.addFolder('Drag');
 		guiDrag.add(ship.physics.drag, 'x', 0, 0.20);
 		guiDrag.add(ship.physics.drag, 'y', 0, 0.20);
@@ -35,21 +38,21 @@ require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot",
 				
 				ship.physics.rotation += 0.1 * controller.axes(GamepadController.axes.RIGHT_ANALOGUE_HOR);
 				
-				ship.physics.velocity.x += controller.axes(GamepadController.axes.LEFT_ANALOGUE_HOR);
-				ship.physics.velocity.y += controller.axes(GamepadController.axes.LEFT_ANALOGUE_VERT);
+				ship.physics.applyForce(controller.axes(GamepadController.axes.LEFT_ANALOGUE_HOR), controller.axes(GamepadController.axes.LEFT_ANALOGUE_VERT));
+				//ship.physics.velocity.y += );
 				
 				if (keyboard.isPressed(keyboard.left)) {
-					ship.physics.velocity.x -= 0.2;
+					ship.physics.applyForce(-0.2, 0);
 				}
 				if (keyboard.isPressed(keyboard.right)) {
-					ship.physics.velocity.x += 0.2;
+					ship.physics.applyForce(0.2, 0);
 				}
 				
 				if (keyboard.isPressed(keyboard.up)) {
-					ship.physics.velocity.y -= 0.2;
+					ship.physics.applyForce(0, -0.2);
 				}
 				if (keyboard.isPressed(keyboard.down)) {
-					ship.physics.velocity.y += 0.2;
+					ship.physics.applyForce(0, 0.2);
 				}
 				
 				if (ship.physics.position.x > Game.singletonInstance.screen.canvas.width) {

@@ -51,15 +51,15 @@ define(function () {
 		drag: 0,
 		thresholds: {
 			velocity: 10,
-			velocitySquared: function () {
-				return this.velocity * this.velocity;
-			},
 			acceleration: 2
 		}
 	};
 	
 	var Physics = function (x, y, rotation) {
-	
+		this.mag = 0;
+		this.animationStartTime = 0;
+		this.timeDelta = 0;
+		
 		this.acceleration = vectorPropertyBuilder(0, 0);
 		this.drag = vectorPropertyBuilder(defaults.drag, defaults.drag);
 		this.force = vectorPropertyBuilder(0, 0);
@@ -73,24 +73,31 @@ define(function () {
 	Physics.prototype = {
 		applyForce: function () {
 			var f = parseVectorArgumentToArray(arguments);
-			this.force.x += f[0];
-			this.force.y += f[1];
+			this.acceleration.x += f[0];
+			this.acceleration.y += f[1];
 		},
 		
-		update: function (duration) {
+		acceleration
+		update: function (dt) {
+			this.dt;
+			this.t = dt;
 			
-			this.velocity.x += this.force.x;
-			this.velocity.y += this.force.y;
-			this.force(0, 0);
-						
-			if (Math.abs(this.velocity.x) > this.thresholds.velocity) {
+			this.mag = (this.velocity.x + this.force.x) * (this.velocity.x + this.force.x) + (this.velocity.y + this.force.y) * (this.velocity.y + this.force.y);
+			if ((this.velocity.x + this.force.x) * (this.velocity.x + this.force.x) + (this.velocity.y + this.force.y) * (this.velocity.y + this.force.y) < this.thresholds.velocitySquared()) {
+				this.velocity.x += this.acceleration.x;
+				this.velocity.y += this.acceleration.y;
+				this.acceleration(0, 0);
+			}
+			
+			/* if (Math.abs(this.velocity.x) > this.thresholds.velocity) {
 				this.velocity.x = sign(this.velocity.x) * this.thresholds.velocity;
 			}
 			
 			if (Math.abs(this.velocity.y) > this.thresholds.velocity) {
 				this.velocity.y = sign(this.velocity.y) * this.thresholds.velocity;
 			}
-			
+			 */
+			 
 			this.velocity.x -= sign(this.velocity.x) * this.drag.x;
 			this.velocity.y -= sign(this.velocity.y) * this.drag.y;
 			

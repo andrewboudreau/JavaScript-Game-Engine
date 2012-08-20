@@ -19,7 +19,8 @@ define(["engine/Function", "engine/Screen", "engine/Component", "engine/Collecti
 		
 		Game.prototype = {
 			init: function (canvas, context) {
-			
+				this.animationStartTime = 0;
+				
 				this.screen = new Screen(canvas, context);
 				this.entityManager = new CollectionManager();
 				this.textManager = new TextManager(this.screen);
@@ -44,6 +45,7 @@ define(["engine/Function", "engine/Screen", "engine/Component", "engine/Collecti
 			/// </summary>
 				stats.begin();
 				var self = Game.singletonInstance;
+				this.animationStartTime = window.animationStartTime();
 				self.gameLoop(duration, self, self.inputManager, self.entityManager);
 				
 				if (!self.exit) {
