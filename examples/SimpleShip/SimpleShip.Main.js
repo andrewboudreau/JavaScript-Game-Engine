@@ -23,7 +23,7 @@ require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot",
 		
 		var gui = new dat.GUI();
 		gui.add(ship.physics, "mag").listen();
-		gui.add(ship.physics, "timeDelta").listen();
+		gui.add(ship.physics, "dt").listen();
 		
 		var guiDrag = gui.addFolder('Drag');
 		guiDrag.add(ship.physics.drag, 'x', 0, 0.20);
