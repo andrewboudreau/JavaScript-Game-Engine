@@ -3,7 +3,7 @@
 define(function () {
 	"use strict";
 	
-	var sign = function (number) {
+	function sign(number) {
 		return (number) ? (number < 0 ? -1 : 1) : 0;
 	};
 	
