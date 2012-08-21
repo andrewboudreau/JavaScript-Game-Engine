@@ -8,29 +8,20 @@ define(function () {
 	};
 	
 	var parseVectorArgumentToArray = function(args) {
-		var result = [0, 0];
-		
 		if (args.length === 2) {
-			result[0] = args[0];
-			result[1] = args[1];		
+			return [args[0], args[1]];		
 		} else if (args.length === 1 && args[0].x && args[0].y) {
-			result[0] = args[0].x;
-			result[1] = args[0].y;
+			return [args[0].x, args[0].y];
 		} else if (args.length === 1 && args[0][0] && args[0][1]) {
-			result[0] = args[0][0];
-			result[1] = args[0][1];
-		} else {
-			throw new "could not parse vector from argument.";
+			return [args[0][0], args[0][1]];
 		}
-		
-		return result;
+		throw new "could not parse vector from argument.";
 	};
 	
 	var vectorPropertyBuilder = function () {
 		var defaults = parseVectorArgumentToArray(arguments);
 		
-		var vector = function () {
-				
+		var vector = function () {		
 			if (!arguments.length) {
 				return [vector.x, vector.y];
 			}
@@ -56,16 +47,17 @@ define(function () {
 	};
 	
 	var Physics = function (x, y, rotation) {
+		var self = this;
+		
 		this.mag = 0;
 		this.animationStartTime = 0;
 		this.timeDelta = 0;
-		
-		this.acceleration = vectorPropertyBuilder(0, 0);
-		this.drag = vectorPropertyBuilder(defaults.drag, defaults.drag);
-		this.force = vectorPropertyBuilder(0, 0);
-		this.position = vectorPropertyBuilder(0, 0);
 		this.rotation = 0;
-		this.velocity = vectorPropertyBuilder(0, 0);
+		
+		// vector based properties
+		$(['acceleration', 'drag', 'force', 'position', 'velocity']).each(function () {
+			self[this] = vectorPropertyBuilder(0, 0);
+		});
 		
 		this.thresholds = $.extend(true, {}, defaults.thresholds);
 	}
@@ -79,10 +71,10 @@ define(function () {
 		
 		update: function (dt) {
 			this.timeDelta = dt;
-			
 			this.mag = Math.pow(this.velocity.x + this.acceleration.x, 2) + Math.pow(this.velocity.y + this.force.y, 2);
 			
 			// forces
+			this.acceleration.y += 1;
 			this.velocity.x += this.acceleration.x;
 			this.velocity.y += this.acceleration.y;
 			this.acceleration(0, 0);
