@@ -16,10 +16,10 @@ define(["engine/Function", "engine/Screen", "engine/Component", "engine/Collecti
 		var Game = function (canvas, context) {
 			Game.singletonInstance = this.init(canvas, context);	
 		};
-		
+		var loop = 0;
 		Game.prototype = {
 			init: function (canvas, context) {
-				this.animationStartTime = 0;
+				this.lastTime = 0;
 				
 				this.screen = new Screen(canvas, context);
 				this.entityManager = new CollectionManager();
@@ -43,15 +43,20 @@ define(["engine/Function", "engine/Screen", "engine/Component", "engine/Collecti
 			/// <summary>
 			/// application loop, request animation frame.  
 			/// </summary>
+				loop++;
 				stats.begin();
-				if (this.animationStartTime === 0) {
-					this.animationStartTime = window.animationStartTime();
+				
+				var dt, self = Game.singletonInstance;
+				
+				// first frame
+				if (!time) {
+					time = window.animationStartTime();
+					self.lastTime = time - 16;
 				}
 				
-				var self = Game.singletonInstance,
-					dt = time - this.animationStartTime;
+				dt = time - self.lastTime;
+				self.lastTime = time;
 				
-				this.animationStartTime = time;
 				self.gameLoop(dt, self, self.inputManager, self.entityManager);
 				
 				if (!self.exit) {
