@@ -76,8 +76,8 @@ define(function () {
 	Physics.prototype = {
 		applyForce: function () {
 			var f = parseVectorArgumentToArray(arguments);
-			this.acceleration.x += f[0];
-			this.acceleration.y += f[1];
+			this.acceleration.x += f[0] / 1000.0;
+			this.acceleration.y += f[1]/ 1000.0;;
 		},
 		
 		update: function (dt) {
