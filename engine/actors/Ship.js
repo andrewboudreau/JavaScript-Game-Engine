@@ -26,8 +26,15 @@ define(["engine/Actor", "engine/Physics"], function (Actor, Physics) {
 			ctx.translate(this.physics.position.x, this.physics.position.y);
 			ctx.rotate(this.physics.rotation);
 			ctx.fillStyle = this.color;  
-			ctx.fillRect(-this.halfSize, -this.halfSize, this.size, this.size);  
-			ctx.restore();		
+			ctx.fillRect(-this.halfSize, -this.halfSize, this.size, this.size);
+			
+			// line
+			ctx.beginPath();
+			ctx.moveTo(0, 0);
+			ctx.lineTo(0, -20);
+			ctx.strokeStyle = this.color;
+			ctx.stroke();
+			ctx.restore();
 		}
 	});
 	

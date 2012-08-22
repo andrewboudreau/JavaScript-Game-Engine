@@ -39,20 +39,25 @@ require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot",
 				ship.physics.rotation += 0.1 * controller.axes(GamepadController.axes.RIGHT_ANALOGUE_HOR);
 				
 				ship.physics.applyForce(controller.axes(GamepadController.axes.LEFT_ANALOGUE_HOR), controller.axes(GamepadController.axes.LEFT_ANALOGUE_VERT));
-				//ship.physics.velocity.y += );
 				
 				if (keyboard.isPressed(keyboard.left)) {
-					ship.physics.applyForce(-0.2, 0);
+					ship.physics.rotation -= 0.02;
 				}
 				if (keyboard.isPressed(keyboard.right)) {
-					ship.physics.applyForce(0.2, 0);
+					ship.physics.rotation += 0.02;
 				}
 				
 				if (keyboard.isPressed(keyboard.up)) {
-					ship.physics.applyForce(0, -0.2);
+					var f = 0.2;
+					var x = Math.sin(ship.physics.rotation);
+					var y = Math.cos(ship.physics.rotation);
+					ship.physics.applyForce(x * f, -y * f);
 				}
 				if (keyboard.isPressed(keyboard.down)) {
-					ship.physics.applyForce(0, 0.2);
+					var f = -0.2;
+					var x = Math.sin(ship.physics.rotation);
+					var y = Math.cos(ship.physics.rotation);
+					ship.physics.applyForce(x * f, -y * f);
 				}
 				
 				if (ship.physics.position.x > Game.singletonInstance.screen.canvas.width) {

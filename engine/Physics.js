@@ -53,9 +53,9 @@ define(function () {
 		}
 	};
 	
-	var Physics = function (options) {
+	var Physics = function (opt) {
 		var self = this,
-			options = $.extend({}, options);
+			options = $.extend({}, opt);
 		
 		// vector based properties
 		$(['acceleration', 'drag', 'force', 'position', 'velocity']).each(function () {
@@ -77,12 +77,16 @@ define(function () {
 		applyForce: function () {
 			var f = parseVectorArgumentToArray(arguments);
 			this.acceleration.x += f[0] / 1000.0;
-			this.acceleration.y += f[1]/ 1000.0;;
+			this.acceleration.y += f[1] / 1000.0;;
 		},
 		
 		update: function (dt) {
 			this.dt = dt;
+			if (this.rotation > (2 * Math.PI) || this.rotation < (-2 * Math.PI)) {
+				this.rotation = 0;
+			}
 			
+			if (this.velocity
 			this.velocity.x += dt * this.acceleration.x;
 			this.velocity.y += dt * this.acceleration.y;
 			
@@ -91,33 +95,6 @@ define(function () {
 			
 			this.acceleration(0, 0);
 			this.mag = Math.pow(this.velocity.x + this.acceleration.x, 2) + Math.pow(this.velocity.y + this.force.y, 2);
-		},
-		
-		update2: function (dt) {
-			this.dt = dt;
-			this.mag = Math.pow(this.velocity.x + this.acceleration.x, 2) + Math.pow(this.velocity.y + this.force.y, 2);
-			
-			// forces
-			this.acceleration.y += 1;
-			this.velocity.x += this.acceleration.x;
-			this.velocity.y += this.acceleration.y;
-			this.acceleration(0, 0);
-			
-			// drag
-			this.velocity.x -= sign(this.velocity.x) * this.drag.x;
-			this.velocity.y -= sign(this.velocity.y) * this.drag.y;
-			
-			if (Math.abs(this.velocity.x) <= this.drag.x) {
-				this.velocity.x = 0;
-			}
-			
-			if (Math.abs(this.velocity.y) <= this.drag.y) {
-				this.velocity.y = 0;
-			}
-			
-			// movement
-			this.position.x += this.velocity.x;
-			this.position.y += this.velocity.y;
 		},
 		
 		render: function () {
