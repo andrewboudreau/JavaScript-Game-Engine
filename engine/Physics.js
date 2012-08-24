@@ -44,6 +44,7 @@ define(function () {
 	var defaults = {
 		position: [0, 0],
 		velocity: [0, 0],
+		gravity: [0, 0],
 		drag: 0.02,
 		rotation: 0,
 		mass: 1,
@@ -58,7 +59,7 @@ define(function () {
 			options = $.extend({}, opt);
 		
 		// vector based properties
-		$(['acceleration', 'drag', 'force', 'position', 'velocity']).each(function () {
+		$(['acceleration', 'drag', 'force', 'position', 'velocity', 'gravity']).each(function () {
 			self[this] = createVector();
 		});
 		this.mag = 0;
@@ -69,6 +70,7 @@ define(function () {
 		this.position(options.position || defaults.position);
 		this.velocity(options.velocity || defaults.velocity);
 		this.drag([options.drag || defaults.drag, options.drag || defaults.drag ]);
+		this.gravity(options.gravity || defaults.gravity);
 		
 		this.thresholds = $.extend(true, {}, defaults.thresholds, options.thresholds);
 	};
@@ -82,18 +84,19 @@ define(function () {
 		
 		update: function (dt) {
 			this.dt = dt;
+			
 			if (this.rotation > (2 * Math.PI) || this.rotation < (-2 * Math.PI)) {
 				this.rotation = 0;
 			}
 			
-			if (this.velocity
-			this.velocity.x += dt * this.acceleration.x;
-			this.velocity.y += dt * this.acceleration.y;
+			this.applyForce(this.gravity);
+			this.velocity.x += this.acceleration.x * dt;
+			this.velocity.y += this.acceleration.y * dt;
 			
-			this.position.x += dt * this.velocity.x;
-			this.position.y += dt * this.velocity.y;
-			
+			this.position.x += dt * this.velocity.x + 0.5 * this.acceleration.x * dt * dt;
+			this.position.y += dt * this.velocity.y + 0.5 * this.acceleration.y * dt * dt;
 			this.acceleration(0, 0);
+			
 			this.mag = Math.pow(this.velocity.x + this.acceleration.x, 2) + Math.pow(this.velocity.y + this.force.y, 2);
 		},
 		

@@ -42,8 +42,8 @@ define(["engine/Actor"], function (Actor) {
 				item;
 			
 			ctx.save();
-			//ctx.translate(this.x, this.y);
-			//ctx.rotate(this.rotation);
+			ctx.translate(this.x, this.y);
+			ctx.rotate(this.rotation);
 			ctx.fillStyle = this.color;
 			ctx.scale(this.scale, this.scale);	
 			

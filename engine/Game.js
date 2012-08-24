@@ -8,7 +8,7 @@ define(["engine/Function", "engine/Screen", "engine/Component", "engine/Collecti
 		
 		// Align top-left
 		stats.domElement.style.position = 'absolute';
-		stats.domElement.style.left = '75%';
+		stats.domElement.style.left = '0%';
 		stats.domElement.style.top = '0px';
 		stats.setMode(0); // 0: fps, 1: ms
 		document.body.appendChild( stats.domElement );
@@ -16,7 +16,7 @@ define(["engine/Function", "engine/Screen", "engine/Component", "engine/Collecti
 		var Game = function (canvas, context) {
 			Game.singletonInstance = this.init(canvas, context);	
 		};
-		var loop = 0;
+		
 		Game.prototype = {
 			init: function (canvas, context) {
 				this.lastTime = 0;
@@ -43,7 +43,6 @@ define(["engine/Function", "engine/Screen", "engine/Component", "engine/Collecti
 			/// <summary>
 			/// application loop, request animation frame.  
 			/// </summary>
-				loop++;
 				stats.begin();
 				
 				var dt, self = Game.singletonInstance;
