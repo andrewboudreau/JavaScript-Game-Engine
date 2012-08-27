@@ -33,10 +33,10 @@ a base collection class implementing most basic needs of a collection, iteration
 * http://www.html5rocks.com/en/tutorials/doodles/gamepad/
 
 ## Tools
-*http://qunitjs.com/
-*http://requirejs.org/
-*http://code.google.com/p/dat-gui/
-*https://github.com/mrdoob/stats.js
+* http://qunitjs.com/
+* http://requirejs.org/
+* http://code.google.com/p/dat-gui/
+* https://github.com/mrdoob/stats.js
 
 
 
