@@ -26,11 +26,11 @@ from component, adds position and rotation to a component. I imagine this object
 a base collection class implementing most basic needs of a collection, iteration, type-saftey using guard to some extent.
 
 ## Resources
--https://bitbucket.org/piemaster/artemoids/src
--https://github.com/gemserk/artemis/tree/master/src/com/artemis
--http://www.inverted-keystrokes.com/category/programming/2d-game-engine-tutorial/
--http://higherorderfun.com/blog/2012/05/20/the-guide-to-implementing-2d-platformers/
--http://www.html5rocks.com/en/tutorials/doodles/gamepad/
+* https://bitbucket.org/piemaster/artemoids/src
+* https://github.com/gemserk/artemis/tree/master/src/com/artemis
+* http://www.inverted-keystrokes.com/category/programming/2d-game-engine-tutorial/
+* http://higherorderfun.com/blog/2012/05/20/the-guide-to-implementing-2d-platformers/
+* http://www.html5rocks.com/en/tutorials/doodles/gamepad/
 
 ## Tools
 *http://qunitjs.com/
