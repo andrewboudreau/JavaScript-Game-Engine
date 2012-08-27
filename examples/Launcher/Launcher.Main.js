@@ -73,6 +73,12 @@ require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot",
 				if (keyboard.isPressed(keyboard.right)) {
 					turret.angle += 0.02;
 				}
+				if (keyboard.isPressed(keyboard.up)) {
+					turret.power += 0.2;
+				}
+				if (keyboard.isPressed(keyboard.down)) {
+					turret.power -= 0.2;
+				}
 				if (keyboard.isPressed(13) || keyboard.isPressed(32)) {
 					traces = [];
 					dot.physics.velocity(0, 0);
@@ -124,7 +130,7 @@ require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot",
 			.run();
 		
 		var gui = new dat.GUI();
-		gui.add(turret, "power", 1, 50);
+		gui.add(turret, "power", 1, 50).min(0).max(50).listen();
 		
 		gui.add(turret, "angle", -2, 2).min(-2).max(2).listen();
 		gui.add(dot, "trace");
