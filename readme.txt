@@ -2,9 +2,9 @@ JavaScript-Game-Engine
 ======================
 a 2d game engine written in JavaScript.  
 
-Game is the central component in the engine, it ties all of the other engine systems together. In each loop the game engine executes and update followed by a render method for each entity in the system. A simple TextManager live directly off of Game to support ea
-
 Examples: http://www.blogfor.net/javascript-game-engine/
+
+Game is the central component in the engine, it ties all of the other engine systems together. In each loop the game engine executes and update followed by a render method for each entity in the system. A simple TextManager live directly off of Game to support ea
 
 =======================================================
 Function.js - is the inheritance engine. This is essentially a strict and ecmascript 5 version of john resigs simple inheritance ideas. I've already found a few shortcomings by not supplying a constructor method directly in assuming init is the constructor.
