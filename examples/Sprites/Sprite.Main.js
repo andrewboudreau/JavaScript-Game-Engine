@@ -19,14 +19,27 @@ require(["engine/Game", "actors/Grid", "input/MouseKeyboardController", "engine/
 			defaults = {
 			};
 		
-		var Frame = function (options) {
+		var Frame = function (x, y, width, height, options) {
 			options = $.extend({}, options);
+			
+			if (arguments.length === 1) {
+				options = $.extend({}, x);
+			} 
+			else if (arguments.length === 2) {
+				options = $.extend({}, {x:x, y:y, width:x, height:y});
+			}
+			else if (arguments.length === 4) {
+				options = $.extend({}, {x:x, y:y, width:width, height:height});
+			}
+			else if (arguments.length === 5) {
+				options = $.extend({}, {x:x, y:y, width:width, height:height});
+			}
 			
 			this.x = options.x;
 			this.y = options.y;
 			this.width = options.width;
 			this.height = options.height;
-			this.length = options.length || 1000;
+			this.delay = options.delay || 120;
 		};
 		
 		var Animation = function (options) {
@@ -35,17 +48,17 @@ require(["engine/Game", "actors/Grid", "input/MouseKeyboardController", "engine/
 			this.init = false;
 			this.name = options.name || "anim" + (id++).toString();
 			
-			this.width = options.width;
-			this.height = options.height;
 			this.steps = options.steps;
-			this.source = options.source;
+			this.playing = options.playing || false;
 			
 			this.image = new Image();
 			this.image.src = options.src || 'character.png';
-			this.frames = [];
-			this.steps = [];
-			this.stepIndex = 0;
-			this.playing = options.playing || false;
+			this.frames = options.frames;
+			for(var i = 0; i <= this.frames.length - 1; i++) {
+				this.frames[i].scale = options.scale || 1;
+			}
+			
+			this.currentStepIndex = 0;
 			this.timeSinceLastFrameChange = 0;
 		};
 		
@@ -64,8 +77,12 @@ require(["engine/Game", "actors/Grid", "input/MouseKeyboardController", "engine/
 			},
 			
 			update: function (dt) {
-				if (this.playing && this.timeSinceLastFrameChange >= this.currentFrame().length) {
+				var frame = this.currentFrame();
+				
+				this.timeSinceLastFrameChange += dt;
+				if (this.playing && this.timeSinceLastFrameChange >= frame.delay) {
 					this.forward();
+					this.timeSinceLastFrameChange = 0;
 				}
 			},
 			
@@ -73,17 +90,16 @@ require(["engine/Game", "actors/Grid", "input/MouseKeyboardController", "engine/
 				
 				var ctx = game.screen.context;
 				var frame = this.currentFrame();
-				
-				var x, y;
-					x = y = 50;
-					y = y * 13;
-				ctx.drawImage(this.image, 0, y, 50, 50, 200, 200, 50, 50);
-				
+				var x = 100, y = 100;
+
+				//ctx.fillRect(x, y, frame.width, frame.height);
+				ctx.drawImage(this.image, frame.x, frame.y, frame.width, frame.height, x, y, frame.width * frame.scale, frame.height * frame.scale);
 			},
 			
 			forward: function () {
-				if (this.currentStepIndex >= this.steps.length) {
-					this.curentStepIndex = 0;
+				if (this.currentStepIndex >= this.steps.length - 1) {
+					this.currentStepIndex = 0;
+					console.log('reset step index');
 				} else {
 					this.currentStepIndex += 1;
 				}
@@ -91,7 +107,7 @@ require(["engine/Game", "actors/Grid", "input/MouseKeyboardController", "engine/
 			},
 			
 			rewind: function () {
-				if (this.currentStepIndex <= 0 ) {
+				if (this.currentStepIndex < 0 ) {
 					this.curentStepIndex = this.steps.length - 1;
 				} else {
 					this.currentStepIndex -= 1;
@@ -99,20 +115,55 @@ require(["engine/Game", "actors/Grid", "input/MouseKeyboardController", "engine/
 			}
 		};
 		
+		var s = 48, 
+			yOffset = 12 * (s + 1);
+		
 		var running = new Animation({
+			scale: 3,			
+			frames: [ 
+				new Frame(s * 0, yOffset, s, s),
+				new Frame(s * 1, yOffset, s, s),
+				new Frame(s * 2, yOffset, s, s),
+				new Frame(s * 3, yOffset, s, s),
+				new Frame(s * 4, yOffset, s, s),
+				new Frame(s * 5, yOffset, s, s)
+			],
+			steps: [0, 1, 2, 3, 4, 5]
 			
 		});
 		
+		var walkingYOffset = 11 * (s + 1);
+		var walking = new Animation({
+			scale: 3,
+			frames: [ 
+				new Frame(s * 0, walkingYOffset, s, s),
+				new Frame(s * 1, walkingYOffset, s, s),
+				new Frame(s * 2, walkingYOffset, s, s),
+				new Frame(s * 3, walkingYOffset, s, s),
+				new Frame(s * 4, walkingYOffset, s, s),
+				new Frame(s * 5, walkingYOffset, s, s),
+				new Frame(s * 6, walkingYOffset, s, s)
+			],
+			steps: [0, 1, 2, 3, 4, 5, 6]
+		});
+		
+		
 		//var controller = new GamepadController().init();
 		var keyboard = new MouseKeyboardController(Game.singletonInstance.screen).init();
-		var anim = new Animation();
 		
 		Game.singletonInstance
 			.add(new Grid())
-			.add(anim)
+			.add(running)
 			.run();
 		
 		var gui = new dat.GUI();
+		gui.add(running.frames[0], 'x').listen();
+		gui.add(running.frames[0], 'y').listen();
+		
+		gui.add(running.frames[0], 'width').listen();
+		gui.add(running.frames[0], 'height').listen();
+		gui.add(running, 'play');
+		
 	}
 );
 
