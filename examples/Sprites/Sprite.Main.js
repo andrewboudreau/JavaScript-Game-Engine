@@ -57,13 +57,6 @@ require(["engine/Game", "actors/Grid", "input/MouseKeyboardController", "engine/
 			this.image = new Image();
 			this.image.src = options.src || 'character.png';
 			
-			// var data = this.image.data;
-			// for(var i = 0, n = data.length; i < n; i += 4) {
-				// if (data[i] === 0 && data[i + 1] === 89 && data[i + 2] === 2) {
-					// data[i + 3] = 1;
-				// }
-			// }
-			  
 			this.frames = options.frames;
 			for(var i = 0; i <= this.frames.length - 1; i++) {
 				this.frames[i].scale = options.scale || 1;
@@ -73,7 +66,6 @@ require(["engine/Game", "actors/Grid", "input/MouseKeyboardController", "engine/
 			this.currentStepIndex = 0;
 			this.timeSinceLastFrameChange = 0;
 		};
-		
 		
 		Animation.prototype = {
 			play: function () {
@@ -103,7 +95,7 @@ require(["engine/Game", "actors/Grid", "input/MouseKeyboardController", "engine/
 				}
 				
 				if (keyboard.isPressed(keyboard.right)) {
-					this.x += 1;
+					this.x += 3;
 				}
 			},
 			
@@ -111,9 +103,23 @@ require(["engine/Game", "actors/Grid", "input/MouseKeyboardController", "engine/
 				
 				var ctx = game.screen.context;
 				var frame = this.currentFrame();
-
-				//ctx.fillRect(x, y, frame.width, frame.height);
-				ctx.drawImage(this.image, frame.x, frame.y, frame.width, frame.height, this.x, this.y, frame.width * frame.scale, frame.height * frame.scale);
+				var mirror = true;
+						
+				if (mirror) {
+					
+					ctx.drawImage(this.image, 
+						frame.x + frame.width, 
+						frame.y + frame.height, 
+						-frame.width, 
+						-frame.height, 
+						this.x, 
+						this.y, 
+						frame.width * frame.scale, 
+						frame.height * frame.scale);
+						
+				} else {
+					ctx.drawImage(this.image, frame.x, frame.y, frame.width, frame.height, this.x, this.y, frame.width * frame.scale, frame.height * frame.scale);
+				}
 			},
 			
 			forward: function () {
@@ -141,7 +147,7 @@ require(["engine/Game", "actors/Grid", "input/MouseKeyboardController", "engine/
 		var running = new Animation({
 			x: 200,
 			y: 70,
-			scale: 3,	
+			scale: 1,	
 			steps: [0, 1, 2, 3, 4, 5],		
 			frames: [ 
 				new Frame(s * 0, yOffset, s, s),
@@ -153,12 +159,12 @@ require(["engine/Game", "actors/Grid", "input/MouseKeyboardController", "engine/
 			]
 		});
 		
-		var walkingYOffset = 21 * (s + 1);
+		var walkingYOffset = 11 * (s + 1);
 		var walking = new Animation({
 			x: 70,
 			y: 70,
 			delay: 120,
-			scale: 3,
+			scale: 1,
 			steps: [ 1, 2, 3, 4, 5, 6],
 			frames: [ 
 				new Frame(s * 0, walkingYOffset, s, s),
@@ -175,7 +181,7 @@ require(["engine/Game", "actors/Grid", "input/MouseKeyboardController", "engine/
 			x: 330,
 			y: 70,
 			delay: 120,
-			scale: 3,
+			scale: 2,
 			steps: [0, 1, 2, 3, 4, 5, 6],
 			frames: [ 
 				new Frame(s * 0, walkingYOffset, s, s),
@@ -190,24 +196,24 @@ require(["engine/Game", "actors/Grid", "input/MouseKeyboardController", "engine/
 		
 		//var controller = new GamepadController().init();
 		var keyboard = new MouseKeyboardController(Game.singletonInstance.screen).init();
-		
+		running.play();
 		Game.singletonInstance
 			.add(new Grid())
 			.add(running)
-			.add(walking)
-			.add(walking2)
+			//.add(walking)
+			//.add(walking2)
 			.run();
-		
+		/* 
 		var gui = new dat.GUI();
 		gui.add(running.frames[0], 'x').listen();
 		gui.add(running.frames[0], 'y').listen();
 		
 		gui.add(running.frames[0], 'width').listen();
 		gui.add(running.frames[0], 'height').listen();
+		gui.add(running, 'play');
 		gui.add(walking, 'play');
 		gui.add(walking2, 'play');
-		gui.add(running, 'play');
-		
+		 */
 	}
 );
 
