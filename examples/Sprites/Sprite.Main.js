@@ -57,16 +57,12 @@ require(["engine/Game", "actors/Grid", "input/MouseKeyboardController", "engine/
 			this.image = new Image();
 			this.image.src = options.src || 'character.png';
 			
-			var data = this.image.data;
-			for(var i = 0, n = data.length; i < n; i += 4) {
-				if (data[i] === '' && data[i + 1] === '' && data[i + 2] === '') {
-					data[i+3] = 50;
-				}
-				var red = data[i];
-				var green = data[i + 1];
-				var blue = data[i + 2];
-				var alpha = data[i + 3];
-			}
+			// var data = this.image.data;
+			// for(var i = 0, n = data.length; i < n; i += 4) {
+				// if (data[i] === 0 && data[i + 1] === 89 && data[i + 2] === 2) {
+					// data[i + 3] = 1;
+				// }
+			// }
 			  
 			this.frames = options.frames;
 			for(var i = 0; i <= this.frames.length - 1; i++) {
@@ -77,6 +73,7 @@ require(["engine/Game", "actors/Grid", "input/MouseKeyboardController", "engine/
 			this.currentStepIndex = 0;
 			this.timeSinceLastFrameChange = 0;
 		};
+		
 		
 		Animation.prototype = {
 			play: function () {
@@ -156,7 +153,7 @@ require(["engine/Game", "actors/Grid", "input/MouseKeyboardController", "engine/
 			]
 		});
 		
-		var walkingYOffset = 11 * (s + 1);
+		var walkingYOffset = 21 * (s + 1);
 		var walking = new Animation({
 			x: 70,
 			y: 70,
