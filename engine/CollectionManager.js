@@ -49,7 +49,25 @@ define(["./Function"], function (Function) {
 			
 			return this.items[index];
 		},
-	
+		
+		where: function (property, value) {
+			var result = [];
+			for (var i = 0; i < this.items.length; i++) {
+				if (this.items[i][property] && this.items[i][property] === value) {
+					result.push(return this.items[i]);
+				}	
+			}
+			return result;
+		},
+		
+		find: function (predicate) {
+			for (var i = 0; i < this.items.length; i++) {
+				if (predicate.call(this.items[i], this.items[i])) {
+					return this.items[i];
+				}	
+			}
+		},
+		
 		each: function (lambda) {
 			for (var i = 0; i < this.items.length; i++) {
 				lambda.call(this.items[i], this.items[i]);

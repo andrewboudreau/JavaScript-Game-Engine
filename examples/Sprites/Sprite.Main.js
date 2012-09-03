@@ -44,6 +44,25 @@ require(["engine/Game", "actors/Grid", "input/MouseKeyboardController", "engine/
 			
 		};
 		
+		var Sprite = function (options) {
+			this.image = new Image();
+			this.image.src = options.src || 'character.png';
+			
+			this.animations = [];
+			
+		};
+		
+		Sprite.prototype = {
+
+			createAnimation: function (options) {
+				this.animations.push(new Animation(options));
+			},
+			play: function(name) {
+				this.animations
+			}
+			
+		};
+		
 		var Animation = function (options) {
 			options = $.extend(true, {}, defaults, options);
 			
@@ -54,8 +73,6 @@ require(["engine/Game", "actors/Grid", "input/MouseKeyboardController", "engine/
 			this.playing = options.playing || false;
 			this.x = options.x || 0;
 			this.y = options.y || 0;
-			this.image = new Image();
-			this.image.src = options.src || 'character.png';
 			
 			this.frames = options.frames;
 			for(var i = 0; i <= this.frames.length - 1; i++) {
