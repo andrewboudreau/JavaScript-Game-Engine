@@ -218,7 +218,6 @@ require(["engine/Component", "engine/CollectionManager"], function (Component, C
 	test("each off three", 6, function ()  {
 		var collectionManager = new CollectionManager();
 		
-		
 		var fired = [0, 0, 0], 
 			passedIn = [],
 			stub = {
@@ -254,5 +253,101 @@ require(["engine/Component", "engine/CollectionManager"], function (Component, C
 		equal(passedIn.length, 2, "two items iterated over");
 		
 	});
+	
+	test("find returns first expected result", 1, function ()  {
+		var collectionManager = new CollectionManager();
+		
+		var stub = {
+				value: 10
+			},
+			stub2 = {
+				value: 20
+			},
+			stub3 = {
+				value: 30
+			};
+			
+		collectionManager.add(stub);
+		collectionManager.add(stub2);
+		collectionManager.add(stub3);
+		
+		var result = collectionManager.find(function (s) {
+			return s.value === 20;
+		});	
+		
+		ok(result === stub2);
+	});
+	
+	test("find returns first expected result with multiple", 1, function ()  {
+		var collectionManager = new CollectionManager();
+		
+		var stub = {
+				value: 10
+			},
+			stub2 = {
+				value: 20
+			},
+			stub3 = {
+				value: 20
+			};
+			
+		collectionManager.add(stub);
+		collectionManager.add(stub2);
+		collectionManager.add(stub3);
+		
+		var result = collectionManager.find(function (s) {
+			return s.value === 20;
+		});	
+		
+		ok(result === stub2);
+	});
+
+	test("where returns first expected result", 2, function ()  {
+		var collectionManager = new CollectionManager();
+		
+		var stub = {
+				value: 10
+			},
+			stub2 = {
+				value: 20
+			},
+			stub3 = {
+				value: 30
+			};
+			
+		collectionManager.add(stub);
+		collectionManager.add(stub2);
+		collectionManager.add(stub3);
+		
+		var result = collectionManager.where('value', 20);
+		
+		ok(result.length === 1);
+		ok(result[0] === stub2);
+	});
+	
+	test("where returns set of expected results", 3, function ()  {
+		var collectionManager = new CollectionManager();
+		
+		var stub = {
+				value: 10
+			},
+			stub2 = {
+				value: 20
+			},
+			stub3 = {
+				value: 20
+			};
+			
+		collectionManager.add(stub);
+		collectionManager.add(stub2);
+		collectionManager.add(stub3);
+		
+		var result = collectionManager.where('value', 20);
+		
+		ok(result.length === 2);
+		ok(result[0] === stub2);
+		ok(result[1] === stub3);
+	});
+	
 });
 

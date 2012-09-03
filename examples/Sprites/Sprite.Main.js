@@ -40,8 +40,6 @@ require(["engine/Game", "actors/Grid", "input/MouseKeyboardController", "engine/
 			this.width = options.width;
 			this.height = options.height;
 			this.delay = options.delay || 120;
-			
-			
 		};
 		
 		var Sprite = function (options) {

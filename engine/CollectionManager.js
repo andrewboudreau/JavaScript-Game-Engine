@@ -68,7 +68,7 @@ define(["./Function"], function (Function) {
 			var result = [];
 			for (var i = 0; i < this.items.length; i++) {
 				if (this.items[i][property] && this.items[i][property] === value) {
-					result.push(return this.items[i]);
+					result.push(this.items[i]);
 				}	
 			}
 			return result;
