@@ -15,33 +15,33 @@ require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot"]
 	function ($, Game, Grid, Polygon, Dot) {
 		"use strict";
 
-		var keyboard = new Dot({x: 0, y: 0, rotation: 0, size: 10, color: "red" }),
-			cursor = new Dot({x: 0, y: 0, rotation: 0, size: 10, color: "blue" });
+		var keyboard = new Dot({x: 50, y: 50, rotation: 0, size: 10, color: "red" }),
+			cursor = new Dot({x: 50, y: 50, rotation: 0, size: 10, color: "blue" });
 		
 		keyboard.update = function (duration, inputManager, entityManager) {
 			this.rotation -= 0.02;
 			
 			if (inputManager.isPressed(inputManager.left)) {
-				this.x -= 1;
+				this.physics.position.x -= 1;
 			}
 			
 			if (inputManager.isPressed(inputManager.right)) {
-				this.x += 1;
+				this.physics.position.x += 1;
 			}
 			
 			if (inputManager.isPressed(inputManager.up)) {
-				this.y -= 1;
+				this.physics.position.y -= 1;
 			}
 			
 			if (inputManager.isPressed(inputManager.down)) {
-				this.y += 1;
+				this.physics.position.y += 1;
 			}
 			
-			Game.singletonInstance.writeText({text: "keyboard - x:" + this.x + " y:" + this.y, x: this.x + this.halfSize, y: this.y});
+			Game.singletonInstance.writeText({text: "keyboard - x:" + this.physics.position.x + " y:" + this.physics.position.y, x: this.physics.position.x + this.halfSize, y: this.physics.position.y});
 		};
 		
 		cursor.update = function (duration, inputManager, entityManager) {
-			this.rotation += 0.02;
+			this.physics.position.rotation += 0.02;
 			
 			if (inputManager.isPressed(inputManager.buttonOne)) {
 				this.color = "pink";
@@ -55,15 +55,15 @@ require(["jquery", "engine/Game", "actors/Grid", "actors/Polygon", "actors/Dot"]
 			
 			this.scale += inputManager.wheelDelta() * 0.2;
 			
-			this.x = inputManager.x;
-			this.y = inputManager.y;
+			this.physics.position.x = inputManager.x;
+			this.physics.position.y = inputManager.y;
 			
 			var wheelDelta = inputManager.wheelDelta();
 			if (wheelDelta != 0) {
 				this.size += wheelDelta;
 			}
 			
-			Game.singletonInstance.writeText({text: "cursor - x:" + this.x + " y:" + this.y, x: this.x + this.halfSize, y: this.y});
+			Game.singletonInstance.writeText({text: "cursor - x:" + this.physics.position.x + " y:" + this.physics.position.y, x: this.physics.position.x + this.halfSize, y: this.physics.position.y});
 		};
 		
 		Game.singletonInstance
