@@ -13,7 +13,7 @@ require(["engine/Physics", "qunit/addons/close-enough/qunit-close-enough"], func
 	"use strict";
 	module("defaults");
 	
-	test("position is a function", 2, function () {	
+	test("drag defaults to zero", 2, function () {	
 		var p = new Physics();
 		ok(p.drag.x === 0);
 		ok(p.drag.y === 0);
@@ -181,7 +181,7 @@ require(["engine/Physics", "qunit/addons/close-enough/qunit-close-enough"], func
 	test("position updates from velocity", 2, function () {	
 		var p = new Physics();
 		p.velocity(1, 0);
-		p.update();
+		p.update(1);
 		
 		equal(p.position.x, 1);
 		equal(p.position.y, 0);
@@ -193,7 +193,7 @@ require(["engine/Physics", "qunit/addons/close-enough/qunit-close-enough"], func
 		p.drag(0.05, 0.05);
 		p.velocity(1, -1);
 		
-		p.update();
+		p.update(1);
 		equal(p.position.x, 0.95);
 		equal(p.position.y, -0.95);
 		
@@ -203,49 +203,32 @@ require(["engine/Physics", "qunit/addons/close-enough/qunit-close-enough"], func
 		var p = new Physics();
 		p.applyForce(1, -1);
 		
-		p.update();
+		p.update(1);
 		
-		equal(p.force.x, 0);
-		equal(p.force.y, 0);
+		equal(p.acceleration.x, 0);
+		equal(p.acceleration.y, 0);
 	});
 		
-	test("applyForce is additive", 6, function () {	
+	test("applyForce is additive", 2, function () {	
 		var p = new Physics();
-		p.applyForce(1, -1);
-		p.applyForce(1.5, -1.5);
+		p.applyForce(1000, -1000);
+		p.applyForce(1500, -1500);
 		
-		equal(p.force.x, 2.5);
-		equal(p.force.y, -2.5);
-		
-		p.update();
-		
-		equal(p.velocity.x, 2.5);
-		equal(p.velocity.y, -2.5);
-		
-		equal(p.position.x, 2.5);
-		equal(p.position.y, -2.5);
-		
+		equal(p.acceleration.x, 2.5);
+		equal(p.acceleration.y, -2.5);
 	});
 	
-	test("velocity increases when force is applied", 8, function () {	
+	test("velocity increases when force is applied", 4, function () {	
 		var p = new Physics();
-		p.applyForce(1, -1);
-		p.drag(0.05, 0.05);
-		p.update();
+		p.applyForce(1000, -1000);
 		
-		equal(p.velocity.x, 0.95);
-		equal(p.velocity.y, -0.95);
+		p.update(1);
 		
-		equal(p.position.x, 0.95);
-		equal(p.position.y, -0.95);
-				
-		p.update();
-		QUnit.close(p.velocity.x, 0.90, 0.005);
-		QUnit.close(p.velocity.y, -0.90, 0.005);
+		equal(p.velocity.x, 1);
+		equal(p.velocity.y, -1);
 		
-		QUnit.close(p.position.x, 1.85, 0.005);
-		QUnit.close(p.position.y, -1.85, 0.005);
-		
+		equal(p.position.x, 1.5);
+		equal(p.position.y, -1.5);
 	});
 	
 });

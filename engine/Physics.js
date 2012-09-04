@@ -45,7 +45,7 @@ define(function () {
 		position: [0, 0],
 		velocity: [0, 0],
 		gravity: [0, 0],
-		drag: 0.02,
+		drag: 0,
 		rotation: 0,
 		mass: 1,
 		thresholds: {
@@ -79,7 +79,7 @@ define(function () {
 		applyForce: function () {
 			var f = parseVectorArgumentToArray(arguments);
 			this.acceleration.x += f[0] / 1000.0;
-			this.acceleration.y += f[1] / 1000.0;;
+			this.acceleration.y += f[1] / 1000.0;
 		},
 		
 		update: function (dt) {
