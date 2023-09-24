@@ -1,29 +1,29 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, newcap:true, white:true */
 /*global define */
-define(["./Function"], function (Function) {
+define(["./Function"], (Function) => {
 	"use strict";
 	
 	if (!Array.prototype.forEach) {
-	  Array.prototype.forEach = function (fn, scope) {
-		for (var i = 0, len = this.length; i < len; ++i) {
+	  Array.prototype.forEach = (fn, scope) => {
+		for (let i = 0, len = this.length; i < len; ++i) {
 		  fn.call(scope || this, this[i], i, this);
 		}
 	  }
 	}
 	
 	if (!Array.prototype.each) {
-		Array.prototype.each = function (fn, scope) {
+		Array.prototype.each = (fn, scope) => {
 			Array.prototype.forEach(scope || this, this[i], i, this);
 		}
 	}
 	
-	var CollectionManager = Function.inherit({
-		init: function (type) {
+	let CollectionManager = Function.inherit({
+		init: (type) => {
 			this.type = type;
 			this.items = [];
 		},
 				
-		guard: function (item) {
+		guard: (item) => {
 			if (!this.type) {
 				return;
 			}
@@ -32,31 +32,31 @@ define(["./Function"], function (Function) {
 			}	
 		},
 		
-		add: function (item) {	
+		add: (item) => {	
 			this.guard(item);
 			
 			this.items.push(item);
 			return this;
 		},
 		
-		remove: function (item) {
-			var index = this.items.indexOf(item);
+		remove: (item) => {
+			let index = this.items.indexOf(item);
 			if (index !== -1) {
 				this.items.splice(index, 1);
 			}
 		},
 		
-		clear: function () {
+		clear: () => {
 			this.items.length = 0;
 		},
 		
-		indexOf: function (item) {
+		indexOf: (item) => {
 			this.guard(item);
 			
 			return this.items.indexOf(item);
 		},
 		
-		item: function (index) {
+		item: (index) => {
 			if (index < 0 || index >= this.items.length) {
 				throw "argument out of range";
 			}
@@ -64,9 +64,9 @@ define(["./Function"], function (Function) {
 			return this.items[index];
 		},
 		
-		where: function (property, value) {
-			var result = [];
-			for (var i = 0; i < this.items.length; i++) {
+		where: (property, value) => {
+			let result = [];
+			for (let i = 0; i < this.items.length; i++) {
 				if (this.items[i][property] && this.items[i][property] === value) {
 					result.push(this.items[i]);
 				}	
@@ -74,16 +74,16 @@ define(["./Function"], function (Function) {
 			return result;
 		},
 		
-		find: function (predicate) {
-			for (var i = 0; i < this.items.length; i++) {
+		find: (predicate) => {
+			for (let i = 0; i < this.items.length; i++) {
 				if (predicate.call(this.items[i], this.items[i])) {
 					return this.items[i];
 				}	
 			}
 		},
 		
-		each: function (lambda) {
-			for (var i = 0; i < this.items.length; i++) {
+		each: (lambda) => {
+			for (let i = 0; i < this.items.length; i++) {
 				lambda.call(this.items[i], this.items[i]);
 			}
 		}

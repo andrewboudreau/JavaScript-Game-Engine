@@ -1,8 +1,8 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, white:true */
 /*global define*/
-define(["engine/requestAnimationFrame"], function (requestAnimationFrame) {
+define(["engine/requestAnimationFrame"], (requestAnimationFrame) => {
 	"use strict";
-	var gamepad = {};
+	let gamepad = {};
 	
 	function GamepadController(mapping) {
 		
@@ -11,8 +11,8 @@ define(["engine/requestAnimationFrame"], function (requestAnimationFrame) {
 			buttons: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 		};
 		
-		this.init = function () { 
-			var self = this,
+		this.init = () => { 
+			let self = this,
 				gamepadSupportAvailable = !!navigator.webkitGetGamepads 
 					|| !!navigator.webkitGamepads 
 					|| (navigator.userAgent.indexOf('Firefox/') != -1);
@@ -38,14 +38,14 @@ define(["engine/requestAnimationFrame"], function (requestAnimationFrame) {
 			return this;
 		};
 		
-		this.onGamepadConnect = function () {
-			var arg = arguments;
+		this.onGamepadConnect = () => {
+			let arg = arguments;
 			console.log("gamepad connected");
 			this.controller =  navigator.webkitGamepads[0];	
 		};
 		
-		this.onGamepadDisconnect = function () {
-			var arg = arguments;
+		this.onGamepadDisconnect = () => {
+			let arg = arguments;
 			console.log("gamepad disconnected");
 			this.controller = {
 				axes: [0, 0, 0, 0],
@@ -53,14 +53,14 @@ define(["engine/requestAnimationFrame"], function (requestAnimationFrame) {
 			};
 		};
 		
-		this.axes = function (keycode) {
+		this.axes = (keycode) => {
 			if (Math.abs(this.controller.axes[keycode]) >= this.thresholds.axes[keycode]) {
 				return this.controller.axes[keycode];
 			}
 			return 0;
 		};
 		
-		this.buttons = function (keycode) {
+		this.buttons = (keycode) => {
 			if (Math.abs(this.controller.buttons[keycode]) >= this.thresholds.buttons[keycode]) {
 				return this.controller.buttons[keycode];
 			}

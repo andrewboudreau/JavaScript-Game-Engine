@@ -1,7 +1,7 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, newcap:true, white:false */
 
 /*global Game */
-(function (scope) {
+((scope) => {
 	"use strict";
 	
 	function MessageBus() {
@@ -22,14 +22,14 @@
 		};
 		
 		this.unsubscribe = function(listener) {
-			var index = this.listeners.indexOf(listener);
+			let index = this.listeners.indexOf(listener);
 			if( index !== -1) {
 				this.listeners.splice(index, 1);
 			}
 		};
 	
 		this.publish = function(message, context) {
-			for (var i = 0; i < this.listeners.length; i++) {
+			for (let i = 0; i < this.listeners.length; i++) {
 				this.listeners[i](message, context);
 			}
 		};

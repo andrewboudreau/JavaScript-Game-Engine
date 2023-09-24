@@ -1,9 +1,9 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, undef:true, curly:true, browser:true, indent:4, maxerr:50 white:true*/
 /*global define */
-define("engine/requestAnimationFrame", [], function () {
+define("engine/requestAnimationFrame", [], () => {
 	"use strict";
 	
-	window.animationStartTime = function () {
+	window.animationStartTime = () => {
 		return window.mozAnimationStartTime || window.webkitAnimationStartTime || +new Date;
 	};
 	
@@ -13,7 +13,7 @@ define("engine/requestAnimationFrame", [], function () {
 		window.mozRequestAnimationFrame || 
 		window.oRequestAnimationFrame || 
 		window.msRequestAnimationFrame || 
-		function (callback, element) {
+		(callback, element) => {
 			window.setTimeout(callback, 1000 / 60);
 		};
 });

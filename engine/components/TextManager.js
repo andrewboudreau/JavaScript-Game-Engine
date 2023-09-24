@@ -1,10 +1,10 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, white:true */
 /*global define */
-define(["engine/CollectionManager"], function (CollectionManager) {
+define(["engine/CollectionManager"], (CollectionManager) => {
 	"use strict";
 	
-	var TextManager = CollectionManager.inherit({
-		init: function () {
+	let TextManager = CollectionManager.inherit({
+		init: () => {
 			this.$super();
 			
 			this.xOffset = 0;
@@ -13,10 +13,10 @@ define(["engine/CollectionManager"], function (CollectionManager) {
 			this.lineHeight = 10;
 		},
 		
-		render: function (game, duration) {
-			var ctx = game.screen.context;
+		render: (game, duration) => {
+			let ctx = game.screen.context;
 			
-			this.each(function (item) {
+			this.each((item) => {
 				ctx.font = item.font;
 				ctx.fillText(item.text, item.x, item.y);
 			});
@@ -24,10 +24,10 @@ define(["engine/CollectionManager"], function (CollectionManager) {
 			this.clear();
 		},
 		
-		update: function () {
+		update: () => {
 		},
 		
-		writeText: function (options) {
+		writeText: (options) => {
 		///<summary>
 		/// Utility function to write text to the canvas.
 		/// options { text, x, y, font }
@@ -47,7 +47,7 @@ define(["engine/CollectionManager"], function (CollectionManager) {
 			});
 		},
 		
-		writeLine: function (text) {
+		writeLine: (text) => {
 			this.yOffset += this.lineHeight + this.padding;
 			this.items.push({
 				text : text,
@@ -57,7 +57,7 @@ define(["engine/CollectionManager"], function (CollectionManager) {
 			});
 		},
 		
-		clear: function () {
+		clear: () => {
 			this.$super();
 			this.xOffset = 0;
 			this.yOffset = 0;

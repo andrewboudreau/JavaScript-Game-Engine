@@ -1,10 +1,10 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, white:true */
 /*global define */
-define(["./Function", "./CollectionManager", "./Component"], function (Function, CollectionManager, Component) {
+define(["./Function", "./CollectionManager", "./Component"], (Function, CollectionManager, Component) => {
 	"use strict";
 	
-	var Transform = Function.inherit({
-		init: function (x, y, rotation) {
+	let Transform = Function.inherit({
+		init: (x, y, rotation) => {
 			
 			if (typeof x === 'undefined') {
 				x = 0;
@@ -20,7 +20,7 @@ define(["./Function", "./CollectionManager", "./Component"], function (Function,
 			this.y = y;
 			this.rotation = rotation;
 		},
-		position: function () {
+		position: () => {
 			return [this.x, this.y];
 		}
 	});

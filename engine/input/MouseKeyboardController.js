@@ -1,6 +1,6 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, white:true */
 /*global define*/
-define(function () {
+define(() => {
 	"use strict";
 	
 	function MouseKeyboardController(screen, mapping) {
@@ -33,48 +33,48 @@ define(function () {
 		this.wheel = 0;
 		this.screen = screen;
 		
-		this.init = function () {
-			var self = this;
+		this.init = () => {
+			let self = this;
 					
-			window.addEventListener('keyup', function (event) { 
+			window.addEventListener('keyup', (event) => { 
 				self.onKeyup(event); 
 			}, false);
 			
-			window.addEventListener('keydown', function (event) { 
+			window.addEventListener('keydown', (event) => { 
 				self.onKeydown(event); 
 			}, false);
 			
-			window.addEventListener('mousemove', function (event) { 
+			window.addEventListener('mousemove', (event) => { 
 				self.onMousemove(event); 
 			}, false);
 			
-			window.addEventListener('mousewheel', function (event) { 
+			window.addEventListener('mousewheel', (event) => { 
 				self.onMousewheel(event); 
 			}, false);
 			
-			window.addEventListener('mousedown', function (event) { 
+			window.addEventListener('mousedown', (event) => { 
 				self.onMousedown(event); 
 			}, false);
 			
-			window.addEventListener('mouseup', function (event) { 
+			window.addEventListener('mouseup', (event) => { 
 				self.onMouseup(event); 
 			}, false);
 			
 			return this;
 		};
 		
-		this.position = function () { 
+		this.position = () => { 
 			return [this.x, this.y];
 		};
 		
-		this.wheelDelta = function () {
-			var tmp = this.wheel;
+		this.wheelDelta = () => {
+			let tmp = this.wheel;
 			this.wheel = 0; 
 			return tmp;
 		};
 		
-		this.findPos = function (obj) {
-			var curleft = 0, curtop = 0;
+		this.findPos = (obj) => {
+			let curleft = 0, curtop = 0;
 			if (obj.offsetParent) {
 				do {
 					curleft += obj.offsetLeft;
@@ -85,24 +85,24 @@ define(function () {
 			return undefined;
 		};
 
-		this.isPressed = function (keyCode) {
+		this.isPressed = (keyCode) => {
 			return this.pressed[keyCode];
 		};
 
-		this.onMousemove = function (event) {
-			var element =  this.screen.canvas || document.body;
-			var pos = this.findPos(element);
+		this.onMousemove = (event) => {
+			let element =  this.screen.canvas || document.body;
+			let pos = this.findPos(element);
 			this.x = event.pageX - pos[0];
 			this.y = event.pageY - pos[1];
 		};
 
-		this.onMousewheel = function (event) { 
-			var e = window.event || event;
+		this.onMousewheel = (event) => { 
+			let e = window.event || event;
 			this.wheel += Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));  
 		};
 
-		this.onMouseup = function (event) {
-			var e = window.event || event;
+		this.onMouseup = (event) => {
+			let e = window.event || event;
 			switch (e.button) {
 			case 0:
 				delete this.pressed[this.buttonOne];
@@ -116,8 +116,8 @@ define(function () {
 			}
 		};
 
-		this.onMousedown = function (event) {
-			var e = window.event || event;
+		this.onMousedown = (event) => {
+			let e = window.event || event;
 			
 			switch (e.button) {
 			case 0:
@@ -132,11 +132,11 @@ define(function () {
 			}
 		};
 
-		this.onKeydown = function (event) {
+		this.onKeydown = (event) => {
 			this.pressed[event.keyCode] = true;
 		};
 
-		this.onKeyup = function (event) {
+		this.onKeyup = (event) => {
 			delete this.pressed[event.keyCode];
 		};
 	}

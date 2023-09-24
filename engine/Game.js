@@ -1,10 +1,10 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, newcap:true, white:true */
 /*global define*/
 define(["engine/Function", "engine/Screen", "engine/Component", "engine/CollectionManager", "components/TextManager", "input/MouseKeyboardController", "engine/requestAnimationFrame", "lib/stats"], 
-	function (Function, Screen, Component, CollectionManager, TextManager, MouseKeyboardController, requestAnimationFrame) {
+	(Function, Screen, Component, CollectionManager, TextManager, MouseKeyboardController, requestAnimationFrame) => {
 		"use strict";
 		
-		var stats = new Stats();
+		let stats = new Stats();
 		
 		// Align top-left
 		stats.domElement.style.position = 'absolute';
@@ -13,12 +13,12 @@ define(["engine/Function", "engine/Screen", "engine/Component", "engine/Collecti
 		stats.setMode(0); // 0: fps, 1: ms
 		document.body.appendChild( stats.domElement );
 		
-		var Game = function (canvas, context) {
+		let Game = (canvas, context) => {
 			Game.singletonInstance = this.init(canvas, context);	
 		};
 		
 		Game.prototype = {
-			init: function (canvas, context) {
+			init: (canvas, context) => {
 				this.lastTime = 0;
 				
 				this.screen = new Screen(canvas, context);
@@ -34,18 +34,18 @@ define(["engine/Function", "engine/Screen", "engine/Component", "engine/Collecti
 				return this;
 			},
 			
-			add: function (component) {
+			add: (component) => {
 				this.entityManager.add(component);
 				return this;
 			},
 			
-			run: function (time) {
+			run: (time) => {
 			/// <summary>
 			/// application loop, request animation frame.  
 			/// </summary>
 				stats.begin();
 				
-				var dt, self = Game.singletonInstance;
+				let dt, self = Game.singletonInstance;
 				
 				// first frame
 				if (!time) {
@@ -64,13 +64,13 @@ define(["engine/Function", "engine/Screen", "engine/Component", "engine/Collecti
 				stats.end();
 			},
 			
-			gameLoop: function (dt, game, inputManager, entityManager) {
+			gameLoop: (dt, game, inputManager, entityManager) => {
 			/// <summary>
 			/// Internal game loop, all context passed in externally making this method testable.
 			/// </summary>
 				game.screen.clear();
 				
-				entityManager.each(function (entity) {
+				entityManager.each((entity) => {
 					if (!game.paused) {
 						entity.update(dt, inputManager, entityManager);
 					}
@@ -80,7 +80,7 @@ define(["engine/Function", "engine/Screen", "engine/Component", "engine/Collecti
 				});
 			},
 			
-			writeText: function (options) {
+			writeText: (options) => {
 				///<summary>
 				/// Utility function to write text to the canvas.
 				/// options { text, x, y, font }
@@ -88,14 +88,14 @@ define(["engine/Function", "engine/Screen", "engine/Component", "engine/Collecti
 				this.textManager.writeText(options);
 			},
 			
-			writeLine: function (text) {
+			writeLine: (text) => {
 				///<summary>
 				/// Utility function to write text to the canvas.
 				///<summary>
 				this.textManager.writeLine(text);
 			},
 			
-			reset: function () {
+			reset: () => {
 				this.entityManager.clear();
 				this.textManager.clear();
 				

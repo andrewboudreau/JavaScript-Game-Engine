@@ -1,11 +1,11 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, newcap:true, white:true */
 /*global define */
-define(["engine/Entity", "engine/Physics"], function (Entity, Physics) {
+define(["engine/Entity", "engine/Physics"], (Entity, Physics) => {
 	"use strict";
 	
-	var Dot = Entity.inherit({
+	let Dot = Entity.inherit({
 		
-		init: function (options) {
+		init: (options) => {
 			this.$super();
 			this.size = options.size || 10;
 			this.color = options.color;
@@ -13,9 +13,9 @@ define(["engine/Entity", "engine/Physics"], function (Entity, Physics) {
 			this.physics = new Physics(options);
 		},
 		
-		render: function (game) {			
+		render: (game) => {			
 			this.$super(game);
-			var ctx = game.screen.context;
+			let ctx = game.screen.context;
 			
 			ctx.save();
 			ctx.translate(this.physics.position.x, this.physics.position.y);

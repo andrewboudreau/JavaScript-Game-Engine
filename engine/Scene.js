@@ -1,15 +1,15 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, newcap:true, white:true */
 /*global define*/
 define(["engine/Function", "engine/Component", "components/CollectionManager", "components/TextManager", "input/MouseKeyboardController", "engine/requestAnimationFrame"], 
-	function (Function, Component, CollectionManager, TextManager, MouseKeyboardController, requestAnimationFrame) {
+	(Function, Component, CollectionManager, TextManager, MouseKeyboardController, requestAnimationFrame) => {
 		"use strict";
 		
-		var Game = function (canvas, context) {
+		let Game = (canvas, context) => {
 			Game.singletonInstance = this.init(canvas, context);	
 		};
 		
 		Game.prototype = {
-			init: function (canvas, context) {
+			init: (canvas, context) => {
 			
 				this.canvas = canvas || document.getElementById("canvas");
 				this.context = canvas || this.canvas.getContext("2d");
@@ -26,16 +26,16 @@ define(["engine/Function", "engine/Component", "components/CollectionManager", "
 				return this;
 			},
 			
-			add: function (component) {
+			add: (component) => {
 				this.entityManager.add(component);
 				return this;
 			},
 			
-			run: function (duration) {
+			run: (duration) => {
 			/// <summary>
 			/// application loop, request animation frame.  
 			/// </summary>
-				var self = Game.singletonInstance;
+				let self = Game.singletonInstance;
 				self.gameLoop(duration, self, self.inputManager, self.entityManager);
 				
 				if (!self.exit) {
@@ -43,13 +43,13 @@ define(["engine/Function", "engine/Component", "components/CollectionManager", "
 				}
 			},
 			
-			gameLoop: function (duration, game, inputManager, entityManager) {
+			gameLoop: (duration, game, inputManager, entityManager) => {
 			/// <summary>
 			/// Internal game loop, all context passed in externally making this method testable.
 			/// </summary>
 				game.clear();
 				
-				entityManager.each(function (entity) {
+				entityManager.each((entity) => {
 					if (!game.paused) {
 						entity.update(duration, inputManager, entityManager);
 					}
@@ -59,11 +59,11 @@ define(["engine/Function", "engine/Component", "components/CollectionManager", "
 				});
 			},
 			
-			clear: function () {
+			clear: () => {
 				this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 			},
 			
-			writeText: function (options) {
+			writeText: (options) => {
 				///<summary>
 				/// Utility function to write text to the canvas.
 				/// options { text, x, y, font }
@@ -71,14 +71,14 @@ define(["engine/Function", "engine/Component", "components/CollectionManager", "
 				this.textManager.writeText(options);
 			},
 			
-			writeLine: function (text) {
+			writeLine: (text) => {
 				///<summary>
 				/// Utility function to write text to the canvas.
 				///<summary>
 				this.textManager.writeLine(text);
 			},
 			
-			reset: function () {
+			reset: () => {
 				this.entityManager.clear();
 				this.textManager.clear();
 				
@@ -93,9 +93,9 @@ define(["engine/Function", "engine/Component", "components/CollectionManager", "
     }
 );
 
-define(["engine/Function"],  function(Function) {
+import Function from "engine/Function"; {
 	
-	var Scene = Function.inherits({
+	let Scene = Function.inherits({
 		init: function() {
 			this.entities
 		},

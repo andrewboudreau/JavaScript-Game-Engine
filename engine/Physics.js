@@ -1,6 +1,6 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50 */
 /*global define*/
-define(function () {
+define(() => {
 	"use strict";
 	
 	function sign(number) {
@@ -19,13 +19,13 @@ define(function () {
 	};
 	
 	function createVector() {
-		var defaults = [0, 0];
+		let defaults = [0, 0];
 		
 		function vector() {		
 			if (!arguments.length) {
 				return [vector.x, vector.y];
 			}
-			var v = parseVectorArgumentToArray(arguments);
+			let v = parseVectorArgumentToArray(arguments);
 			vector.x = v[0];
 			vector.y = v[1];
 			return this;
@@ -41,7 +41,7 @@ define(function () {
 		return vector;
 	};
 		
-	var defaults = {
+	let defaults = {
 		position: [0, 0],
 		velocity: [0, 0],
 		gravity: [0, 0],
@@ -54,12 +54,12 @@ define(function () {
 		}
 	};
 	
-	var Physics = function (opt) {
-		var self = this,
+	let Physics = (opt) => {
+		let self = this,
 			options = $.extend({}, opt);
 		
 		// vector based properties
-		$(['acceleration', 'drag', 'force', 'position', 'velocity', 'gravity']).each(function () {
+		$(['acceleration', 'drag', 'force', 'position', 'velocity', 'gravity']).each(() => {
 			self[this] = createVector();
 		});
 		this.mag = 0;
@@ -76,13 +76,13 @@ define(function () {
 	};
 	
 	Physics.prototype = {
-		applyForce: function () {
-			var f = parseVectorArgumentToArray(arguments);
+		applyForce: () => {
+			let f = parseVectorArgumentToArray(arguments);
 			this.acceleration.x += f[0] / 1000.0;
 			this.acceleration.y += f[1] / 1000.0;
 		},
 		
-		update: function (dt) {
+		update: (dt) => {
 			this.dt = dt;
 			
 			if (this.rotation > (2 * Math.PI) || this.rotation < (-2 * Math.PI)) {
@@ -100,7 +100,7 @@ define(function () {
 			this.mag = Math.pow(this.velocity.x + this.acceleration.x, 2) + Math.pow(this.velocity.y + this.force.y, 2);
 		},
 		
-		render: function () {
+		render: () => {
 		}
 	
 	};

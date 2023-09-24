@@ -1,23 +1,23 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, white:true */
 /*global define */
-define(function () {
+define(() => {
 	"use strict";
 	
-	var guard = function (vector) {
+	let guard = (vector) => {
 		if (typeof vector.length === 'undefined' || vector.length !== 2) {
 			throw new Error("2d array expected");
 		}
 	},
 	
-	guardScalar = function (scalar) {
+	guardScalar = (scalar) => {
 		if (isNaN(scalar)) {
 			throw new Error("scalar expected");
 		}
 	},
 	
-	defineArrayProperty = function (props) {
+	defineArrayProperty = (props) => {
 		Object.defineProperty(Array.prototype, props.name, {
-			value: function (param) {
+			value: (param) => {
 				props.guardThis(this);
 				props.guardParameter(param);
 				
@@ -28,7 +28,7 @@ define(function () {
 		});
 	},
 	
-	defineScalarFunction = function (name, fn) {
+	defineScalarFunction = (name, fn) => {
 		defineArrayProperty({
 			name: name,
 			guardThis: guard,
@@ -37,7 +37,7 @@ define(function () {
 		});
 	},
 	
-	defineVectorFunction = function (name, fn) {
+	defineVectorFunction = (name, fn) => {
 		defineArrayProperty({
 			name: name,
 			guardThis: guard,
@@ -46,51 +46,52 @@ define(function () {
 		});
 	},
 	
-	defineParameterlessFunction = function (name, fn) {
+	defineParameterlessFunction = (name, fn) => {
 		defineArrayProperty({
 			name: name,
 			guardThis: guard,
-			guardParameter: function () { return true; },
+			guardParameter: () => { return true; },
 			fn: fn
 		});
 	};
 	
-	defineVectorFunction("add", function (vector) {
+	defineVectorFunction("add", (vector) => {
 		return [this[0] + vector[0], this[1] + vector[1]];
 	});	
 	
-	defineVectorFunction("subtract", function (vector) {
+	defineVectorFunction("subtract", (vector) => {
 		return [this[0] - vector[0], this[1] - vector[1]];
 	});
 	
-	defineScalarFunction("multiply", function (scalar) {
+	defineScalarFunction("multiply", (scalar) => {
 		return [this[0] * scalar, this[1] * scalar];
 	});
-		defineScalarFunction("divide", function (scalar) {
+	
+	defineScalarFunction("divide", (scalar) => {
 		return [this[0] / scalar, this[1] / scalar];
 	});
 	
-	defineVectorFunction("dot", function (vector) {
+	defineVectorFunction("dot", (vector) => {
 		return this[0] * vector[0] + this[1] * vector[1];
 	});
 	
-	defineParameterlessFunction("vectorLengthSquared", function () {
+	defineParameterlessFunction("vectorLengthSquared", () => {
 		return [this[0] * this[0] + this[1] * this[1]];
 	});
 	
-	defineParameterlessFunction("vectorLength", function () {
+	defineParameterlessFunction("vectorLength", () => {
 		return Math.sqrt(this.vectorLengthSquared());
 	});
 	
-	defineVectorFunction("normalize", function () {
+	defineVectorFunction("normalize", () => {
 		return this.divide(this.vectorLength());
 	});
 	
-	defineVectorFunction("distanceSquared", function (vector) {
+	defineVectorFunction("distanceSquared", (vector) => {
 		return (vector[0] - this[0]) * (vector[0] - this[0]) + (vector[1] - this[1]) *  (vector[1] - this[1]);
 	});
 	
-	defineVectorFunction("distance", function () {
+	defineVectorFunction("distance", () => {
 		return this.divide(this.vectorLength());
 	});
 	

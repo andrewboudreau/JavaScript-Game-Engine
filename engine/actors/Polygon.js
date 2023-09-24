@@ -1,15 +1,16 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, newcap:true, white:true */
 /*global define */
-define(["engine/Actor"], function (Actor) {
+define(["engine/Actor"], (Actor) => {
 	"use strict";
 	
-	var Polygon = Actor.inherit({
-		init: function (x, y, rotation, vertices) {
+	let Polygon = Actor.inherit({
+		init: (x, y, rotation, vertices) => {
 			this.$super(x, y, rotation);
 			
 			this.scale = 1;
 			this.color = "blue";
-			
+			
+
 			this.vertices = vertices || [
 				113, 283, 
 				70, 156, 
@@ -19,20 +20,20 @@ define(["engine/Actor"], function (Actor) {
 			];
 			
 		},
-		centerAtCentroid: function () {
+		centerAtCentroid: () => {
 		
-			var offset = this.centroid();
+			let offset = this.centroid();
 			 console.dir(offset);
 			 
-			for (var item = 0; item < this.vertices.length - 1; item += 2) {
+			for (let item = 0; item < this.vertices.length - 1; item += 2) {
 				this.vertices[item] -= offset[0];
 				this.vertices[item + 1] -= offset[1];
 			}
 		},
-		render: function (game) {
+		render: (game) => {
 			this.$super(game);
 			
-			var poly = this.vertices,
+			let poly = this.vertices,
 				ctx = game.screen.context,
 				item;
 			
@@ -52,8 +53,8 @@ define(["engine/Actor"], function (Actor) {
 			ctx.restore();
 		},
 		
-		centroid : function () {
-			var item,
+		centroid : () => {
+			let item,
 				poly = this.vertices,
 				x = 0, y = 0,
 				itr = 0;
@@ -67,7 +68,7 @@ define(["engine/Actor"], function (Actor) {
 			return [x / itr, y / itr];
 		},
 		
-		pointInConvexPolygon: function (point, vertices) {
+		pointInConvexPolygon: (point, vertices) => {
 			function crossProduct(a, b) {
 				return a[0] * b[1] - a[1] * b[0];
 			}
@@ -76,7 +77,7 @@ define(["engine/Actor"], function (Actor) {
 				return [a[0] - b[0], a[1] - b[1]];
 			}
 			
-			var i = 0,
+			let i = 0,
 				sign = 0,
 				segment, affineSegment, affinePoint, k;
 			

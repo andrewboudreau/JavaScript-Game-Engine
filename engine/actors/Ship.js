@@ -1,11 +1,11 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, newcap:true, white:true */
 /*global define */
-define(["engine/Actor", "engine/Physics"], function (Actor, Physics) {
+define(["engine/Actor", "engine/Physics"], (Actor, Physics) => {
 	"use strict";
 	
-	var Ship = Actor.inherit({
+	let Ship = Actor.inherit({
 		
-		init: function (options) {
+		init: (options) => {
 			this.$super(options.x, options.y, options.rotation);
 			this.size = options.size;
 			this.color = options.color;
@@ -13,14 +13,14 @@ define(["engine/Actor", "engine/Physics"], function (Actor, Physics) {
 			this.physics = new Physics();
 		},
 		
-		update: function (dt) {
+		update: (dt) => {
 			this.$super(dt);
 			this.physics.update(dt);
 		},
 		
-		render: function (game) {
+		render: (game) => {
 			this.$super();
-			var ctx = game.screen.context;
+			let ctx = game.screen.context;
 			
 			ctx.save();
 			ctx.translate(this.physics.position.x, this.physics.position.y);

@@ -1,17 +1,17 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, newcap:true, white:true */
 /*global define */
 
-define(["engine/Actor"], function (Actor) {
+define(["engine/Actor"], (Actor) => {
 	"use strict";
 	
-	var Grid = Actor.inherit({
-		init: function (color, spacing) {
+	let Grid = Actor.inherit({
+		init: (color, spacing) => {
 			this.$super();
 			this.spacing = spacing || 20;
 			this.color = color || "#CCC";
 		},
-		render: function (game, duration) {
-			var w, v, 
+		render: (game, duration) => {
+			let w, v, 
 				ctx = game.screen.context,
 				canvas = game.screen.canvas,
 				hspacing = this.spacing, 

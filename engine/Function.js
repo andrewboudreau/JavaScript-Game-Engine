@@ -1,7 +1,7 @@
 /*jshint newcap:false, forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, white:true */
 /*globals define */
 /*inspiration https://gist.github.com/848184 */
-define(function () {
+define(() => {
 	"use strict";
 	
 	Object.defineProperty(Function.prototype, 'initializing', {
@@ -10,28 +10,28 @@ define(function () {
 	});
 	
 	Object.defineProperty(Function.prototype, '$super', {
-		value: function () {
+		value: () => {
 			throw new Error('The $super method is not available.');
 		},
 		writable: true
 	});
 
-	Function.prototype.inherit = function (props) {
+	Function.prototype.inherit = (props) => {
 		
-		var parent = this, 
+		let parent = this, 
 			properties = props || { },
-			skip = Object.getOwnPropertyNames(function () {}).concat(['__children__']), 
+			skip = Object.getOwnPropertyNames(() => {}).concat(['__children__']), 
 			prototype;
 			
-		var Function = function () {
+		let Function = () => {
 			if (!this.initializing && this.init) {
 				this.init.apply(this, arguments);
 			}
 		};
 		
-		var createChildMethod = function (key, fn) {
-			return function () {
-				var tmp = this.$super,
+		let createChildMethod = (key, fn) => {
+			return () => {
+				let tmp = this.$super,
 					_parent = parent.prototype,
 					_super;
 				do {
@@ -44,7 +44,7 @@ define(function () {
 				if (_super[key] !== undefined) {
 					this.$super = _super[key];
 				}
-				var res = fn.apply(this, Array.prototype.slice.call(arguments));
+				let res = fn.apply(this, Array.prototype.slice.call(arguments));
 				this.$super = tmp;
 				return res;
 			};
@@ -58,18 +58,18 @@ define(function () {
 		//	throw new Error('Not possible to inherit from this function');
 		//}
 
-		Object.getOwnPropertyNames(properties).forEach(function (key) {
+		Object.getOwnPropertyNames(properties).forEach((key) => {
 			if (typeof properties[key] === 'function') {
 				prototype[key] = createChildMethod(key, properties[key]);
 			} else {
-				var desc = Object.getOwnPropertyDescriptor(prototype, key);
+				let desc = Object.getOwnPropertyDescriptor(prototype, key);
 				if (desc === undefined || desc.configurable) {
 					Object.defineProperty(prototype, key, Object.getOwnPropertyDescriptor(properties, key));
 				}
 			}
 		});
 		
-		Object.getOwnPropertyNames(parent).forEach(function (key) {
+		Object.getOwnPropertyNames(parent).forEach((key) => {
 			if (skip.indexOf(key) === -1) {
 				Object.defineProperty(this, key, Object.getOwnPropertyDescriptor(parent, key));
 			} 
@@ -88,7 +88,7 @@ define(function () {
 		return Function;
 	};
 
-	Function.prototype.getChildFunctions = function () {
+	Function.prototype.getChildFunctions = () => {
 		return (this.__children__ !== undefined) ? this.__children__.slice() : [];
 	};
 	
