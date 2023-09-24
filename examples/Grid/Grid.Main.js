@@ -1,19 +1,8 @@
-/*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, white:true */
-/*globals require*/
-require.config({
-	baseUrl: "",
-	paths: {
-		"engine": "../../engine",
-		"actors": "../../engine/actors"
-    }
-});
+// Assuming you have Screen and Grid as ES6 modules
+import Screen from '../../engine/Screen';
+import Grid from '../../engine/actors/Grid';
 
-// Start the main app logic.
-require(["engine/Screen", "actors/Grid"], function (Screen, Grid) {
-	"use strict";
-	var screen = new Screen(),
-		grid = new Grid("orange", 20);
-	
-	grid.render({ screen: screen });
-	
-});
+const screen = new Screen();
+const grid = new Grid("orange", 20);
+
+grid.render({ screen: screen });

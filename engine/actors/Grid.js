@@ -1,43 +1,39 @@
-/*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, newcap:true, white:true */
-/*global define */
+import Actor from "../Actor";
 
-define(["engine/Actor"], function (Actor) {
-	"use strict";
-	
-	var Grid = Actor.inherit({
-		init: function (color, spacing) {
-			this.$super();
-			this.spacing = spacing || 20;
-			this.color = color || "#CCC";
-		},
-		render: function (game, duration) {
-			var w, v, 
-				ctx = game.screen.context,
-				canvas = game.screen.canvas,
-				hspacing = this.spacing, 
-				vspacing = this.spacing,
-				color = this.color;
-			
-			ctx.save();
-			ctx.strokeStyle  = this.color;
-			
-			for (w = 0; w <= canvas.width; w += hspacing) {
-				ctx.beginPath();
-				ctx.moveTo(w, 0);
-				ctx.lineTo(w, canvas.height);
-				ctx.stroke();
-			}
-			
-			for (v = 0; v <= canvas.height; v += vspacing) {
-				ctx.beginPath();
-				ctx.moveTo(0, v);
-				ctx.lineTo(canvas.width, v);
-				ctx.stroke();
-			}
-			ctx.restore();
-			this.$super(game, duration);
-		}
-	});
-	
-	return Grid;
-});
+class Grid extends Actor {
+    constructor(color, spacing) {
+        super(); // Calling the parent class constructor
+        this.spacing = spacing || 20;
+        this.color = color || "#CCC";
+    }
+
+    render(game, duration) {
+        const ctx = game.screen.context;
+        const canvas = game.screen.canvas;
+        const hspacing = this.spacing;
+        const vspacing = this.spacing;
+        const color = this.color;
+
+        ctx.save();
+        ctx.strokeStyle = this.color;
+
+        for (let w = 0; w <= canvas.width; w += hspacing) {
+            ctx.beginPath();
+            ctx.moveTo(w, 0);
+            ctx.lineTo(w, canvas.height);
+            ctx.stroke();
+        }
+
+        for (let v = 0; v <= canvas.height; v += vspacing) {
+            ctx.beginPath();
+            ctx.moveTo(0, v);
+            ctx.lineTo(canvas.width, v);
+            ctx.stroke();
+        }
+
+        ctx.restore();
+        super.render(game, duration); // Calling the parent class render method
+    }
+}
+
+export default Grid;

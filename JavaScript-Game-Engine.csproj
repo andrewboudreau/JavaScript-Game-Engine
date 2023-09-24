@@ -1,0 +1,91 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>JavaScript_Game_Engine</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\engine\Actor.js" />
+    <None Include="wwwroot\engine\actors\Dot.js" />
+    <None Include="wwwroot\engine\actors\Grid.js" />
+    <None Include="wwwroot\engine\actors\Polygon.js" />
+    <None Include="wwwroot\engine\actors\Ship.js" />
+    <None Include="wwwroot\engine\CollectionManager.js" />
+    <None Include="wwwroot\engine\Component.js" />
+    <None Include="wwwroot\engine\components\TextManager.js" />
+    <None Include="wwwroot\engine\Entity.js" />
+    <None Include="wwwroot\engine\Game.js" />
+    <None Include="wwwroot\engine\input\GamepadController.js" />
+    <None Include="wwwroot\engine\input\MouseKeyboardController.js" />
+    <None Include="wwwroot\engine\MessageBus.js" />
+    <None Include="wwwroot\engine\Physics.js" />
+    <None Include="wwwroot\engine\Scene.js" />
+    <None Include="wwwroot\engine\Screen.js" />
+    <None Include="wwwroot\engine\Transform.js" />
+    <None Include="wwwroot\engine\Vector.js" />
+    <None Include="wwwroot\examples\ActiveGrid\ActiveGrid.html" />
+    <None Include="wwwroot\examples\ActiveGrid\ActiveGrid.Main.js" />
+    <None Include="wwwroot\examples\EmptyGame\EmptyGame.html" />
+    <None Include="wwwroot\examples\EmptyGame\EmptyGame.Main.js" />
+    <None Include="wwwroot\examples\EmptyGame\localhost.url" />
+    <None Include="wwwroot\examples\FolderPerDemo\FolderPerDemo.html" />
+    <None Include="wwwroot\examples\FolderPerDemo\js\Bar.js" />
+    <None Include="wwwroot\examples\FolderPerDemo\js\FolderPerDemo.Main.js" />
+    <None Include="wwwroot\examples\FolderPerDemo\js\Foo.js" />
+    <None Include="wwwroot\examples\Grid\Grid.html" />
+    <None Include="wwwroot\examples\Grid\Grid.Main.js" />
+    <None Include="wwwroot\examples\Launcher\Launcher.html" />
+    <None Include="wwwroot\examples\Launcher\Launcher.Main.js" />
+    <None Include="wwwroot\examples\MouseKeyboard\MouseKeyboard.html" />
+    <None Include="wwwroot\examples\MouseKeyboard\MouseKeyboard.Main.js" />
+    <None Include="wwwroot\examples\OnScreenController\OnScreenController.html" />
+    <None Include="wwwroot\examples\OnScreenController\OnScreenController.Main.js" />
+    <None Include="wwwroot\examples\Polygon\Polygon.html" />
+    <None Include="wwwroot\examples\Polygon\Polygon.Main.js" />
+    <None Include="wwwroot\examples\SimpleEntity\SimpleEntity.html" />
+    <None Include="wwwroot\examples\SimpleEntity\SimpleEntity.Main.js" />
+    <None Include="wwwroot\examples\SimpleShip\SimpleShip.html" />
+    <None Include="wwwroot\examples\SimpleShip\SimpleShip.Main.js" />
+    <None Include="wwwroot\examples\Sprites\character.png" />
+    <None Include="wwwroot\examples\Sprites\character_green.png" />
+    <None Include="wwwroot\examples\Sprites\Sprite.html" />
+    <None Include="wwwroot\examples\Sprites\Sprite.Main.js" />
+    <None Include="wwwroot\examples\TextManager\TextManager.html" />
+    <None Include="wwwroot\examples\TextManager\TextManager.Main.js" />
+    <None Include="wwwroot\index.html" />
+    <None Include="wwwroot\lib\dat.gui.js" />
+    <None Include="wwwroot\lib\qunit\addons\canvas\canvas-test.js" />
+    <None Include="wwwroot\lib\qunit\addons\canvas\canvas.html" />
+    <None Include="wwwroot\lib\qunit\addons\canvas\qunit-canvas.js" />
+    <None Include="wwwroot\lib\qunit\addons\canvas\README.md" />
+    <None Include="wwwroot\lib\qunit\addons\close-enough\close-enough-test.js" />
+    <None Include="wwwroot\lib\qunit\addons\close-enough\close-enough.html" />
+    <None Include="wwwroot\lib\qunit\addons\close-enough\qunit-close-enough.js" />
+    <None Include="wwwroot\lib\qunit\addons\close-enough\README.md" />
+    <None Include="wwwroot\lib\qunit\addons\composite\composite-demo-test.html" />
+    <None Include="wwwroot\lib\qunit\addons\composite\index.html" />
+    <None Include="wwwroot\lib\qunit\addons\composite\qunit-composite.css" />
+    <None Include="wwwroot\lib\qunit\addons\composite\qunit-composite.js" />
+    <None Include="wwwroot\lib\qunit\addons\composite\README.md" />
+    <None Include="wwwroot\lib\qunit\addons\junitlogger\index.html" />
+    <None Include="wwwroot\lib\qunit\addons\junitlogger\junitlogger.js" />
+    <None Include="wwwroot\lib\qunit\addons\phantomjs\README.md" />
+    <None Include="wwwroot\lib\qunit\addons\phantomjs\runner.js" />
+    <None Include="wwwroot\lib\qunit\addons\step\qunit-step.js" />
+    <None Include="wwwroot\lib\qunit\addons\step\README.md" />
+    <None Include="wwwroot\lib\qunit\addons\step\step-test.js" />
+    <None Include="wwwroot\lib\qunit\addons\step\step.html" />
+    <None Include="wwwroot\lib\qunit\addons\themes\gabe.css" />
+    <None Include="wwwroot\lib\qunit\addons\themes\gabe.html" />
+    <None Include="wwwroot\lib\qunit\addons\themes\nv.css" />
+    <None Include="wwwroot\lib\qunit\addons\themes\nv.html" />
+    <None Include="wwwroot\lib\qunit\addons\themes\README.md" />
+    <None Include="wwwroot\lib\qunit\qunit.css" />
+    <None Include="wwwroot\lib\qunit\qunit.js" />
+    <None Include="wwwroot\lib\stats.js" />
+  </ItemGroup>
+
+</Project>

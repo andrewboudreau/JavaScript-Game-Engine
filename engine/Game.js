@@ -1,111 +1,88 @@
-/*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, curly:true, browser:true, indent:4, maxerr:50, newcap:true, white:true */
-/*global define*/
-define(["engine/Function", "engine/Screen", "engine/Component", "engine/CollectionManager", "components/TextManager", "input/MouseKeyboardController", "engine/requestAnimationFrame", "lib/stats"], 
-	function (Function, Screen, Component, CollectionManager, TextManager, MouseKeyboardController, requestAnimationFrame) {
-		"use strict";
-		
-		var stats = new Stats();
-		
-		// Align top-left
-		stats.domElement.style.position = 'absolute';
-		stats.domElement.style.left = '0%';
-		stats.domElement.style.top = '0px';
-		stats.setMode(0); // 0: fps, 1: ms
-		document.body.appendChild( stats.domElement );
-		
-		var Game = function (canvas, context) {
-			Game.singletonInstance = this.init(canvas, context);	
-		};
-		
-		Game.prototype = {
-			init: function (canvas, context) {
-				this.lastTime = 0;
-				
-				this.screen = new Screen(canvas, context);
-				this.entityManager = new CollectionManager();
-				this.textManager = new TextManager(this.screen);
-				this.inputManager = new MouseKeyboardController(this.screen).init();
-				
-				this.initialized = false;
-				this.paused = false;
-				this.exit = false;
-				
-				this.entityManager.add(this.textManager);
-				return this;
-			},
-			
-			add: function (component) {
-				this.entityManager.add(component);
-				return this;
-			},
-			
-			run: function (time) {
-			/// <summary>
-			/// application loop, request animation frame.  
-			/// </summary>
-				stats.begin();
-				
-				var dt, self = Game.singletonInstance;
-				
-				// first frame
-				if (!time) {
-					time = window.animationStartTime();
-					self.lastTime = time - 16;
-				}
-				
-				dt = time - self.lastTime;
-				self.lastTime = time;
-				
-				self.gameLoop(dt, self, self.inputManager, self.entityManager);
-				
-				if (!self.exit) {
-					requestAnimationFrame(self.run);
-				}
-				stats.end();
-			},
-			
-			gameLoop: function (dt, game, inputManager, entityManager) {
-			/// <summary>
-			/// Internal game loop, all context passed in externally making this method testable.
-			/// </summary>
-				game.screen.clear();
-				
-				entityManager.each(function (entity) {
-					if (!game.paused) {
-						entity.update(dt, inputManager, entityManager);
-					}
-					if (entity.render) {
-						entity.render(game);			
-					}
-				});
-			},
-			
-			writeText: function (options) {
-				///<summary>
-				/// Utility function to write text to the canvas.
-				/// options { text, x, y, font }
-				///<summary>
-				this.textManager.writeText(options);
-			},
-			
-			writeLine: function (text) {
-				///<summary>
-				/// Utility function to write text to the canvas.
-				///<summary>
-				this.textManager.writeLine(text);
-			},
-			
-			reset: function () {
-				this.entityManager.clear();
-				this.textManager.clear();
-				
-				this.initialized = false;
-				this.paused = false;
-				this.exit = false;
-			}
-		};
-		
-		Game.singletonInstance = new Game();
-		return Game;
+import Screen from "./Screen";
+import CollectionManager from "./CollectionManager";
+import TextManager from "./components/TextManager";
+import MouseKeyboardController from "./input/MouseKeyboardController";
+import Stats from "../lib/stats";
+
+export default class Game {
+    constructor(canvas, context) {
+        this.lastTime = 0;
+
+        this.screen = new Screen(canvas, context);
+        this.entityManager = new CollectionManager();
+        this.textManager = new TextManager(this.screen);
+        this.inputManager = new MouseKeyboardController(this.screen);
+
+        this.initialized = false;
+        this.paused = false;
+        this.exit = false;
+
+        this.entityManager.add(this.textManager);
+
+        this.stats = new Stats();
+        this.stats.domElement.style.position = 'absolute';
+        this.stats.domElement.style.left = '0%';
+        this.stats.domElement.style.top = '0px';
+        this.stats.setMode(0);
+        document.body.appendChild(this.stats.domElement);
     }
-);
+
+    add(component) {
+        this.entityManager.add(component);
+        return this;
+    }
+
+    run(time) {
+        this.stats.begin();
+
+        let dt;
+
+        if (!time) {
+            time = performance.now();
+            this.lastTime = time - 16;
+        }
+
+        dt = time - this.lastTime;
+        this.lastTime = time;
+
+        this.gameLoop(dt);
+
+        if (!this.exit) {
+            window.requestAnimationFrame(this.run.bind(this));
+        }
+
+        this.stats.end();
+    }
+
+    gameLoop(dt) {
+        this.screen.clear();
+
+        this.entityManager.each((entity) => {
+            if (!this.paused) {
+                entity.update(dt, this.inputManager, this.entityManager);
+            }
+            if (entity.render) {
+                entity.render(this);
+            }
+        });
+    }
+
+    writeText(options) {
+        this.textManager.writeText(options);
+    }
+
+    writeLine(text) {
+        this.textManager.writeLine(text);
+    }
+
+    reset() {
+        this.entityManager.clear();
+        this.textManager.clear();
+
+        this.initialized = false;
+        this.paused = false;
+        this.exit = false;
+    }
+
+    static singletonInstance = null;
+}
